@@ -709,7 +709,7 @@
             <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-white/10 pb-3">
                 <div>
                     <h3 class="font-display text-xl sm:text-2xl font-bold text-amber-300">🔐 Panel de Administración — EL PRÓXIMO GANADOR</h3>
-                    <p class="text-xs text-white/65">Métricas diarias/semanales, recargas Nequi, retiros 70/30 con hora, usuarios en línea y limpieza de historial.</p>
+                    <p class="text-xs text-white/65">Tráfico al link, entradas al juego, métricas diarias/semanales, recargas Nequi, retiros 70/30 y usuarios en línea.</p>
                 </div>
                 <div class="flex items-center gap-2">
                     <button type="button" id="btn-adm-clear-history" class="px-3 py-2 rounded-xl bg-rose-500/20 hover:bg-rose-500/35 border border-rose-400/45 text-rose-200 font-extrabold text-xs">
@@ -733,6 +733,32 @@
             </div>
 
             <div id="admin-dashboard-view" class="hidden space-y-5">
+                <!-- APARTADO DE TRÁFICO Y ENTRADAS AL LINK DEL JUEGO -->
+                <div class="rounded-2xl bg-gradient-to-r from-indigo-950/90 via-purple-950/80 to-slate-900 border border-cyan-400/40 p-4 space-y-3">
+                    <div class="flex flex-wrap items-center justify-between gap-2">
+                        <h4 class="font-display text-base font-bold text-cyan-300">🌐 Ingresos al Link y Entradas al Juego</h4>
+                        <span id="adm-last-visit-time" class="text-[11px] font-bold text-amber-200/85">Última visita: Sin registro</span>
+                    </div>
+                    <div class="grid grid-cols-2 lg:grid-cols-4 gap-2.5">
+                        <div class="rounded-xl bg-black/45 border border-cyan-300/25 p-3">
+                            <div class="text-[11px] text-cyan-100/75">Clics / Cargas al Link</div>
+                            <div id="adm-t-link-visits" class="font-display text-xl font-bold text-cyan-300 mt-0.5">0</div>
+                        </div>
+                        <div class="rounded-xl bg-black/45 border border-amber-300/25 p-3">
+                            <div class="text-[11px] text-amber-100/75">Dispositivos Únicos</div>
+                            <div id="adm-t-unique-visitors" class="font-display text-xl font-bold text-yellow-300 mt-0.5">0</div>
+                        </div>
+                        <div class="rounded-xl bg-black/45 border border-emerald-300/25 p-3">
+                            <div class="text-[11px] text-emerald-100/75">Entradas Modo Demo</div>
+                            <div id="adm-t-demo-entries" class="font-display text-xl font-bold text-emerald-300 mt-0.5">0</div>
+                        </div>
+                        <div class="rounded-xl bg-black/45 border border-pink-300/25 p-3">
+                            <div class="text-[11px] text-pink-100/75">Entradas con Nick</div>
+                            <div id="adm-t-real-entries" class="font-display text-xl font-bold text-pink-300 mt-0.5">0</div>
+                        </div>
+                    </div>
+                </div>
+
                 <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-2.5">
                     <div class="rounded-2xl bg-white/5 border border-white/10 p-3">
                         <div class="text-[11px] text-white/65">Usuarios Diarios</div>
@@ -972,9 +998,23 @@
 
             const trackAudio = new CustomTrackAudio();
 
-            // ==================== ESTADO Y PERSISTENCIA ====================
+            // ==================== ESTADO, TRÁFICO Y PERSISTENCIA ====================
             function getRoomStorageKey(roomCode) {
                 return `EL_PROXIMO_GANADOR_V1_${String(roomCode || DEFAULT_CLOUD_CONFIG.roomCode).trim()}`;
+            }
+
+            function getOrCreateVisitorId() {
+                try {
+                    const key = "EPG_VISITOR_UID";
+                    let vid = localStorage.getItem(key);
+                    if (!vid) {
+                        vid = "vis_" + Date.now() + "_" + Math.random().toString(36).slice(2, 8);
+                        localStorage.setItem(key, vid);
+                    }
+                    return vid;
+                } catch (_) {
+                    return "vis_temp_" + Date.now();
+                }
             }
 
             function createDefaultState() {
@@ -991,6 +1031,13 @@
                         totalHouseRetained: 0,
                         updatedAt: Date.now()
                     },
+                    traffic: {
+                        totalLinkVisits: 0,
+                        uniqueVisitorIds: [],
+                        demoEntries: 0,
+                        realEntries: 0,
+                        lastVisitAt: 0
+                    },
                     users: {},
                     rechargeRequests: [],
                     withdrawalRequests: []
@@ -1006,8 +1053,11 @@
                     const parsed = JSON.parse(raw);
                     const mergedSettings = { ...fallback.settings, ...(parsed.settings || {}) };
                     mergedSettings.dbUrl = normalizeDbUrl(mergedSettings.dbUrl);
+                    const mergedTraffic = { ...fallback.traffic, ...(parsed.traffic || {}) };
+                    mergedTraffic.uniqueVisitorIds = Array.isArray(mergedTraffic.uniqueVisitorIds) ? mergedTraffic.uniqueVisitorIds : [];
                     return {
                         settings: mergedSettings,
+                        traffic: mergedTraffic,
                         users: parsed.users && typeof parsed.users === "object" ? parsed.users : {},
                         rechargeRequests: Array.isArray(parsed.rechargeRequests) ? parsed.rechargeRequests : [],
                         withdrawalRequests: Array.isArray(parsed.withdrawalRequests) ? parsed.withdrawalRequests : []
@@ -1038,6 +1088,30 @@
 
             let winParticles = [];
             let particleRafId = null;
+
+            function recordLinkVisit() {
+                if (!state.traffic) {
+                    state.traffic = createDefaultState().traffic;
+                }
+                const vid = getOrCreateVisitorId();
+                const uniqueSet = new Set(Array.isArray(state.traffic.uniqueVisitorIds) ? state.traffic.uniqueVisitorIds : []);
+                uniqueSet.add(vid);
+                state.traffic.uniqueVisitorIds = Array.from(uniqueSet);
+                state.traffic.totalLinkVisits = (Number(state.traffic.totalLinkVisits) || 0) + 1;
+                state.traffic.lastVisitAt = Date.now();
+                writeLocalOnly();
+            }
+
+            function recordGameEntry(mode) {
+                if (!state.traffic) {
+                    state.traffic = createDefaultState().traffic;
+                }
+                if (mode === "demo") {
+                    state.traffic.demoEntries = (Number(state.traffic.demoEntries) || 0) + 1;
+                } else if (mode === "real") {
+                    state.traffic.realEntries = (Number(state.traffic.realEntries) || 0) + 1;
+                }
+            }
 
             function syncBetFromCoins() {
                 currentBet = Math.max(50, Math.min(5000, PAYLINES_COUNT * coinsPerLine * coinValue));
@@ -1183,6 +1257,22 @@
                             totalWon: Math.max(Number(state.settings.totalWon) || 0, Number(remoteData.settings.totalWon) || 0),
                             totalPaidOutNet: Math.max(Number(state.settings.totalPaidOutNet) || 0, Number(remoteData.settings.totalPaidOutNet) || 0),
                             totalHouseRetained: Math.max(Number(state.settings.totalHouseRetained) || 0, Number(remoteData.settings.totalHouseRetained) || 0)
+                        };
+                    }
+
+                    if (remoteData.traffic) {
+                        const lt = state.traffic || createDefaultState().traffic;
+                        const rt = remoteData.traffic;
+                        const mergedIds = new Set([
+                            ...(Array.isArray(lt.uniqueVisitorIds) ? lt.uniqueVisitorIds : []),
+                            ...(Array.isArray(rt.uniqueVisitorIds) ? rt.uniqueVisitorIds : [])
+                        ]);
+                        state.traffic = {
+                            totalLinkVisits: Math.max(Number(lt.totalLinkVisits) || 0, Number(rt.totalLinkVisits) || 0),
+                            uniqueVisitorIds: Array.from(mergedIds),
+                            demoEntries: Math.max(Number(lt.demoEntries) || 0, Number(rt.demoEntries) || 0),
+                            realEntries: Math.max(Number(lt.realEntries) || 0, Number(rt.realEntries) || 0),
+                            lastVisitAt: Math.max(Number(lt.lastVisitAt) || 0, Number(rt.lastVisitAt) || 0)
                         };
                     }
 
@@ -1816,9 +1906,11 @@
                 activeUserId = userId;
                 stopAutoSpin();
                 clearHoldTimer();
+                recordGameEntry(mode);
                 if (mode === "demo") {
                     demoBalance = DEMO_START_BALANCE;
                     demoTotalPrizes = 0;
+                    await persistState(true);
                 } else if (mode === "real" && userId && state.users[userId]) {
                     const u = state.users[userId];
                     u.online = true;
@@ -2088,6 +2180,19 @@
                 const now = Date.now();
                 const oneDayMs = 24 * 60 * 60 * 1000;
                 const sevenDaysMs = 7 * 24 * 60 * 60 * 1000;
+
+                const tr = state.traffic || createDefaultState().traffic;
+                const linkVisits = Number(tr.totalLinkVisits) || 0;
+                const uniqueDevices = Array.isArray(tr.uniqueVisitorIds) ? tr.uniqueVisitorIds.length : 0;
+                const demoEnt = Number(tr.demoEntries) || 0;
+                const realEnt = Number(tr.realEntries) || 0;
+                document.getElementById("adm-t-link-visits").textContent = String(linkVisits);
+                document.getElementById("adm-t-unique-visitors").textContent = String(uniqueDevices);
+                document.getElementById("adm-t-demo-entries").textContent = String(demoEnt);
+                document.getElementById("adm-t-real-entries").textContent = String(realEnt);
+                document.getElementById("adm-last-visit-time").textContent = tr.lastVisitAt
+                    ? `Última visita: ${formatTimeStamp(tr.lastVisitAt)}`
+                    : "Última visita: Sin registro";
 
                 const usersArr = Object.values(state.users || {}).sort(
                     (a, b) => Number(b.lastActiveAt || b.updatedAt || 0) - Number(a.lastActiveAt || a.updatedAt || 0)
@@ -2729,6 +2834,7 @@
 
                 try {
                     state.settings.dbUrl = DEFAULT_CLOUD_CONFIG.dbUrl;
+                    recordLinkVisit();
                     wireEvents();
                     refreshPaytableAmounts();
                     trackAudio.syncUI();
@@ -2739,6 +2845,8 @@
                     if (statusTxt) statusTxt.textContent = "Sincronizando con Firebase...";
 
                     await pullFromRemote();
+                    recordLinkVisit();
+                    await pushToRemote();
 
                     if (bar) bar.style.width = "100%";
                     if (statusTxt) statusTxt.textContent = "¡Partida lista!";
