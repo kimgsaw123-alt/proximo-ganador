@@ -3,14 +3,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>TU APP QUE SÍ TE PAGA — Casino Slot & Banca Online</title>
+    <title>JOKER'S JEWELS — TU APP QUE SÍ TE PAGA</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@600;700&family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
     <style>
         :root {
-            --bg-deep: #120326;
+            --bg-deep: #180330;
             --neon-pink: #ff2a85;
             --neon-cyan: #00e5ff;
             --neon-gold: #ffd426;
@@ -20,15 +20,20 @@
         * {
             box-sizing: border-box;
             -webkit-tap-highlight-color: transparent;
+            user-select: none;
+        }
+
+        input {
+            user-select: text;
         }
 
         body {
             font-family: 'Inter', system-ui, -apple-system, sans-serif;
             background:
-                radial-gradient(circle at 12% 12%, rgba(255, 42, 133, 0.28), transparent 42%),
-                radial-gradient(circle at 88% 18%, rgba(0, 229, 255, 0.24), transparent 45%),
-                radial-gradient(circle at 50% 85%, rgba(255, 212, 38, 0.18), transparent 50%),
-                linear-gradient(165deg, #1d053b 0%, var(--bg-deep) 55%, #070112 100%);
+                radial-gradient(circle at 50% 0%, rgba(255, 0, 128, 0.35), transparent 55%),
+                radial-gradient(circle at 12% 20%, rgba(255, 212, 38, 0.22), transparent 45%),
+                radial-gradient(circle at 88% 25%, rgba(0, 229, 255, 0.22), transparent 45%),
+                linear-gradient(180deg, #2b0652 0%, #16022b 55%, #090114 100%);
             color: #fff8ff;
             min-height: 100vh;
             overflow-x: hidden;
@@ -39,69 +44,89 @@
             letter-spacing: 0.02em;
         }
 
-        .slot-cabinet {
-            background: linear-gradient(155deg, rgba(64, 12, 118, 0.92), rgba(22, 5, 48, 0.96));
-            border: 2px solid rgba(255, 212, 38, 0.55);
+        /* Marco dorado estilo Joker's Jewels */
+        .jj-cabinet {
+            background: linear-gradient(180deg, #3b086b 0%, #230444 50%, #15022b 100%);
+            border: 3px solid #f5b727;
             box-shadow:
-                0 0 32px rgba(255, 42, 133, 0.28),
-                0 0 56px rgba(0, 229, 255, 0.16),
-                inset 0 1px 0 rgba(255, 255, 255, 0.22);
+                0 0 0 2px #6b3800 inset,
+                0 0 36px rgba(255, 196, 0, 0.35),
+                0 14px 40px rgba(0, 0, 0, 0.7);
         }
 
-        .bulb-ring {
-            display: grid;
-            grid-template-columns: repeat(12, 1fr);
-            gap: 6px;
-            padding: 6px 12px;
-            background: rgba(9, 2, 22, 0.72);
-            border-radius: 999px;
-            border: 1px solid rgba(255, 212, 38, 0.3);
+        .jj-paytable-card {
+            background: linear-gradient(180deg, rgba(82, 12, 138, 0.85) 0%, rgba(36, 4, 66, 0.95) 100%);
+            border: 1.5px solid rgba(255, 212, 38, 0.65);
+            box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.25);
         }
 
-        .bulb {
-            height: 7px;
-            border-radius: 999px;
-            background: rgba(255, 212, 38, 0.3);
-            transition: transform 0.22s ease, box-shadow 0.22s ease, background-color 0.22s ease;
-        }
-
-        .bulb.active {
-            background: #ffd426;
-            box-shadow: 0 0 10px #ffd426, 0 0 18px #ff2a85;
-            transform: scale(1.16);
-        }
-
-        .bulb.alt {
-            background: #00e5ff;
-            box-shadow: 0 0 10px #00e5ff, 0 0 18px #38ef7d;
+        .jj-reel-frame {
+            background: linear-gradient(180deg, #1b0336 0%, #0d011c 100%);
+            border: 3px solid #ffd426;
+            box-shadow:
+                0 0 0 2px #522800 inset,
+                0 0 24px rgba(255, 212, 38, 0.28);
         }
 
         #slot-canvas {
             display: block;
             width: 100%;
             height: 100%;
-            border-radius: 16px;
+            border-radius: 12px;
         }
 
-        .spin-cta {
-            background: linear-gradient(135deg, #ff2a85 0%, #ff7a00 50%, #ffd426 100%);
-            color: #160426;
-            box-shadow: 0 8px 26px rgba(255, 42, 133, 0.5), 0 0 0 2px rgba(255, 255, 255, 0.32) inset;
-            transition: transform 0.12s ease, filter 0.12s ease;
+        /* Botón principal de giro con corona y flechas circulares */
+        .jj-spin-btn {
+            background: radial-gradient(circle at 35% 30%, #ffe666 0%, #f59e0b 55%, #b45309 100%);
+            border: 4px solid #fff3b0;
+            color: #1f0638;
+            box-shadow:
+                0 0 0 3px #78350f,
+                0 8px 25px rgba(245, 158, 11, 0.65);
+            transition: transform 0.1s ease, filter 0.12s ease;
         }
 
-        .spin-cta:hover:not(:disabled) {
+        .jj-spin-btn:hover:not(:disabled) {
             filter: brightness(1.07);
-            transform: translateY(-1px);
+            transform: scale(1.03);
         }
 
-        .spin-cta:active:not(:disabled) {
-            transform: translateY(2px) scale(0.99);
+        .jj-spin-btn:active:not(:disabled) {
+            transform: scale(0.95);
         }
 
-        .spin-cta:disabled {
-            opacity: 0.55;
+        .jj-spin-btn:disabled {
+            opacity: 0.5;
             cursor: not-allowed;
+        }
+
+        .jj-spin-btn.turbo-active {
+            background: radial-gradient(circle at 35% 30%, #67e8f9 0%, #06b6d4 55%, #1d4ed8 100%);
+            border-color: #cffafe;
+            color: #082f49;
+            box-shadow: 0 0 0 3px #1e3a8a, 0 0 28px rgba(34, 211, 238, 0.85);
+        }
+
+        .jj-round-btn {
+            background: radial-gradient(circle at 35% 30%, #581c87 0%, #2e1065 70%, #170536 100%);
+            border: 2.5px solid #ffd426;
+            box-shadow: 0 4px 14px rgba(0, 0, 0, 0.55);
+            transition: transform 0.1s ease, filter 0.12s ease;
+        }
+
+        .jj-round-btn:hover:not(:disabled) {
+            filter: brightness(1.15);
+            transform: scale(1.04);
+        }
+
+        .jj-round-btn:active:not(:disabled) {
+            transform: scale(0.95);
+        }
+
+        .jj-round-btn.auto-active {
+            background: radial-gradient(circle at 35% 30%, #34d399 0%, #059669 70%, #064e3b 100%);
+            border-color: #a7f3d0;
+            color: #022c22;
         }
 
         @keyframes pulseGlow {
@@ -129,16 +154,16 @@
         }
     </style>
 </head>
-<body class="p-3 sm:p-5 md:p-6">
+<body class="p-2.5 sm:p-4 md:p-5">
 
     <!-- 1. PANEL CARGANDO LA PARTIDA -->
-    <div id="loading-screen" class="fixed inset-0 z-50 flex flex-col items-center justify-center p-6 bg-gradient-to-br from-[#24064a] via-[#120326] to-[#070112]">
-        <div class="max-w-md w-full rounded-3xl bg-white/10 backdrop-blur-xl border-2 border-amber-300/50 p-7 text-center space-y-5 shadow-2xl">
-            <div class="text-5xl animate-bounce">🎰✨</div>
+    <div id="loading-screen" class="fixed inset-0 z-50 flex flex-col items-center justify-center p-6 bg-gradient-to-br from-[#2b0652] via-[#16022b] to-[#090114]">
+        <div class="max-w-md w-full rounded-3xl bg-white/10 backdrop-blur-xl border-2 border-amber-300/60 p-7 text-center space-y-5 shadow-2xl">
+            <div class="text-5xl animate-bounce">🤡👑💎</div>
             <div class="space-y-1.5">
-                <p class="text-xs font-black uppercase tracking-widest text-cyan-300">Preparando Sala y Banca</p>
+                <p class="text-xs font-black uppercase tracking-widest text-amber-300">Preparando Sala y Banca</p>
                 <h2 class="font-display text-2xl sm:text-3xl font-bold bg-gradient-to-r from-yellow-300 via-pink-400 to-cyan-300 bg-clip-text text-transparent">
-                    CARGANDO LA PARTIDA...
+                    JOKER'S JEWELS · CARGANDO...
                 </h2>
                 <p id="loading-status-text" class="text-xs sm:text-sm text-fuchsia-100/85">
                     Conectando con Firebase y verificando tu saldo.
@@ -151,9 +176,9 @@
     </div>
 
     <!-- Contenedor Principal de la Aplicación -->
-    <div id="app-shell" class="hidden max-w-6xl mx-auto space-y-4">
+    <div id="app-shell" class="hidden max-w-6xl mx-auto space-y-3">
 
-        <!-- ANUNCIO SÚPER COLORIDO Y ATRACTIVO DE RECARGA EXITOSA -->
+        <!-- ANUNCIO DE RECARGA EXITOSA -->
         <div id="recharge-success-banner" class="hidden recharge-celebration rounded-3xl p-4 sm:p-5 bg-gradient-to-r from-fuchsia-600 via-amber-400 to-emerald-400 border-2 border-white shadow-2xl text-slate-950">
             <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
                 <div class="space-y-1">
@@ -174,51 +199,37 @@
             </div>
         </div>
 
-        <!-- BARRA SUPERIOR CON TÍTULO PRINCIPAL "TU APP QUE SÍ TE PAGA", SALA Y MÚSICA -->
-        <header class="rounded-3xl bg-white/10 backdrop-blur-md border border-white/20 p-3.5 sm:p-4 shadow-2xl">
-            <div class="flex flex-col lg:flex-row lg:items-center justify-between gap-3">
-                <div class="space-y-1.5">
-                    <div class="flex items-center flex-wrap gap-2">
-                        <span class="text-2xl sm:text-3xl">💰</span>
-                        <h1 class="font-display text-2xl sm:text-4xl md:text-5xl font-bold bg-gradient-to-r from-yellow-300 via-pink-400 to-cyan-300 bg-clip-text text-transparent">
-                            TU APP QUE SÍ TE PAGA
-                        </h1>
-                        <span id="pill-mode" class="text-[11px] font-extrabold px-2.5 py-1 rounded-full bg-fuchsia-500/25 text-fuchsia-100 border border-fuchsia-300/40">
-                            Lobby
-                        </span>
-                    </div>
-
-                    <div class="flex items-center flex-wrap gap-2">
-                        <span id="pill-sync" class="text-[11px] font-bold px-2.5 py-1 rounded-full bg-emerald-500/20 text-emerald-200 border border-emerald-400/35">
-                            En línea (Firebase)
-                        </span>
-
-                        <span id="pill-room" class="text-[11px] font-bold px-2.5 py-1 rounded-full bg-cyan-500/20 text-cyan-200 border border-cyan-300/35">
-                            🌐 Sala: MESA_VIP_01
-                        </span>
-
-                        <span id="pill-player" class="text-[11px] font-semibold px-2.5 py-1 rounded-full bg-white/10 text-amber-100 border border-white/15">
-                            Sin jugador activo
-                        </span>
-                    </div>
+        <!-- BARRA SUPERIOR COMPACTA -->
+        <header class="rounded-2xl bg-black/45 backdrop-blur-md border border-amber-300/35 px-3.5 py-2.5 shadow-xl">
+            <div class="flex flex-wrap items-center justify-between gap-2">
+                <div class="flex items-center flex-wrap gap-2">
+                    <span class="text-xl">🤡</span>
+                    <span class="font-display text-lg sm:text-2xl font-bold bg-gradient-to-r from-yellow-300 via-pink-400 to-cyan-300 bg-clip-text text-transparent">
+                        JOKER'S JEWELS · TU APP QUE SÍ TE PAGA
+                    </span>
+                    <span id="pill-sync" class="text-[10px] font-bold px-2 py-0.5 rounded-full bg-emerald-500/20 text-emerald-200 border border-emerald-400/35">
+                        En línea (Firebase)
+                    </span>
+                    <span id="pill-room" class="text-[10px] font-bold px-2 py-0.5 rounded-full bg-cyan-500/20 text-cyan-200 border border-cyan-300/35">
+                        🌐 Sala: MESA_VIP_01
+                    </span>
+                    <span id="pill-player" class="text-[10px] font-semibold px-2 py-0.5 rounded-full bg-white/10 text-amber-100 border border-white/15">
+                        Sin jugador activo
+                    </span>
                 </div>
 
-                <div class="flex flex-wrap items-center gap-2">
-                    <button type="button" id="btn-music-toggle" class="px-3.5 py-2 rounded-xl bg-gradient-to-r from-pink-500/35 to-purple-500/35 hover:from-pink-500/50 hover:to-purple-500/50 border border-pink-300/45 text-white font-bold text-xs flex items-center gap-1.5 transition">
+                <div class="flex flex-wrap items-center gap-1.5">
+                    <button type="button" id="btn-music-toggle" class="px-2.5 py-1.5 rounded-xl bg-pink-500/25 hover:bg-pink-500/40 border border-pink-300/40 text-white font-bold text-[11px] flex items-center gap-1 transition">
                         <span id="music-icon">🎶</span>
-                        <span id="music-label">Casino Audio: Activo</span>
+                        <span id="music-label">Audio: ON</span>
                     </button>
-                    <button type="button" id="btn-music-groove" class="px-3.5 py-2 rounded-xl bg-gradient-to-r from-cyan-500/25 to-amber-500/25 hover:brightness-110 border border-cyan-300/40 text-cyan-100 font-bold text-xs transition">
-                        🎹 Estilo: Jokers Jewels
+                    <button type="button" id="btn-music-groove" class="px-2.5 py-1.5 rounded-xl bg-cyan-500/20 hover:bg-cyan-500/35 border border-cyan-300/40 text-cyan-100 font-bold text-[11px] transition">
+                        🎹 Jokers Jewels
                     </button>
-                    <label class="hidden sm:flex items-center gap-1.5 px-2.5 py-2 rounded-xl bg-black/35 border border-white/15 text-[11px] font-semibold text-amber-100">
-                        <span>🔊</span>
-                        <input id="music-volume" type="range" min="0" max="100" value="75" class="w-16 accent-amber-300 cursor-pointer">
-                    </label>
-                    <button type="button" id="btn-switch-user" class="px-3.5 py-2 rounded-xl bg-white/10 hover:bg-white/20 border border-white/20 text-white font-bold text-xs transition">
-                        👤 Cambiar Jugador
+                    <button type="button" id="btn-switch-user" class="px-2.5 py-1.5 rounded-xl bg-white/10 hover:bg-white/20 border border-white/20 text-white font-bold text-[11px] transition">
+                        👤 Cambiar
                     </button>
-                    <button type="button" id="btn-open-admin" class="px-3.5 py-2 rounded-xl bg-gradient-to-r from-amber-400/25 to-orange-500/25 hover:from-amber-400/40 hover:to-orange-500/40 border border-amber-300/50 text-amber-200 font-extrabold text-xs transition">
+                    <button type="button" id="btn-open-admin" class="px-2.5 py-1.5 rounded-xl bg-amber-400/25 hover:bg-amber-400/40 border border-amber-300/50 text-amber-200 font-extrabold text-[11px] transition">
                         🔐 Admin
                     </button>
                 </div>
@@ -235,7 +246,7 @@
                         </span>
                         <h2 class="font-display text-2xl sm:text-3xl font-bold text-white">Modo Demo</h2>
                         <p class="text-xs sm:text-sm text-cyan-50/90 leading-relaxed">
-                            Prueba los carretes, los sonidos de monedas y los giros desde <strong class="text-yellow-300">$50</strong> hasta <strong class="text-yellow-300">$5.000 COP</strong> con <strong class="text-emerald-300">$50.000</strong> de práctica.
+                            Prueba los 8 símbolos de <strong class="text-yellow-300">Joker's Jewels</strong>, el modo Turbo y el giro automático con <strong class="text-emerald-300">$50.000</strong> de práctica.
                         </p>
                     </div>
                     <button type="button" id="btn-start-demo" class="w-full py-3.5 px-4 rounded-2xl bg-gradient-to-r from-cyan-300 via-teal-300 to-emerald-300 hover:brightness-105 text-slate-950 font-black text-sm shadow-lg transition">
@@ -281,99 +292,223 @@
             </div>
         </section>
 
-        <!-- ÁREA PRINCIPAL DEL JUEGO -->
-        <main id="game-workspace" class="hidden grid grid-cols-1 lg:grid-cols-12 gap-4 items-start">
+        <!-- GABINETE PRINCIPAL ESTILO JOKER'S JEWELS -->
+        <main id="game-workspace" class="hidden space-y-3">
 
-            <section class="lg:col-span-8 slot-cabinet rounded-3xl p-3.5 sm:p-5 space-y-3.5">
-                <div class="grid grid-cols-1 sm:grid-cols-3 gap-2.5">
-                    <div class="rounded-2xl bg-black/45 border border-amber-300/35 p-3">
-                        <div class="flex items-center justify-between gap-1.5">
-                            <span class="text-[11px] uppercase font-bold text-amber-200/85">Saldo Disponible</span>
-                            <button type="button" id="btn-refresh-balance" class="px-2 py-0.5 rounded-lg bg-cyan-400/20 hover:bg-cyan-400/35 border border-cyan-300/40 text-cyan-200 font-extrabold text-[10px] transition">
+            <section class="jj-cabinet rounded-3xl p-3 sm:p-4 space-y-3">
+
+                <!-- 1. ENCABEZADO Y TABLA DE PAGOS SUPERIOR (CORONA, PAYASO, GUITARRA, PINOS, DIAMANTES Y BUFONES) -->
+                <div class="space-y-2">
+                    <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 px-1">
+                        <div class="flex items-center gap-2">
+                            <span class="px-2.5 py-0.5 rounded-full bg-amber-400 text-slate-950 font-black text-[11px] uppercase tracking-wider">5 LÍNEAS</span>
+                            <h2 class="font-display text-2xl sm:text-3xl font-bold tracking-wide bg-gradient-to-b from-yellow-200 via-amber-400 to-orange-500 bg-clip-text text-transparent drop-shadow">
+                                JOKER'S JEWELS
+                            </h2>
+                        </div>
+                        <div class="flex items-center gap-2">
+                            <button type="button" id="btn-refresh-balance" class="px-2.5 py-1 rounded-xl bg-cyan-400/20 hover:bg-cyan-400/35 border border-cyan-300/45 text-cyan-200 font-extrabold text-[11px] transition">
                                 🔄 Actualizar Saldo
                             </button>
-                        </div>
-                        <div id="hud-balance" class="font-display text-2xl sm:text-3xl font-bold text-yellow-300 mt-0.5">$0</div>
-                    </div>
-                    <div class="rounded-2xl bg-black/45 border border-cyan-300/35 p-3">
-                        <div class="text-[11px] uppercase font-bold text-cyan-200/85">Último Premio</div>
-                        <div id="hud-last-win" class="font-display text-2xl sm:text-3xl font-bold text-cyan-300 mt-0.5">$0</div>
-                    </div>
-                    <div class="rounded-2xl bg-black/45 border border-pink-300/35 p-3 flex flex-col justify-center">
-                        <div class="flex items-center gap-2">
-                            <button type="button" id="btn-open-recharge" class="flex-1 py-2.5 px-2.5 rounded-xl bg-gradient-to-r from-emerald-400 to-teal-300 hover:brightness-105 text-slate-950 font-black text-xs shadow transition">
+                            <button type="button" id="btn-open-recharge" class="px-3 py-1.5 rounded-xl bg-gradient-to-r from-emerald-400 to-teal-300 hover:brightness-105 text-slate-950 font-black text-xs shadow transition">
                                 💳 Recargar
                             </button>
-                            <button type="button" id="btn-open-withdraw" class="flex-1 py-2.5 px-2.5 rounded-xl bg-gradient-to-r from-amber-300 to-orange-400 hover:brightness-105 text-slate-950 font-black text-xs shadow transition">
+                            <button type="button" id="btn-open-withdraw" class="px-3 py-1.5 rounded-xl bg-gradient-to-r from-amber-300 to-orange-400 hover:brightness-105 text-slate-950 font-black text-xs shadow transition">
                                 💸 Retirar
                             </button>
                         </div>
                     </div>
+
+                    <!-- Tabla de pagos visible arriba con los 8 símbolos ordenados de mayor a menor pago -->
+                    <div id="paytable-strip" class="grid grid-cols-4 sm:grid-cols-8 gap-1.5"></div>
                 </div>
 
-                <div id="bulb-ring-top" class="bulb-ring" aria-hidden="true"></div>
-
-                <div class="relative w-full h-[270px] sm:h-[330px] md:h-[360px] rounded-2xl bg-slate-950/95 border-2 border-amber-300/45 overflow-hidden shadow-inner">
-                    <canvas id="slot-canvas"></canvas>
-                </div>
-
-                <div id="bulb-ring-bottom" class="bulb-ring" aria-hidden="true"></div>
-
-                <div id="slot-status-msg" class="rounded-2xl bg-black/50 border border-white/15 px-4 py-2.5 text-center text-xs sm:text-sm font-bold text-amber-100">
-                    ¡Elige tu giro desde $50 hasta $5.000 COP y haz sonar las monedas!
-                </div>
-
-                <div class="rounded-2xl bg-black/40 border border-white/15 p-3 sm:p-4 space-y-3">
-                    <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
-                        <span class="text-xs font-extrabold uppercase tracking-wider text-pink-200">
-                            Valor del Giro ($50 a $5.000):
-                        </span>
-                        <div id="bet-pills" class="flex flex-wrap gap-1.5"></div>
-                    </div>
-
-                    <div class="flex flex-col sm:flex-row items-stretch sm:items-center gap-3">
-                        <div class="sm:w-44 rounded-2xl bg-white/5 border border-white/15 px-3.5 py-2.5 flex items-center justify-between">
-                            <span class="text-xs font-bold text-white/75">Giro:</span>
-                            <span id="hud-current-bet" class="font-display text-xl font-bold text-yellow-300">$50</span>
+                <!-- 2. PANTALLA GIRATORIA 5x3 CON INDICADORES DE LÍNEAS EN LOS COSTADOS -->
+                <div class="jj-reel-frame rounded-2xl p-1.5 sm:p-2 relative">
+                    <div class="flex items-stretch gap-1.5">
+                        <!-- Indicadores de líneas lado izquierdo -->
+                        <div class="flex flex-col justify-around py-2 text-[10px] font-black select-none">
+                            <span class="w-5 h-5 rounded-full bg-pink-500 text-white flex items-center justify-center border border-white/60 shadow">4</span>
+                            <span class="w-5 h-5 rounded-full bg-amber-400 text-slate-950 flex items-center justify-center border border-white/60 shadow">2</span>
+                            <span class="w-5 h-5 rounded-full bg-emerald-400 text-slate-950 flex items-center justify-center border border-white/60 shadow">1</span>
+                            <span class="w-5 h-5 rounded-full bg-cyan-400 text-slate-950 flex items-center justify-center border border-white/60 shadow">3</span>
+                            <span class="w-5 h-5 rounded-full bg-purple-400 text-slate-950 flex items-center justify-center border border-white/60 shadow">5</span>
                         </div>
-                        <button type="button" id="btn-spin" class="spin-cta flex-1 py-4 px-6 rounded-2xl font-display text-xl sm:text-2xl font-bold uppercase tracking-wide">
-                            🎰 GIRAR AHORA
-                        </button>
+
+                        <!-- Canvas de carretes 5x3 -->
+                        <div class="relative flex-1 h-[245px] sm:h-[300px] md:h-[330px] rounded-xl bg-[#0b0118] overflow-hidden">
+                            <canvas id="slot-canvas"></canvas>
+                        </div>
+
+                        <!-- Indicadores de líneas lado derecho -->
+                        <div class="flex flex-col justify-around py-2 text-[10px] font-black select-none">
+                            <span class="w-5 h-5 rounded-full bg-purple-400 text-slate-950 flex items-center justify-center border border-white/60 shadow">5</span>
+                            <span class="w-5 h-5 rounded-full bg-amber-400 text-slate-950 flex items-center justify-center border border-white/60 shadow">2</span>
+                            <span class="w-5 h-5 rounded-full bg-emerald-400 text-slate-950 flex items-center justify-center border border-white/60 shadow">1</span>
+                            <span class="w-5 h-5 rounded-full bg-cyan-400 text-slate-950 flex items-center justify-center border border-white/60 shadow">3</span>
+                            <span class="w-5 h-5 rounded-full bg-pink-500 text-white flex items-center justify-center border border-white/60 shadow">4</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 3. FRANJA DE ESTADO / PREMIO GANADO -->
+                <div id="slot-status-msg" class="rounded-xl bg-black/60 border border-amber-300/35 px-3 py-2 text-center text-xs sm:text-sm font-extrabold text-yellow-200 tracking-wide">
+                    MANTÉN PULSADO GIRAR PARA TIRADA TURBO ⚡ · ¡BUENA SUERTE!
+                </div>
+
+                <!-- 4. BARRA INFERIOR ESTILO JOKER'S JEWELS (TUERCA + CRÉDITO/APUESTA A LA IZQUIERDA · 3 BOTONES CENTRALES A LA DERECHA) -->
+                <div class="rounded-2xl bg-black/65 border border-amber-300/40 p-3 sm:p-3.5">
+                    <div class="flex flex-col lg:flex-row items-center justify-between gap-4">
+
+                        <!-- Izquierda: Tuerca de configuración + Crédito y Apuesta -->
+                        <div class="w-full lg:w-auto flex items-center justify-between sm:justify-start gap-3 sm:gap-4">
+                            <button type="button" id="btn-open-bet-settings" title="Configuración de Apuesta" class="w-11 h-11 rounded-2xl bg-white/10 hover:bg-amber-400/25 border border-amber-300/45 flex items-center justify-center text-xl text-amber-200 transition shrink-0">
+                                ⚙️
+                            </button>
+
+                            <div class="flex items-center gap-4 sm:gap-6">
+                                <div>
+                                    <div class="text-[10px] font-black uppercase tracking-wider text-amber-300/90">CRÉDITO</div>
+                                    <div id="hud-balance" class="font-display text-xl sm:text-2xl font-bold text-white">$0</div>
+                                </div>
+
+                                <div class="h-8 w-px bg-white/15"></div>
+
+                                <div>
+                                    <div class="text-[10px] font-black uppercase tracking-wider text-amber-300/90">APUESTA</div>
+                                    <div id="hud-current-bet" class="font-display text-xl sm:text-2xl font-bold text-yellow-300">$50</div>
+                                </div>
+
+                                <div class="h-8 w-px bg-white/15 hidden sm:block"></div>
+
+                                <div class="hidden sm:block">
+                                    <div class="text-[10px] font-black uppercase tracking-wider text-cyan-300/90">PREMIO</div>
+                                    <div id="hud-last-win" class="font-display text-xl sm:text-2xl font-bold text-emerald-300">$0</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Centro / Derecha: Control [-] [+] + LOS 3 BOTONES CLÁSICOS (MONEDAS, GIRAR/TURBO, AUTO-TIRADA) -->
+                        <div class="w-full lg:w-auto flex items-center justify-center sm:justify-end gap-2.5 sm:gap-3">
+
+                            <!-- Botón [-] rápida -->
+                            <button type="button" id="btn-bet-minus" title="Bajar apuesta" class="w-10 h-10 rounded-full bg-white/10 hover:bg-amber-400/25 border-2 border-amber-300/60 text-yellow-300 font-black text-xl flex items-center justify-center transition">
+                                −
+                            </button>
+
+                            <!-- Botón 1: Monedas / Ajustar Apuesta por Línea -->
+                            <button type="button" id="btn-coins-panel" title="Monedas por línea y valor de moneda" class="jj-round-btn w-13 h-13 sm:w-14 sm:h-14 rounded-full flex flex-col items-center justify-center text-yellow-300 px-2">
+                                <span class="text-lg leading-none">🪙</span>
+                                <span class="text-[9px] font-black uppercase mt-0.5">Monedas</span>
+                            </button>
+
+                            <!-- Botón 2 (Central Grande): Girar / Mantener para Tirada Turbo -->
+                            <button type="button" id="btn-spin" title="Toca para girar o mantén presionado para Tirada Turbo" class="jj-spin-btn w-20 h-20 sm:w-24 sm:h-24 rounded-full flex flex-col items-center justify-center relative shrink-0">
+                                <span class="text-xs leading-none">👑</span>
+                                <span id="spin-btn-main-icon" class="text-2xl sm:text-3xl font-black leading-none my-0.5">↻</span>
+                                <span id="spin-btn-sub-label" class="text-[8px] sm:text-[9px] font-black uppercase tracking-tight leading-none">TURBO HOLD</span>
+                            </button>
+
+                            <!-- Botón 3: Tirar Repetidamente (Auto-Giro) -->
+                            <button type="button" id="btn-auto-spin" title="Tirar repetidamente (Auto-Giro)" class="jj-round-btn w-13 h-13 sm:w-14 sm:h-14 rounded-full flex flex-col items-center justify-center text-cyan-200 px-2">
+                                <span id="auto-spin-icon" class="text-lg leading-none">🔁</span>
+                                <span id="auto-spin-label" class="text-[9px] font-black uppercase mt-0.5">Auto</span>
+                            </button>
+
+                            <!-- Botón [+] rápida -->
+                            <button type="button" id="btn-bet-plus" title="Subir apuesta" class="w-10 h-10 rounded-full bg-white/10 hover:bg-amber-400/25 border-2 border-amber-300/60 text-yellow-300 font-black text-xl flex items-center justify-center transition">
+                                +
+                            </button>
+                        </div>
                     </div>
                 </div>
             </section>
 
-            <aside class="lg:col-span-4 space-y-4">
-                <div class="rounded-3xl bg-white/10 backdrop-blur-md border border-white/20 p-4 sm:p-5 space-y-4 shadow-xl">
-                    <div class="flex items-center justify-between">
-                        <h3 class="font-display text-lg font-bold text-yellow-200">🏆 Mi Resumen</h3>
-                        <span id="side-badge" class="text-[11px] font-extrabold px-2.5 py-0.5 rounded-full bg-pink-500/25 text-pink-200 border border-pink-300/40">
-                            Jugador
-                        </span>
+            <!-- PANEL INFERIOR COMPACTO DE RESUMEN DEL JUGADOR -->
+            <section class="grid grid-cols-1 md:grid-cols-3 gap-3">
+                <div class="rounded-2xl bg-white/10 backdrop-blur-md border border-emerald-300/30 px-4 py-3 flex items-center justify-between">
+                    <div>
+                        <div class="text-[11px] font-bold uppercase text-emerald-200">Total de Premios</div>
+                        <div id="stat-total-prizes" class="font-display text-xl sm:text-2xl font-bold text-emerald-300">$0</div>
                     </div>
-
-                    <div class="space-y-3">
-                        <div class="rounded-2xl bg-gradient-to-r from-emerald-500/20 to-teal-500/15 border border-emerald-300/35 p-4">
-                            <div class="text-xs font-bold uppercase text-emerald-200">Total de Premios</div>
-                            <div id="stat-total-prizes" class="font-display text-2xl sm:text-3xl font-bold text-emerald-300 mt-1">$0</div>
-                        </div>
-
-                        <div class="rounded-2xl bg-gradient-to-r from-amber-500/20 to-orange-500/15 border border-amber-300/35 p-4">
-                            <div class="text-xs font-bold uppercase text-amber-200">Retiro Realizado</div>
-                            <div id="stat-withdrawn-done" class="font-display text-2xl sm:text-3xl font-bold text-amber-300 mt-1">$0</div>
-                        </div>
-                    </div>
-
-                    <div class="rounded-2xl bg-black/35 border border-white/10 p-3.5 text-xs text-fuchsia-100/85 space-y-1.5">
-                        <div class="font-extrabold text-yellow-300">⚡ Ventajas de Sala Activas:</div>
-                        <div>• Ritmo de premios estilo <strong>Joker's Jewels</strong> (~96.5% RTP) con aciertos más frecuentes.</div>
-                        <div>• Giros de <strong>$100, $200 y $500</strong>: mayor chance de rachas seguidas de hasta <strong>3x</strong>.</div>
-                        <div>• Giros de <strong>$1.500</strong>: premio de <strong>$5.000</strong> en el primer acierto y luego cada <strong>10 tiros de $1.500</strong>.</div>
-                        <div>• Recarga de <strong>$30.000</strong>: puntos en los primeros <strong>5 aciertos</strong> + premio de <strong>$10.000</strong> tras <strong>50 giros</strong>.</div>
-                    </div>
+                    <span class="text-2xl">🏆</span>
                 </div>
-            </aside>
+
+                <div class="rounded-2xl bg-white/10 backdrop-blur-md border border-amber-300/30 px-4 py-3 flex items-center justify-between">
+                    <div>
+                        <div class="text-[11px] font-bold uppercase text-amber-200">Retiro Realizado</div>
+                        <div id="stat-withdrawn-done" class="font-display text-xl sm:text-2xl font-bold text-amber-300">$0</div>
+                    </div>
+                    <span class="text-2xl">💸</span>
+                </div>
+
+                <div class="rounded-2xl bg-white/10 backdrop-blur-md border border-pink-300/30 px-4 py-3 flex items-center justify-between">
+                    <div>
+                        <div class="text-[11px] font-bold uppercase text-pink-200">Configuración Actual</div>
+                        <div id="stat-bet-detail" class="text-xs font-extrabold text-white mt-0.5">5 líneas · 1 moneda × $10 = $50</div>
+                    </div>
+                    <span id="side-badge" class="text-[11px] font-black px-2.5 py-1 rounded-full bg-pink-500/30 text-pink-100 border border-pink-300/40">Jugador</span>
+                </div>
+            </section>
         </main>
+    </div>
+
+    <!-- MODAL CONFIGURACIÓN DE APUESTA ESTILO JOKER'S JEWELS (TUERCA / MONEDAS) -->
+    <div id="modal-bet-settings" class="hidden fixed inset-0 z-40 bg-black/80 backdrop-blur-sm p-4 flex items-center justify-center overflow-y-auto">
+        <div class="w-full max-w-md rounded-3xl bg-[#1f053d] border-2 border-amber-300 p-5 sm:p-6 space-y-5 shadow-2xl">
+            <div class="flex items-center justify-between border-b border-white/15 pb-3">
+                <h3 class="font-display text-xl sm:text-2xl font-bold text-yellow-300">⚙️ Configuración de Apuesta</h3>
+                <button type="button" data-close-modal="modal-bet-settings" class="w-8 h-8 rounded-full bg-white/10 hover:bg-white/20 text-white font-bold">✕</button>
+            </div>
+
+            <!-- 1. Monedas por línea -->
+            <div class="rounded-2xl bg-black/45 border border-white/15 p-3.5 space-y-2">
+                <div class="text-xs font-black uppercase text-center text-amber-200">Monedas por Línea (5 Líneas Fijas)</div>
+                <div class="flex items-center justify-between gap-3">
+                    <button type="button" id="cfg-coins-minus" class="w-11 h-11 rounded-xl bg-amber-400/20 hover:bg-amber-400/40 border border-amber-300 text-yellow-300 font-black text-2xl">−</button>
+                    <div id="cfg-coins-val" class="font-display text-2xl font-bold text-white">1</div>
+                    <button type="button" id="cfg-coins-plus" class="w-11 h-11 rounded-xl bg-amber-400/20 hover:bg-amber-400/40 border border-amber-300 text-yellow-300 font-black text-2xl">+</button>
+                </div>
+            </div>
+
+            <!-- 2. Valor de moneda -->
+            <div class="rounded-2xl bg-black/45 border border-white/15 p-3.5 space-y-2">
+                <div class="text-xs font-black uppercase text-center text-cyan-200">Valor de Moneda</div>
+                <div class="flex items-center justify-between gap-3">
+                    <button type="button" id="cfg-coinval-minus" class="w-11 h-11 rounded-xl bg-cyan-400/20 hover:bg-cyan-400/40 border border-cyan-300 text-cyan-200 font-black text-2xl">−</button>
+                    <div id="cfg-coinval-val" class="font-display text-2xl font-bold text-cyan-300">$10</div>
+                    <button type="button" id="cfg-coinval-plus" class="w-11 h-11 rounded-xl bg-cyan-400/20 hover:bg-cyan-400/40 border border-cyan-300 text-cyan-200 font-black text-2xl">+</button>
+                </div>
+            </div>
+
+            <!-- 3. Total apostado -->
+            <div class="rounded-2xl bg-gradient-to-r from-amber-500/20 to-pink-500/20 border border-amber-300/60 p-3.5 space-y-2">
+                <div class="text-xs font-black uppercase text-center text-yellow-200">Total Apostado por Giro</div>
+                <div class="flex items-center justify-between gap-3">
+                    <button type="button" id="cfg-total-minus" class="w-11 h-11 rounded-xl bg-amber-400 hover:bg-amber-300 text-slate-950 font-black text-2xl">−</button>
+                    <div id="cfg-total-val" class="font-display text-3xl font-bold text-yellow-300">$50</div>
+                    <button type="button" id="cfg-total-plus" class="w-11 h-11 rounded-xl bg-amber-400 hover:bg-amber-300 text-slate-950 font-black text-2xl">+</button>
+                </div>
+            </div>
+
+            <!-- Control de Volumen y Tirada Turbo -->
+            <div class="rounded-2xl bg-black/45 border border-white/15 p-3.5 space-y-3">
+                <div class="flex items-center justify-between text-xs font-bold text-amber-100">
+                    <span>🔊 Volumen de Música y Monedas</span>
+                    <input id="music-volume" type="range" min="0" max="100" value="75" class="w-32 accent-amber-300 cursor-pointer">
+                </div>
+                <div class="flex items-center justify-between text-xs font-bold text-cyan-100">
+                    <span>⚡ Modo Tirada Rápida (Turbo)</span>
+                    <button type="button" id="btn-toggle-turbo-modal" class="px-3 py-1 rounded-xl bg-white/15 border border-cyan-300/50 font-black text-xs text-cyan-200">
+                        Desactivado
+                    </button>
+                </div>
+            </div>
+
+            <button type="button" data-close-modal="modal-bet-settings" class="w-full py-3 rounded-2xl bg-gradient-to-r from-amber-300 via-orange-400 to-pink-500 text-slate-950 font-black text-sm shadow-lg">
+                ✅ Listo y Volver al Juego
+            </button>
+        </div>
     </div>
 
     <!-- MODAL DE RECARGA -->
@@ -607,7 +742,12 @@
         (function () {
             "use strict";
 
+            // Configuración de monedas por línea x valor de moneda x 5 líneas fijas (desde $50 hasta $5.000 COP)
+            const PAYLINES_COUNT = 5;
+            const COINS_PER_LINE_OPTIONS = [1, 2, 3, 4, 5, 10];
+            const COIN_VALUE_OPTIONS = [10, 20, 40, 100, 200, 300, 600, 1000];
             const BET_STEPS = [50, 100, 200, 500, 1000, 1500, 3000, 5000];
+
             const DEMO_START_BALANCE = 50000;
             const MIN_RECHARGE = 10000;
             const PROMO_RECHARGE_30K = 30000;
@@ -616,13 +756,25 @@
             const HOUSE_RETENTION_SHARE = 0.30;
             const DEFAULT_ADMIN_PIN = "1980";
 
+            // Los 8 símbolos clásicos de Joker's Jewels ordenados de mayor a menor pago
             const SYMBOLS = [
-                { id: "crown", glyph: "👑", label: "Corona", color: "#ffd426", weight: 11, mult: 1.80 },
-                { id: "diamond", glyph: "💎", label: "Diamante", color: "#00e5ff", weight: 15, mult: 1.45 },
-                { id: "seven", glyph: "7️⃣", label: "Siete", color: "#ff2a85", weight: 18, mult: 1.20 },
-                { id: "bell", glyph: "🔔", label: "Campana", color: "#ff9f1c", weight: 20, mult: 1.00 },
-                { id: "cherry", glyph: "🍒", label: "Cereza", color: "#ff4d6d", weight: 18, mult: 0.85 },
-                { id: "lemon", glyph: "🍋", label: "Limón", color: "#ffe66d", weight: 18, mult: 0.75 }
+                { id: "crown", glyph: "👑", label: "Corona", color: "#ffd426", weight: 7, pay5: "1000x", mult: 2.30 },
+                { id: "joker", glyph: "🤡", label: "Payaso", color: "#ff2a85", weight: 9, pay5: "200x", mult: 1.95 },
+                { id: "guitar", glyph: "🎸", label: "Guitarra", color: "#fb923c", weight: 11, pay5: "200x", mult: 1.65 },
+                { id: "pins", glyph: "🎳", label: "Pinos", color: "#f8fafc", weight: 13, pay5: "100x", mult: 1.35 },
+                { id: "red_gem", glyph: "♦️", label: "Diam. Rojo", color: "#f43f5e", weight: 15, pay5: "40x", mult: 1.15 },
+                { id: "blue_gem", glyph: "💠", label: "Diam. Azul", color: "#38bdf8", weight: 15, pay5: "40x", mult: 1.05 },
+                { id: "white_gem", glyph: "💎", label: "Diam. Blanco", color: "#e2e8f0", weight: 15, pay5: "40x", mult: 0.95 },
+                { id: "jester_shoes", glyph: "👟", label: "Bufones", color: "#a855f7", weight: 15, pay5: "10x", mult: 0.85 }
+            ];
+
+            // 5 líneas clásicas de Joker's Jewels sobre cuadrícula 5 columnas x 3 filas (0: arriba, 1: centro, 2: abajo)
+            const PAYLINE_PATHS = [
+                { id: 1, color: "#38ef7d", rows: [1, 1, 1, 1, 1] }, // Línea 1: Centro
+                { id: 2, color: "#ffd426", rows: [0, 0, 0, 0, 0] }, // Línea 2: Arriba
+                { id: 3, color: "#00e5ff", rows: [2, 2, 2, 2, 2] }, // Línea 3: Abajo
+                { id: 4, color: "#ff2a85", rows: [0, 1, 2, 1, 0] }, // Línea 4: V
+                { id: 5, color: "#c084fc", rows: [2, 1, 0, 1, 2] }  // Línea 5: V invertida
             ];
 
             const COLS = 5;
@@ -758,8 +910,8 @@
                     const label = document.getElementById("music-label");
                     const grooveBtn = document.getElementById("btn-music-groove");
                     if (icon) icon.textContent = this.enabled ? "🎶" : "🔇";
-                    if (label) label.textContent = this.enabled ? "Casino Audio: Activo" : "Casino Audio: Off";
-                    if (grooveBtn) grooveBtn.textContent = `🎹 Estilo: ${this.groove === "jewels" ? "Jokers Jewels" : "Jester Rush"}`;
+                    if (label) label.textContent = this.enabled ? "Audio: ON" : "Audio: OFF";
+                    if (grooveBtn) grooveBtn.textContent = `🎹 ${this.groove === "jewels" ? "Jokers Jewels" : "Jester Rush"}`;
                 }
 
                 playChord(notes, dur = 0.45) {
@@ -844,7 +996,6 @@
                     this.stopLoop();
                     if (!this.enabled) return;
 
-                    // Melodía animada clásica estilo Joker's Jewels (32 pasos de corchea saltarina)
                     const jewelsMelody = [
                         523.25, 659.25, 783.99, 1046.50, 987.77, 783.99, 880.00, 1046.50,
                         783.99, 659.25, 783.99, 659.25, 587.33, 659.25, 587.33, 523.25,
@@ -889,7 +1040,7 @@
 
                         this.step += 1;
                         const baseMs = this.groove === "jewels" ? 155 : 140;
-                        const ms = this.spinBoost ? Math.max(105, baseMs - 30) : baseMs;
+                        const ms = this.spinBoost ? Math.max(95, baseMs - 40) : baseMs;
                         this.timerId = setTimeout(tick, ms);
                     };
 
@@ -910,15 +1061,15 @@
                         const osc = this.ctx.createOscillator();
                         const gain = this.ctx.createGain();
                         osc.type = "triangle";
-                        const t = now + i * 0.03;
+                        const t = now + i * 0.025;
                         osc.frequency.setValueAtTime(f, t);
-                        osc.frequency.exponentialRampToValueAtTime(f * 1.25, t + 0.065);
+                        osc.frequency.exponentialRampToValueAtTime(f * 1.25, t + 0.06);
                         gain.gain.setValueAtTime(0.22, t);
-                        gain.gain.exponentialRampToValueAtTime(0.001, t + 0.075);
+                        gain.gain.exponentialRampToValueAtTime(0.001, t + 0.07);
                         osc.connect(gain);
                         gain.connect(this.sfxGain);
                         osc.start(t);
-                        osc.stop(t + 0.08);
+                        osc.stop(t + 0.075);
                     });
                 }
 
@@ -945,31 +1096,31 @@
                     const gain = this.ctx.createGain();
                     osc.type = "triangle";
                     osc.frequency.setValueAtTime(260 + col * 65, now);
-                    osc.frequency.exponentialRampToValueAtTime(120, now + 0.075);
+                    osc.frequency.exponentialRampToValueAtTime(120, now + 0.07);
                     gain.gain.setValueAtTime(0.24, now);
-                    gain.gain.exponentialRampToValueAtTime(0.001, now + 0.08);
+                    gain.gain.exponentialRampToValueAtTime(0.001, now + 0.075);
                     osc.connect(gain);
                     gain.connect(this.sfxGain);
                     osc.start(now);
-                    osc.stop(now + 0.085);
+                    osc.stop(now + 0.08);
                 }
 
                 sfxLoss() {
                     if (!this.enabled || !this.ensureContext()) return;
                     const now = this.ctx.currentTime;
                     [392.00, 329.63, 293.66].forEach((f, idx) => {
-                        const start = now + idx * 0.075;
+                        const start = now + idx * 0.065;
                         const osc = this.ctx.createOscillator();
                         const gain = this.ctx.createGain();
                         osc.type = "triangle";
                         osc.frequency.setValueAtTime(f, start);
-                        osc.frequency.linearRampToValueAtTime(f * 0.92, start + 0.11);
+                        osc.frequency.linearRampToValueAtTime(f * 0.92, start + 0.1);
                         gain.gain.setValueAtTime(0.14, start);
-                        gain.gain.exponentialRampToValueAtTime(0.001, start + 0.12);
+                        gain.gain.exponentialRampToValueAtTime(0.001, start + 0.11);
                         osc.connect(gain);
                         gain.connect(this.sfxGain);
                         osc.start(start);
-                        osc.stop(start + 0.13);
+                        osc.stop(start + 0.12);
                     });
                 }
 
@@ -979,21 +1130,21 @@
                     const coinCount = big ? 18 : 10;
                     const coinFreqs = [1318.51, 1567.98, 1760.0, 2093.0, 2349.32, 2637.02];
                     for (let i = 0; i < coinCount; i++) {
-                        const t = now + i * 0.05;
+                        const t = now + i * 0.045;
                         const f1 = coinFreqs[i % coinFreqs.length];
                         const f2 = f1 * 1.25;
                         const osc = this.ctx.createOscillator();
                         const gain = this.ctx.createGain();
                         osc.type = "sine";
                         osc.frequency.setValueAtTime(f1, t);
-                        osc.frequency.setValueAtTime(f2, t + 0.025);
+                        osc.frequency.setValueAtTime(f2, t + 0.022);
                         gain.gain.setValueAtTime(0.001, t);
                         gain.gain.linearRampToValueAtTime(0.32, t + 0.01);
-                        gain.gain.exponentialRampToValueAtTime(0.001, t + 0.14);
+                        gain.gain.exponentialRampToValueAtTime(0.001, t + 0.13);
                         osc.connect(gain);
                         gain.connect(this.sfxGain);
                         osc.start(t);
-                        osc.stop(t + 0.15);
+                        osc.stop(t + 0.14);
                     }
                 }
             }
@@ -1050,11 +1201,42 @@
             let activeUserId = null;
             let demoBalance = DEMO_START_BALANCE;
             let demoTotalPrizes = 0;
-            let currentBet = BET_STEPS[0];
+
+            // Parámetros de apuesta estilo Joker's Jewels
+            let coinsPerLine = 1;
+            let coinValue = 10;
+            let currentBet = PAYLINES_COUNT * coinsPerLine * coinValue; // $50 inicial
+            let turboMode = false;
+            let autoSpinActive = false;
+            let autoSpinTimer = null;
+            let holdTurboTimer = null;
+
             let isSpinning = false;
             let isSyncingNow = false;
             let adminUnlocked = false;
             let remoteConnected = false;
+
+            function syncBetFromCoins() {
+                currentBet = Math.max(50, Math.min(5000, PAYLINES_COUNT * coinsPerLine * coinValue));
+            }
+
+            function setTotalBetDirectly(targetBet) {
+                const clamped = Math.max(50, Math.min(5000, Math.round(targetBet / 50) * 50));
+                currentBet = clamped;
+                // Ajusta monedas por línea y valor de moneda para reflejar el total
+                const perLine = clamped / PAYLINES_COUNT;
+                let bestCoins = 1;
+                let bestVal = perLine;
+                for (const c of COINS_PER_LINE_OPTIONS) {
+                    if (perLine % c === 0 && COIN_VALUE_OPTIONS.includes(perLine / c)) {
+                        bestCoins = c;
+                        bestVal = perLine / c;
+                        break;
+                    }
+                }
+                coinsPerLine = bestCoins;
+                coinValue = bestVal;
+            }
 
             function writeLocalOnly() {
                 try {
@@ -1074,7 +1256,7 @@
                 return Promise.resolve(true);
             }
 
-            // ==================== SINCRONIZACIÓN FIREBASE Y CRÉDITOS SEGUROS ====================
+            // ==================== SINCRONIZACIÓN FIREBASE Y CRÉDITOS SEGUROS (INTACTO) ====================
             function getRemoteDatabaseEndpoint() {
                 const rawUrl = normalizeDbUrl(state.settings && state.settings.dbUrl);
                 if (!rawUrl) return null;
@@ -1097,13 +1279,13 @@
                 if (endpoint && remoteConnected) {
                     if (pillSync) {
                         pillSync.textContent = "En línea (Firebase)";
-                        pillSync.className = "text-[11px] font-bold px-2.5 py-1 rounded-full bg-emerald-500/25 text-emerald-200 border border-emerald-400/40";
+                        pillSync.className = "text-[10px] font-bold px-2 py-0.5 rounded-full bg-emerald-500/25 text-emerald-200 border border-emerald-400/40";
                     }
                     if (detailEl) detailEl.textContent = `Conectado a Firebase (${endpoint}).`;
                 } else if (endpoint) {
                     if (pillSync) {
                         pillSync.textContent = "En línea (Firebase)";
-                        pillSync.className = "text-[11px] font-bold px-2.5 py-1 rounded-full bg-cyan-500/20 text-cyan-200 border border-cyan-300/35";
+                        pillSync.className = "text-[10px] font-bold px-2 py-0.5 rounded-full bg-cyan-500/20 text-cyan-200 border border-cyan-300/35";
                     }
                     if (detailEl) detailEl.textContent = `Base configurada: ${DEFAULT_CLOUD_CONFIG.dbUrl} · Sala: ${room}.`;
                 }
@@ -1302,7 +1484,7 @@
                 }
             }
 
-            // ==================== MOTOR DE TRAGAMONEDAS (ESTILO JOKER'S JEWELS ~96.5% RTP) ====================
+            // ==================== MOTOR DE TRAGAMONEDAS ESTILO JOKER'S JEWELS ====================
             function pickWeightedSymbol() {
                 const totalWeight = SYMBOLS.reduce((acc, s) => acc + s.weight, 0);
                 let r = Math.random() * totalWeight;
@@ -1323,20 +1505,21 @@
                 return grid;
             }
 
-            function makeWinningGrid(sym, matchLen, rowIdx) {
+            function makeWinningGridOnLine(sym, matchLen, lineObj) {
                 const grid = createRandomGrid();
                 const winCoords = [];
                 for (let c = 0; c < matchLen; c++) {
-                    grid[c][rowIdx] = sym;
-                    winCoords.push({ c, r: rowIdx });
+                    const r = lineObj.rows[c];
+                    grid[c][r] = sym;
+                    winCoords.push({ c, r });
                 }
-                return { grid, winCoords };
+                return { grid, winCoords, lineObj };
             }
 
             function evaluateSpin(bet, userObj) {
-                const rowIdx = Math.floor(Math.random() * ROWS);
-                const symJewel = SYMBOLS[Math.floor(Math.random() * SYMBOLS.length)];
-                const symHigh = SYMBOLS[0];
+                const chosenLine = PAYLINE_PATHS[Math.floor(Math.random() * PAYLINE_PATHS.length)];
+                const symJewel = pickWeightedSymbol();
+                const symCrown = SYMBOLS[0];
 
                 if (userObj) {
                     userObj.streakCount = Number(userObj.streakCount) || 0;
@@ -1352,25 +1535,41 @@
                 if (userObj && userObj.has30kRecharge && !userObj.won50Spins30kBonus && userObj.spinsAfter30k >= 50) {
                     userObj.won50Spins30kBonus = true;
                     userObj.streakCount = 0;
-                    const built = makeWinningGrid(symHigh, 5, rowIdx);
-                    return { grid: built.grid, winCoords: built.winCoords, payout: 10000, note: "🔥 ¡Bono de 50 giros por recarga de $30.000: +$10.000!" };
+                    const built = makeWinningGridOnLine(symCrown, 5, PAYLINE_PATHS[0]);
+                    return {
+                        grid: built.grid,
+                        winCoords: built.winCoords,
+                        winLine: built.lineObj,
+                        payout: 10000,
+                        note: "🔥 ¡Bono 50 giros por recarga de $30.000: +$10.000!"
+                    };
                 }
 
-                if (bet === 1500) {
-                    if (userObj) {
-                        userObj.spin1500Count += 1;
-                        if (!userObj.won1500FirstTime) {
-                            userObj.won1500FirstTime = true;
-                            userObj.spinsSince1500Win = 0;
-                            const built = makeWinningGrid(symHigh, 4, rowIdx);
-                            return { grid: built.grid, winCoords: built.winCoords, payout: 5000, note: "💎 ¡Primer giro de $1.500 premiado con $5.000!" };
-                        }
-                        userObj.spinsSince1500Win += 1;
-                        if (userObj.spinsSince1500Win >= 10 && Math.random() < 0.65) {
-                            userObj.spinsSince1500Win = 0;
-                            const built = makeWinningGrid(symHigh, 4, rowIdx);
-                            return { grid: built.grid, winCoords: built.winCoords, payout: 5000, note: "⚡ ¡10 tiros de $1.500 completados: premio de $5.000!" };
-                        }
+                if (bet === 1500 && userObj) {
+                    userObj.spin1500Count += 1;
+                    if (!userObj.won1500FirstTime) {
+                        userObj.won1500FirstTime = true;
+                        userObj.spinsSince1500Win = 0;
+                        const built = makeWinningGridOnLine(symCrown, 4, PAYLINE_PATHS[0]);
+                        return {
+                            grid: built.grid,
+                            winCoords: built.winCoords,
+                            winLine: built.lineObj,
+                            payout: 5000,
+                            note: "💎 ¡Primer giro de $1.500 premiado con $5.000!"
+                        };
+                    }
+                    userObj.spinsSince1500Win += 1;
+                    if (userObj.spinsSince1500Win >= 10 && Math.random() < 0.65) {
+                        userObj.spinsSince1500Win = 0;
+                        const built = makeWinningGridOnLine(symCrown, 4, PAYLINE_PATHS[0]);
+                        return {
+                            grid: built.grid,
+                            winCoords: built.winCoords,
+                            winLine: built.lineObj,
+                            payout: 5000,
+                            note: "⚡ ¡10 tiros de $1.500 completados: premio de $5.000!"
+                        };
                     }
                 }
 
@@ -1380,46 +1579,60 @@
                     if (Math.random() < streakChance) {
                         userObj.streakCount += 1;
                         const payout = Math.max(50, Math.round(bet * (1.10 + Math.random() * 0.70)));
-                        const built = makeWinningGrid(symJewel, 3, rowIdx);
-                        return { grid: built.grid, winCoords: built.winCoords, payout, note: `🔥 ¡Racha ${userObj.streakCount}/3 en giro de ${formatMoney(bet)}!` };
+                        const built = makeWinningGridOnLine(symJewel, 3, chosenLine);
+                        return {
+                            grid: built.grid,
+                            winCoords: built.winCoords,
+                            winLine: built.lineObj,
+                            payout,
+                            note: `🔥 ¡Línea ${chosenLine.id} · Racha ${userObj.streakCount}/3!`
+                        };
                     } else {
                         userObj.streakCount = 0;
                     }
                 }
 
-                // Probabilidad animada inspirada en Joker's Jewels (~36% base, más alta en rachas/VIP)
+                // Probabilidad inspirada en Joker's Jewels (~36% base, más alta en rachas/VIP)
                 let winChance = 0.36;
                 if (isStreakBet) winChance = 0.42;
                 if (userObj && userObj.has30kRecharge && userObj.earlyHits30k < 5) winChance = 0.52;
 
                 if (Math.random() < winChance) {
-                    const matchLen = Math.random() < 0.14 ? 4 : 3;
+                    const rollLen = Math.random();
+                    const matchLen = rollLen < 0.04 ? 5 : (rollLen < 0.18 ? 4 : 3);
                     if (userObj) {
                         userObj.streakCount = isStreakBet ? Math.min(3, (userObj.streakCount || 0) + 1) : 0;
                         if (userObj.has30kRecharge && userObj.earlyHits30k < 5) userObj.earlyHits30k += 1;
                     }
 
-                    const lenBonus = matchLen === 4 ? 1.45 : 1.0;
+                    const lenBonus = matchLen === 5 ? 2.1 : (matchLen === 4 ? 1.45 : 1.0);
                     let payout = Math.max(50, Math.round(bet * symJewel.mult * lenBonus * (0.95 + Math.random() * 0.65)));
-                    let note = matchLen === 4 ? `💎 ¡4x ${symJewel.label} en línea!` : `✨ ¡Línea de ${symJewel.label}!`;
+                    let note = `✨ ¡Línea ${chosenLine.id} · ${matchLen}x ${symJewel.label}!`;
 
                     if (userObj && userObj.has30kRecharge && userObj.earlyHits30k <= 5) {
                         payout = Math.max(payout, Math.round(bet * 1.15));
-                        note = `⭐ Acierto VIP (${userObj.earlyHits30k}/5 recarga $30.000)`;
+                        note = `⭐ Línea ${chosenLine.id} · Acierto VIP (${userObj.earlyHits30k}/5)`;
                     }
 
-                    const built = makeWinningGrid(symJewel, matchLen, rowIdx);
-                    return { grid: built.grid, winCoords: built.winCoords, payout, note };
+                    const built = makeWinningGridOnLine(symJewel, matchLen, chosenLine);
+                    return {
+                        grid: built.grid,
+                        winCoords: built.winCoords,
+                        winLine: built.lineObj,
+                        payout,
+                        note
+                    };
                 }
 
                 if (userObj) userObj.streakCount = 0;
-                return { grid: createRandomGrid(), winCoords: [], payout: 0, note: null };
+                return { grid: createRandomGrid(), winCoords: [], winLine: null, payout: 0, note: null };
             }
 
             let currentGrid = createRandomGrid();
             let activeWinCoords = [];
+            let activeWinLine = null;
 
-            function drawSlotCanvas(grid, highlightCoords = []) {
+            function drawSlotCanvas(grid, highlightCoords = [], winLineObj = null) {
                 const canvas = document.getElementById("slot-canvas");
                 if (!canvas || !canvas.parentElement) return;
                 const rect = canvas.parentElement.getBoundingClientRect();
@@ -1436,20 +1649,22 @@
                 ctx.save();
                 ctx.scale(dpr, dpr);
 
+                // Fondo púrpura profundo estilo gabinete Joker's Jewels
                 const bgGrad = ctx.createLinearGradient(0, 0, 0, h);
-                bgGrad.addColorStop(0, "#1c073a");
-                bgGrad.addColorStop(0.5, "#0b021a");
-                bgGrad.addColorStop(1, "#1c073a");
+                bgGrad.addColorStop(0, "#240647");
+                bgGrad.addColorStop(0.5, "#0d011c");
+                bgGrad.addColorStop(1, "#240647");
                 ctx.fillStyle = bgGrad;
                 ctx.fillRect(0, 0, w, h);
 
-                const padX = 10;
-                const padY = 10;
+                const padX = 8;
+                const padY = 8;
                 const cellW = (w - padX * 2) / COLS;
                 const cellH = (h - padY * 2) / ROWS;
 
-                ctx.strokeStyle = "rgba(255, 255, 255, 0.1)";
-                ctx.lineWidth = 1;
+                // Separadores dorados de los 5 carretes y 3 secciones horizontales
+                ctx.strokeStyle = "rgba(255, 212, 38, 0.25)";
+                ctx.lineWidth = 1.5;
                 for (let c = 1; c < COLS; c++) {
                     const x = padX + c * cellW;
                     ctx.beginPath();
@@ -1457,6 +1672,9 @@
                     ctx.lineTo(x, h - padY);
                     ctx.stroke();
                 }
+
+                ctx.strokeStyle = "rgba(255, 255, 255, 0.12)";
+                ctx.lineWidth = 1;
                 for (let r = 1; r < ROWS; r++) {
                     const y = padY + r * cellH;
                     ctx.beginPath();
@@ -1475,16 +1693,16 @@
                         const isWin = highlightSet.has(`${c},${r}`);
 
                         if (isWin) {
-                            ctx.fillStyle = "rgba(255, 212, 38, 0.22)";
+                            ctx.fillStyle = "rgba(255, 212, 38, 0.26)";
                             ctx.strokeStyle = "#ffd426";
-                            ctx.lineWidth = 2.5;
+                            ctx.lineWidth = 3;
                             ctx.beginPath();
                             ctx.roundRect(padX + c * cellW + 4, padY + r * cellH + 4, cellW - 8, cellH - 8, 12);
                             ctx.fill();
                             ctx.stroke();
                         }
 
-                        const fontSize = Math.max(24, Math.min(cellW * 0.46, cellH * 0.54));
+                        const fontSize = Math.max(24, Math.min(cellW * 0.48, cellH * 0.56));
                         ctx.font = `${fontSize}px "Apple Color Emoji", "Segoe UI Emoji", "Noto Color Emoji", sans-serif`;
                         ctx.textAlign = "center";
                         ctx.textBaseline = "middle";
@@ -1492,17 +1710,38 @@
                     }
                 }
 
+                // Trazar línea ganadora conectando las secciones premiadas
+                if (winLineObj && highlightCoords.length >= 2) {
+                    ctx.save();
+                    ctx.strokeStyle = winLineObj.color || "#ffd426";
+                    ctx.shadowColor = winLineObj.color || "#ffd426";
+                    ctx.shadowBlur = 14;
+                    ctx.lineWidth = 4;
+                    ctx.lineCap = "round";
+                    ctx.lineJoin = "round";
+                    ctx.beginPath();
+                    highlightCoords.forEach((pt, idx) => {
+                        const px = padX + pt.c * cellW + cellW / 2;
+                        const py = padY + pt.r * cellH + cellH / 2;
+                        if (idx === 0) ctx.moveTo(px, py);
+                        else ctx.lineTo(px, py);
+                    });
+                    ctx.stroke();
+                    ctx.restore();
+                }
+
                 ctx.restore();
             }
 
-            function spinReelsAnimation(finalGrid, winCoords, onComplete) {
+            function spinReelsAnimation(finalGrid, winCoords, winLineObj, onComplete) {
                 isSpinning = true;
                 casinoAudio.setSpinBoost(true);
                 updateSpinButtonState();
 
-                const duration = 950;
+                const isFast = turboMode;
+                const duration = isFast ? 360 : 880;
                 const startTime = performance.now();
-                const stopTimes = [0.35, 0.50, 0.65, 0.80, 0.95];
+                const stopTimes = isFast ? [0.25, 0.42, 0.58, 0.75, 0.92] : [0.35, 0.50, 0.65, 0.80, 0.95];
                 const colStopped = [false, false, false, false, false];
 
                 function frame(now) {
@@ -1522,13 +1761,14 @@
                         }
                     }
 
-                    drawSlotCanvas(animatedGrid, []);
+                    drawSlotCanvas(animatedGrid, [], null);
                     if (progress < 1) {
                         requestAnimationFrame(frame);
                     } else {
                         currentGrid = finalGrid;
                         activeWinCoords = winCoords;
-                        drawSlotCanvas(currentGrid, activeWinCoords);
+                        activeWinLine = winLineObj;
+                        drawSlotCanvas(currentGrid, activeWinCoords, activeWinLine);
                         isSpinning = false;
                         casinoAudio.setSpinBoost(false);
                         updateSpinButtonState();
@@ -1539,7 +1779,21 @@
                 requestAnimationFrame(frame);
             }
 
-            // ==================== HUD Y FLUJO ====================
+            // ==================== HUD, TABLA DE PAGOS Y FLUJO ====================
+            function renderPaytableStrip() {
+                const strip = document.getElementById("paytable-strip");
+                if (!strip) return;
+                strip.innerHTML = SYMBOLS.map((s) => `
+                    <div class="jj-paytable-card rounded-xl px-1.5 py-1.5 flex items-center justify-between gap-1">
+                        <span class="text-lg sm:text-xl leading-none">${s.glyph}</span>
+                        <div class="text-right leading-tight">
+                            <div class="text-[9px] font-bold text-amber-100/80 truncate">${s.label}</div>
+                            <div class="text-[11px] font-black text-yellow-300">${s.pay5}</div>
+                        </div>
+                    </div>
+                `).join("");
+            }
+
             function getActiveUser() {
                 if (activeMode === "real" && activeUserId && state.users[activeUserId]) {
                     return state.users[activeUserId];
@@ -1557,6 +1811,31 @@
                 const spinBtn = document.getElementById("btn-spin");
                 if (!spinBtn) return;
                 spinBtn.disabled = isSpinning || !activeMode || getCurrentBalance() < currentBet;
+                if (turboMode) {
+                    spinBtn.classList.add("turbo-active");
+                    document.getElementById("spin-btn-sub-label").textContent = "TURBO ON ⚡";
+                } else {
+                    spinBtn.classList.remove("turbo-active");
+                    document.getElementById("spin-btn-sub-label").textContent = "TURBO HOLD";
+                }
+
+                const autoBtn = document.getElementById("btn-auto-spin");
+                if (autoBtn) {
+                    if (autoSpinActive) {
+                        autoBtn.classList.add("auto-active");
+                        document.getElementById("auto-spin-icon").textContent = "⏹️";
+                        document.getElementById("auto-spin-label").textContent = "Parar";
+                    } else {
+                        autoBtn.classList.remove("auto-active");
+                        document.getElementById("auto-spin-icon").textContent = "🔁";
+                        document.getElementById("auto-spin-label").textContent = "Auto";
+                    }
+                }
+
+                const turboModalBtn = document.getElementById("btn-toggle-turbo-modal");
+                if (turboModalBtn) {
+                    turboModalBtn.textContent = turboMode ? "Activado ⚡" : "Desactivado";
+                }
             }
 
             function updateHUD(lastWinAmount = null) {
@@ -1567,8 +1846,17 @@
                     document.getElementById("hud-last-win").textContent = formatMoney(lastWinAmount);
                 }
 
+                document.getElementById("stat-bet-detail").textContent =
+                    `${PAYLINES_COUNT} líneas · ${coinsPerLine} moneda${coinsPerLine > 1 ? "s" : ""} × ${formatMoney(coinValue)} = ${formatMoney(currentBet)}`;
+
+                const cfgCoinsEl = document.getElementById("cfg-coins-val");
+                const cfgCoinValEl = document.getElementById("cfg-coinval-val");
+                const cfgTotalEl = document.getElementById("cfg-total-val");
+                if (cfgCoinsEl) cfgCoinsEl.textContent = String(coinsPerLine);
+                if (cfgCoinValEl) cfgCoinValEl.textContent = formatMoney(coinValue);
+                if (cfgTotalEl) cfgTotalEl.textContent = formatMoney(currentBet);
+
                 if (activeMode === "demo") {
-                    document.getElementById("pill-mode").textContent = "Modo Demo";
                     document.getElementById("pill-player").textContent = "Jugador Demo";
                     document.getElementById("side-badge").textContent = "Demo";
                     document.getElementById("stat-total-prizes").textContent = formatMoney(demoTotalPrizes);
@@ -1576,7 +1864,6 @@
                 } else if (activeMode === "real") {
                     const u = getActiveUser();
                     if (u) {
-                        document.getElementById("pill-mode").textContent = "Jugador";
                         document.getElementById("pill-player").textContent = `${u.nick} · ${u.whatsapp}`;
                         document.getElementById("side-badge").textContent = u.nick;
                         document.getElementById("stat-total-prizes").textContent = formatMoney(Number(u.totalWon) || 0);
@@ -1584,19 +1871,36 @@
                     }
                 }
 
-                document.querySelectorAll("[data-bet-value]").forEach((btn) => {
-                    const val = Number(btn.getAttribute("data-bet-value"));
-                    btn.className = val === currentBet
-                        ? "px-3 py-1.5 rounded-xl bg-amber-300 text-slate-950 font-black text-xs shadow"
-                        : "px-3 py-1.5 rounded-xl bg-white/10 hover:bg-white/20 text-white font-bold text-xs border border-white/15";
-                });
-
                 updateSpinButtonState();
+            }
+
+            function stopAutoSpin() {
+                autoSpinActive = false;
+                if (autoSpinTimer) {
+                    clearTimeout(autoSpinTimer);
+                    autoSpinTimer = null;
+                }
+                updateSpinButtonState();
+            }
+
+            function scheduleNextAutoSpin() {
+                if (!autoSpinActive) return;
+                if (getCurrentBalance() < currentBet) {
+                    stopAutoSpin();
+                    notifyToast("Auto-giro detenido: saldo insuficiente.", "info");
+                    return;
+                }
+                autoSpinTimer = setTimeout(() => {
+                    if (autoSpinActive && !isSpinning) {
+                        handleSpin();
+                    }
+                }, turboMode ? 240 : 520);
             }
 
             async function enterWorkspace(mode, userId = null) {
                 activeMode = mode;
                 activeUserId = userId;
+                stopAutoSpin();
                 if (mode === "demo") {
                     demoBalance = DEMO_START_BALANCE;
                     demoTotalPrizes = 0;
@@ -1613,12 +1917,13 @@
                 document.getElementById("entry-screen").classList.add("hidden");
                 document.getElementById("game-workspace").classList.remove("hidden");
                 document.getElementById("hud-last-win").textContent = "$0";
-                drawSlotCanvas(currentGrid, []);
+                drawSlotCanvas(currentGrid, [], null);
                 updateHUD(0);
                 checkRechargeAlertBanner();
             }
 
             function returnToEntryScreen() {
+                stopAutoSpin();
                 if (activeMode === "real" && activeUserId && state.users[activeUserId]) {
                     state.users[activeUserId].online = false;
                     state.users[activeUserId].isSpinning = false;
@@ -1631,7 +1936,6 @@
                 document.getElementById("game-workspace").classList.add("hidden");
                 document.getElementById("entry-screen").classList.remove("hidden");
                 document.getElementById("recharge-success-banner").classList.add("hidden");
-                document.getElementById("pill-mode").textContent = "Lobby";
                 document.getElementById("pill-player").textContent = "Sin jugador activo";
             }
 
@@ -1641,7 +1945,8 @@
                 casinoAudio.sfxSpinButton();
 
                 if (getCurrentBalance() < currentBet) {
-                    notifyToast("Saldo insuficiente. Recarga por Nequi o elige un giro menor.", "error");
+                    stopAutoSpin();
+                    notifyToast("Saldo insuficiente. Recarga por Nequi o baja la apuesta.", "error");
                     return;
                 }
 
@@ -1664,12 +1969,12 @@
                 }
 
                 updateHUD();
-                document.getElementById("slot-status-msg").textContent = "🎰 Girando carretes...";
+                document.getElementById("slot-status-msg").textContent = turboMode ? "⚡ TIRADA TURBO..." : "🎰 GIRANDO CARRETES...";
 
                 const uObj = getActiveUser();
                 const outcome = evaluateSpin(currentBet, uObj);
 
-                spinReelsAnimation(outcome.grid, outcome.winCoords, () => {
+                spinReelsAnimation(outcome.grid, outcome.winCoords, outcome.winLine, () => {
                     const winAmt = outcome.payout;
                     if (winAmt > 0) {
                         if (activeMode === "demo") {
@@ -1685,7 +1990,7 @@
                         }
                         casinoAudio.sfxCoinsJackpot(winAmt >= 5000 || winAmt >= currentBet * 1.3);
                         document.getElementById("slot-status-msg").textContent =
-                            outcome.note ? `${outcome.note} (+${formatMoney(winAmt)})` : `🪙 ¡Premio de ${formatMoney(winAmt)}!`;
+                            outcome.note ? `${outcome.note} (+${formatMoney(winAmt)})` : `🪙 ¡GANASTE ${formatMoney(winAmt)}!`;
                         updateHUD(winAmt);
                     } else {
                         if (activeMode === "real" && uObj) {
@@ -1694,17 +1999,21 @@
                             uObj.updatedAt = Date.now();
                         }
                         casinoAudio.sfxLoss();
-                        document.getElementById("slot-status-msg").textContent = "Casi sale la línea de joyas. ¡Sigue tirando!";
+                        document.getElementById("slot-status-msg").textContent = "MANTÉN PULSADO GIRAR PARA TIRADA TURBO ⚡";
                         updateHUD(0);
                     }
 
                     if (activeMode === "real") {
                         persistState(true);
                     }
+
+                    if (autoSpinActive) {
+                        scheduleNextAutoSpin();
+                    }
                 });
             }
 
-            // ==================== RECARGAS Y ACREDITACIÓN CON CREDIT ID ====================
+            // ==================== RECARGAS Y ACREDITACIÓN CON CREDIT ID (INTACTO) ====================
             function buildRechargeWhatsAppUrl(userObj, amount) {
                 const adminWa = cleanPhoneDigits(state.settings.whatsappAdmin || DEFAULT_CLOUD_CONFIG.whatsappAdmin);
                 const nequiAcc = state.settings.nequiNumber || DEFAULT_CLOUD_CONFIG.nequiNumber;
@@ -2005,38 +2314,6 @@
             }
 
             // ==================== INICIALIZACIÓN Y EVENTOS ====================
-            function buildBulbRing(containerId, offset = 0) {
-                const wrap = document.getElementById(containerId);
-                if (!wrap) return;
-                wrap.innerHTML = "";
-                for (let i = 0; i < 12; i++) {
-                    const b = document.createElement("div");
-                    const mod = (i + offset) % 3;
-                    b.className = `bulb ${mod === 0 ? "active" : (mod === 1 ? "alt" : "")}`;
-                    wrap.appendChild(b);
-                }
-            }
-
-            function renderBetPills() {
-                const container = document.getElementById("bet-pills");
-                if (!container) return;
-                container.innerHTML = BET_STEPS.map((val) => `
-                    <button type="button" data-bet-value="${val}" class="px-3 py-1.5 rounded-xl bg-white/10 hover:bg-white/20 text-white font-bold text-xs border border-white/15">
-                        ${formatMoney(val)}
-                    </button>
-                `).join("");
-
-                container.querySelectorAll("[data-bet-value]").forEach((btn) => {
-                    btn.addEventListener("click", () => {
-                        if (isSpinning) return;
-                        casinoAudio.ensureContext();
-                        casinoAudio.sfxClick();
-                        currentBet = Number(btn.getAttribute("data-bet-value")) || BET_STEPS[0];
-                        updateHUD();
-                    });
-                });
-            }
-
             function wireEvents() {
                 document.getElementById("btn-music-toggle").addEventListener("click", () => {
                     casinoAudio.toggleEnabled();
@@ -2048,6 +2325,139 @@
                 document.getElementById("music-volume").addEventListener("input", (e) => {
                     casinoAudio.ensureContext();
                     casinoAudio.setVolume(e.target.value);
+                });
+
+                // Tuerca y botón de monedas abren la configuración estilo Joker's Jewels
+                document.getElementById("btn-open-bet-settings").addEventListener("click", () => {
+                    casinoAudio.ensureContext();
+                    casinoAudio.sfxClick();
+                    updateHUD();
+                    document.getElementById("modal-bet-settings").classList.remove("hidden");
+                });
+
+                document.getElementById("btn-coins-panel").addEventListener("click", () => {
+                    casinoAudio.ensureContext();
+                    casinoAudio.sfxClick();
+                    updateHUD();
+                    document.getElementById("modal-bet-settings").classList.remove("hidden");
+                });
+
+                // Botones + y - rápidos en la barra inferior
+                document.getElementById("btn-bet-minus").addEventListener("click", () => {
+                    if (isSpinning) return;
+                    casinoAudio.ensureContext();
+                    casinoAudio.sfxClick();
+                    const idx = BET_STEPS.findIndex((v) => v >= currentBet);
+                    const nextIdx = idx <= 0 ? 0 : idx - 1;
+                    setTotalBetDirectly(BET_STEPS[nextIdx]);
+                    updateHUD();
+                });
+
+                document.getElementById("btn-bet-plus").addEventListener("click", () => {
+                    if (isSpinning) return;
+                    casinoAudio.ensureContext();
+                    casinoAudio.sfxClick();
+                    const idx = BET_STEPS.findIndex((v) => v >= currentBet);
+                    const nextIdx = idx < 0 || idx >= BET_STEPS.length - 1 ? BET_STEPS.length - 1 : idx + 1;
+                    setTotalBetDirectly(BET_STEPS[nextIdx]);
+                    updateHUD();
+                });
+
+                // Controles - y + dentro del modal de Configuración de Apuesta
+                document.getElementById("cfg-coins-minus").addEventListener("click", () => {
+                    casinoAudio.sfxClick();
+                    const i = COINS_PER_LINE_OPTIONS.indexOf(coinsPerLine);
+                    if (i > 0) coinsPerLine = COINS_PER_LINE_OPTIONS[i - 1];
+                    syncBetFromCoins();
+                    updateHUD();
+                });
+
+                document.getElementById("cfg-coins-plus").addEventListener("click", () => {
+                    casinoAudio.sfxClick();
+                    const i = COINS_PER_LINE_OPTIONS.indexOf(coinsPerLine);
+                    if (i < COINS_PER_LINE_OPTIONS.length - 1) coinsPerLine = COINS_PER_LINE_OPTIONS[i + 1];
+                    syncBetFromCoins();
+                    updateHUD();
+                });
+
+                document.getElementById("cfg-coinval-minus").addEventListener("click", () => {
+                    casinoAudio.sfxClick();
+                    const i = COIN_VALUE_OPTIONS.indexOf(coinValue);
+                    if (i > 0) coinValue = COIN_VALUE_OPTIONS[i - 1];
+                    syncBetFromCoins();
+                    updateHUD();
+                });
+
+                document.getElementById("cfg-coinval-plus").addEventListener("click", () => {
+                    casinoAudio.sfxClick();
+                    const i = COIN_VALUE_OPTIONS.indexOf(coinValue);
+                    if (i < COIN_VALUE_OPTIONS.length - 1) coinValue = COIN_VALUE_OPTIONS[i + 1];
+                    syncBetFromCoins();
+                    updateHUD();
+                });
+
+                document.getElementById("cfg-total-minus").addEventListener("click", () => {
+                    casinoAudio.sfxClick();
+                    const idx = BET_STEPS.findIndex((v) => v >= currentBet);
+                    const nextIdx = idx <= 0 ? 0 : idx - 1;
+                    setTotalBetDirectly(BET_STEPS[nextIdx]);
+                    updateHUD();
+                });
+
+                document.getElementById("cfg-total-plus").addEventListener("click", () => {
+                    casinoAudio.sfxClick();
+                    const idx = BET_STEPS.findIndex((v) => v >= currentBet);
+                    const nextIdx = idx < 0 || idx >= BET_STEPS.length - 1 ? BET_STEPS.length - 1 : idx + 1;
+                    setTotalBetDirectly(BET_STEPS[nextIdx]);
+                    updateHUD();
+                });
+
+                document.getElementById("btn-toggle-turbo-modal").addEventListener("click", () => {
+                    casinoAudio.sfxClick();
+                    turboMode = !turboMode;
+                    updateSpinButtonState();
+                });
+
+                // Botón central: tocar para girar / mantener presionado para Tirada Turbo
+                const spinBtn = document.getElementById("btn-spin");
+                const startHoldTurbo = () => {
+                    if (holdTurboTimer) clearTimeout(holdTurboTimer);
+                    holdTurboTimer = setTimeout(() => {
+                        turboMode = true;
+                        updateSpinButtonState();
+                        if (!isSpinning) handleSpin();
+                    }, 420);
+                };
+                const endHoldTurbo = () => {
+                    if (holdTurboTimer) {
+                        clearTimeout(holdTurboTimer);
+                        holdTurboTimer = null;
+                    }
+                };
+                spinBtn.addEventListener("mousedown", startHoldTurbo);
+                spinBtn.addEventListener("touchstart", startHoldTurbo, { passive: true });
+                spinBtn.addEventListener("mouseup", endHoldTurbo);
+                spinBtn.addEventListener("mouseleave", endHoldTurbo);
+                spinBtn.addEventListener("touchend", endHoldTurbo);
+                spinBtn.addEventListener("click", handleSpin);
+
+                // Botón derecho: Tirar repetidamente (Auto-Giro)
+                document.getElementById("btn-auto-spin").addEventListener("click", () => {
+                    casinoAudio.ensureContext();
+                    casinoAudio.sfxClick();
+                    if (autoSpinActive) {
+                        stopAutoSpin();
+                        notifyToast("Tirada automática detenida.", "info");
+                    } else {
+                        if (getCurrentBalance() < currentBet) {
+                            notifyToast("Saldo insuficiente para auto-giro.", "error");
+                            return;
+                        }
+                        autoSpinActive = true;
+                        updateSpinButtonState();
+                        notifyToast("Tirada automática activada.", "success");
+                        if (!isSpinning) handleSpin();
+                    }
                 });
 
                 document.getElementById("btn-start-demo").addEventListener("click", () => {
@@ -2155,8 +2565,6 @@
                     }
                     document.getElementById("recharge-success-banner").classList.add("hidden");
                 });
-
-                document.getElementById("btn-spin").addEventListener("click", handleSpin);
 
                 document.querySelectorAll("[data-close-modal]").forEach((btn) => {
                     btn.addEventListener("click", () => {
@@ -2422,7 +2830,7 @@
                 });
 
                 window.addEventListener("resize", () => {
-                    drawSlotCanvas(currentGrid, activeWinCoords);
+                    drawSlotCanvas(currentGrid, activeWinCoords, activeWinLine);
                 });
             }
 
@@ -2432,13 +2840,11 @@
 
                 try {
                     state.settings.dbUrl = DEFAULT_CLOUD_CONFIG.dbUrl;
-                    buildBulbRing("bulb-ring-top", 0);
-                    buildBulbRing("bulb-ring-bottom", 1);
-                    renderBetPills();
+                    renderPaytableStrip();
                     wireEvents();
                     casinoAudio.syncUI();
                     updateSyncPills();
-                    drawSlotCanvas(currentGrid, []);
+                    drawSlotCanvas(currentGrid, [], null);
 
                     if (bar) bar.style.width = "65%";
                     if (statusTxt) statusTxt.textContent = "Sincronizando con Firebase...";
@@ -2451,20 +2857,11 @@
                     setTimeout(() => {
                         document.getElementById("loading-screen").classList.add("hidden");
                         document.getElementById("app-shell").classList.remove("hidden");
-                        drawSlotCanvas(currentGrid, []);
+                        drawSlotCanvas(currentGrid, [], null);
                         if (activeMode === "real") checkRechargeAlertBanner();
                     }, 350);
 
                     casinoAudio.startLoop();
-
-                    let tickBulbs = 0;
-                    setInterval(() => {
-                        tickBulbs = (tickBulbs + 1) % 3;
-                        document.querySelectorAll("#bulb-ring-top .bulb, #bulb-ring-bottom .bulb").forEach((el, idx) => {
-                            const m = (idx + tickBulbs) % 3;
-                            el.className = `bulb ${m === 0 ? "active" : (m === 1 ? "alt" : "")}`;
-                        });
-                    }, 550);
 
                     // Consulta cada 5 segundos en silencio para que recargas aprobadas lleguen en ~5-10s sin recargar la página
                     setInterval(async () => {
