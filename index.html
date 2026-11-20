@@ -1,4 +1,4 @@
- <!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="es">
 <head>
     <meta charset="UTF-8">
@@ -186,6 +186,9 @@
 </head>
 <body class="p-2 sm:p-4">
 
+    <!-- Pista musical oficial de EL PRÓXIMO GANADOR -->
+    <audio id="custom-bg-music" src="casino.mp3" loop preload="auto"></audio>
+
     <!-- 1. PANEL CARGANDO LA PARTIDA -->
     <div id="loading-screen" class="fixed inset-0 z-50 flex flex-col items-center justify-center p-6 bg-gradient-to-br from-[#2b0652] via-[#140229] to-[#070010]">
         <div class="max-w-md w-full rounded-3xl bg-white/10 backdrop-blur-xl border-2 border-amber-300/65 p-7 text-center space-y-5 shadow-2xl">
@@ -248,12 +251,9 @@
                 </div>
 
                 <div class="flex flex-wrap items-center gap-1.5">
-                    <button type="button" id="btn-music-toggle" class="px-2 py-1 rounded-lg bg-pink-500/25 hover:bg-pink-500/40 border border-pink-300/40 text-white font-bold text-[10px] flex items-center gap-1 transition">
+                    <button type="button" id="btn-music-toggle" class="px-2.5 py-1 rounded-lg bg-pink-500/25 hover:bg-pink-500/40 border border-pink-300/40 text-white font-bold text-[10px] flex items-center gap-1 transition">
                         <span id="music-icon">🎶</span>
-                        <span id="music-label">Audio: ON</span>
-                    </button>
-                    <button type="button" id="btn-music-groove" class="px-2 py-1 rounded-lg bg-cyan-500/20 hover:bg-cyan-500/35 border border-cyan-300/40 text-cyan-100 font-bold text-[10px] transition">
-                        🎹 Casino HD
+                        <span id="music-label">Música: ON</span>
                     </button>
                     <button type="button" id="btn-switch-user" class="px-2 py-1 rounded-lg bg-white/10 hover:bg-white/20 border border-white/20 text-white font-bold text-[10px] transition">
                         👤 Cambiar
@@ -584,7 +584,7 @@
             <div class="rounded-2xl bg-black/45 border border-white/15 p-3 space-y-2.5 text-xs">
                 <div class="flex items-center justify-between font-bold text-amber-100">
                     <span>🔊 Volumen</span>
-                    <input id="music-volume" type="range" min="0" max="100" value="75" class="w-32 accent-amber-300 cursor-pointer">
+                    <input id="music-volume" type="range" min="0" max="100" value="80" class="w-32 accent-amber-300 cursor-pointer">
                 </div>
                 <div class="flex items-center justify-between font-bold text-cyan-100">
                     <span>⚡ Tirada Turbo</span>
@@ -920,316 +920,57 @@
                 } catch (_) {}
             }
 
-            // ==================== AUDIO CASINO HD ====================
-            class CasinoVegasAudio {
+            // ==================== AUDIO CON TU PISTA PERSONALIZADA ====================
+            class CustomTrackAudio {
                 constructor() {
-                    this.ctx = null;
-                    this.masterGain = null;
-                    this.musicGain = null;
-                    this.sfxGain = null;
+                    this.audioEl = document.getElementById("custom-bg-music");
                     this.enabled = true;
-                    this.groove = "jewels";
-                    this.volume = 0.75;
-                    this.step = 0;
-                    this.timerId = null;
-                    this.spinBoost = false;
-                }
-
-                ensureContext() {
-                    if (this.ctx) {
-                        if (this.ctx.state === "suspended") this.ctx.resume().catch(() => {});
-                        return true;
+                    this.volume = 0.80;
+                    if (this.audioEl) {
+                        this.audioEl.volume = this.volume;
                     }
-                    const AudioCtx = window.AudioContext || window.webkitAudioContext;
-                    if (!AudioCtx) return false;
-                    this.ctx = new AudioCtx();
-                    this.masterGain = this.ctx.createGain();
-                    this.musicGain = this.ctx.createGain();
-                    this.sfxGain = this.ctx.createGain();
-                    this.musicGain.connect(this.masterGain);
-                    this.sfxGain.connect(this.masterGain);
-                    this.masterGain.connect(this.ctx.destination);
-                    this.applyVolumes();
-                    return true;
                 }
 
-                applyVolumes() {
-                    if (!this.masterGain || !this.musicGain || !this.sfxGain) return;
-                    const eff = this.enabled ? this.volume : 0;
-                    this.masterGain.gain.setTargetAtTime(eff, this.ctx.currentTime, 0.04);
-                    this.musicGain.gain.setTargetAtTime(0.32, this.ctx.currentTime, 0.05);
-                    this.sfxGain.gain.setTargetAtTime(0.70, this.ctx.currentTime, 0.04);
+                playTrack() {
+                    if (!this.enabled || !this.audioEl) return;
+                    this.audioEl.volume = this.volume;
+                    const p = this.audioEl.play();
+                    if (p && typeof p.catch === "function") {
+                        p.catch(() => {});
+                    }
+                }
+
+                pauseTrack() {
+                    if (!this.audioEl) return;
+                    this.audioEl.pause();
                 }
 
                 toggleEnabled() {
                     this.enabled = !this.enabled;
                     if (this.enabled) {
-                        this.ensureContext();
-                        this.startLoop();
+                        this.playTrack();
                     } else {
-                        this.stopLoop();
+                        this.pauseTrack();
                     }
-                    this.applyVolumes();
                     this.syncUI();
-                }
-
-                cycleGroove() {
-                    this.groove = this.groove === "jewels" ? "jester" : "jewels";
-                    this.step = 0;
-                    this.syncUI();
-                    notifyToast(`Estilo musical: ${this.groove === "jewels" ? "Casino HD" : "Jester Rush"}`, "info");
                 }
 
                 setVolume(val) {
                     this.volume = Math.max(0, Math.min(1, Number(val) / 100));
-                    this.applyVolumes();
-                }
-
-                setSpinBoost(active) {
-                    this.spinBoost = Boolean(active);
+                    if (this.audioEl) {
+                        this.audioEl.volume = this.volume;
+                    }
                 }
 
                 syncUI() {
                     const icon = document.getElementById("music-icon");
                     const label = document.getElementById("music-label");
-                    const grooveBtn = document.getElementById("btn-music-groove");
                     if (icon) icon.textContent = this.enabled ? "🎶" : "🔇";
-                    if (label) label.textContent = this.enabled ? "Audio: ON" : "Audio: OFF";
-                    if (grooveBtn) grooveBtn.textContent = `🎹 ${this.groove === "jewels" ? "Casino HD" : "Jester Rush"}`;
-                }
-
-                playChord(notes, dur = 0.45) {
-                    if (!this.enabled || !this.ensureContext()) return;
-                    const now = this.ctx.currentTime;
-                    const lp = this.ctx.createBiquadFilter();
-                    lp.type = "lowpass";
-                    lp.frequency.setValueAtTime(2400, now);
-                    lp.connect(this.musicGain);
-                    notes.forEach((f) => {
-                        const osc = this.ctx.createOscillator();
-                        const gain = this.ctx.createGain();
-                        osc.type = "triangle";
-                        osc.frequency.setValueAtTime(f, now);
-                        gain.gain.setValueAtTime(0.0001, now);
-                        gain.gain.linearRampToValueAtTime(0.065, now + 0.018);
-                        gain.gain.exponentialRampToValueAtTime(0.0008, now + dur);
-                        osc.connect(lp);
-                        gain.connect(lp);
-                        osc.start(now);
-                        osc.stop(now + dur + 0.02);
-                    });
-                }
-
-                playBass(freq, dur = 0.14) {
-                    if (!this.enabled || !this.ensureContext()) return;
-                    const now = this.ctx.currentTime;
-                    const osc = this.ctx.createOscillator();
-                    const gain = this.ctx.createGain();
-                    const lp = this.ctx.createBiquadFilter();
-                    osc.type = "triangle";
-                    osc.frequency.setValueAtTime(freq, now);
-                    lp.type = "lowpass";
-                    lp.frequency.setValueAtTime(620, now);
-                    gain.gain.setValueAtTime(0.001, now);
-                    gain.gain.linearRampToValueAtTime(0.20, now + 0.012);
-                    gain.gain.exponentialRampToValueAtTime(0.001, now + dur);
-                    osc.connect(lp);
-                    lp.connect(gain);
-                    gain.connect(this.musicGain);
-                    osc.start(now);
-                    osc.stop(now + dur + 0.02);
-                }
-
-                playLeadNote(freq, dur = 0.12) {
-                    if (!this.enabled || !this.ensureContext()) return;
-                    const now = this.ctx.currentTime;
-                    const osc = this.ctx.createOscillator();
-                    const gain = this.ctx.createGain();
-                    osc.type = this.groove === "jewels" ? "square" : "sine";
-                    const lp = this.ctx.createBiquadFilter();
-                    lp.type = "lowpass";
-                    lp.frequency.setValueAtTime(2800, now);
-                    osc.frequency.setValueAtTime(freq, now);
-                    gain.gain.setValueAtTime(0.001, now);
-                    gain.gain.linearRampToValueAtTime(this.groove === "jewels" ? 0.045 : 0.085, now + 0.012);
-                    gain.gain.exponentialRampToValueAtTime(0.001, now + dur);
-                    osc.connect(lp);
-                    lp.connect(gain);
-                    gain.connect(this.musicGain);
-                    osc.start(now);
-                    osc.stop(now + dur + 0.02);
-                }
-
-                playHatTick(accent = false) {
-                    if (!this.enabled || !this.ensureContext()) return;
-                    const now = this.ctx.currentTime;
-                    const osc = this.ctx.createOscillator();
-                    const gain = this.ctx.createGain();
-                    osc.type = "sine";
-                    osc.frequency.setValueAtTime(accent ? 3920 : 2960, now);
-                    gain.gain.setValueAtTime(0.001, now);
-                    gain.gain.linearRampToValueAtTime(accent ? 0.032 : 0.016, now + 0.004);
-                    gain.gain.exponentialRampToValueAtTime(0.0005, now + 0.035);
-                    osc.connect(gain);
-                    gain.connect(this.musicGain);
-                    osc.start(now);
-                    osc.stop(now + 0.04);
-                }
-
-                startLoop() {
-                    this.stopLoop();
-                    if (!this.enabled) return;
-
-                    const jewelsMelody = [
-                        523.25, 659.25, 783.99, 1046.50, 987.77, 783.99, 880.00, 1046.50,
-                        783.99, 659.25, 783.99, 659.25, 587.33, 659.25, 587.33, 523.25,
-                        587.33, 739.99, 880.00, 1174.66, 1046.50, 880.00, 987.77, 1174.66,
-                        1046.50, 987.77, 880.00, 783.99, 880.00, 987.77, 1046.50, 1318.51
-                    ];
-
-                    const jesterMelody = [
-                        659.25, 783.99, 987.77, 1318.51, 1174.66, 987.77, 1046.50, 1318.51,
-                        987.77, 880.00, 783.99, 880.00, 739.99, 880.00, 987.77, 783.99,
-                        587.33, 783.99, 987.77, 1174.66, 987.77, 783.99, 880.00, 987.77,
-                        783.99, 659.25, 783.99, 880.00, 987.77, 1174.66, 1318.51, 1567.98
-                    ];
-
-                    const bassPattern = [
-                        130.81, 196.00, 130.81, 196.00, 164.81, 246.94, 164.81, 246.94,
-                        174.61, 261.63, 174.61, 261.63, 196.00, 293.66, 196.00, 246.94,
-                        146.83, 220.00, 146.83, 220.00, 196.00, 293.66, 196.00, 293.66,
-                        130.81, 196.00, 164.81, 246.94, 174.61, 196.00, 130.81, 261.63
-                    ];
-
-                    const chordsByBeat = [
-                        [523.25, 659.25, 783.99],
-                        [659.25, 783.99, 987.77],
-                        [698.46, 880.00, 1046.50],
-                        [587.33, 783.99, 987.77]
-                    ];
-
-                    const tick = () => {
-                        if (!this.enabled) return;
-                        const idx = this.step % 32;
-                        const melody = this.groove === "jewels" ? jewelsMelody : jesterMelody;
-
-                        if (idx % 4 === 0) this.playChord(chordsByBeat[(idx / 4) % chordsByBeat.length], 0.34);
-                        if (idx % 2 === 0) this.playBass(bassPattern[idx], 0.16);
-                        this.playLeadNote(melody[idx], 0.13);
-                        this.playHatTick(idx % 2 === 1);
-
-                        this.step += 1;
-                        const baseMs = this.groove === "jewels" ? 155 : 140;
-                        const ms = this.spinBoost ? Math.max(95, baseMs - 40) : baseMs;
-                        this.timerId = setTimeout(tick, ms);
-                    };
-
-                    tick();
-                }
-
-                stopLoop() {
-                    if (this.timerId) {
-                        clearTimeout(this.timerId);
-                        this.timerId = null;
-                    }
-                }
-
-                sfxSpinButton() {
-                    if (!this.enabled || !this.ensureContext()) return;
-                    const now = this.ctx.currentTime;
-                    [523.25, 659.25, 783.99, 1046.5].forEach((f, i) => {
-                        const osc = this.ctx.createOscillator();
-                        const gain = this.ctx.createGain();
-                        osc.type = "triangle";
-                        const t = now + i * 0.025;
-                        osc.frequency.setValueAtTime(f, t);
-                        osc.frequency.exponentialRampToValueAtTime(f * 1.25, t + 0.06);
-                        gain.gain.setValueAtTime(0.22, t);
-                        gain.gain.exponentialRampToValueAtTime(0.001, t + 0.07);
-                        osc.connect(gain);
-                        gain.connect(this.sfxGain);
-                        osc.start(t);
-                        osc.stop(t + 0.075);
-                    });
-                }
-
-                sfxClick() {
-                    if (!this.enabled || !this.ensureContext()) return;
-                    const now = this.ctx.currentTime;
-                    const osc = this.ctx.createOscillator();
-                    const gain = this.ctx.createGain();
-                    osc.type = "sine";
-                    osc.frequency.setValueAtTime(784, now);
-                    osc.frequency.exponentialRampToValueAtTime(1046.5, now + 0.045);
-                    gain.gain.setValueAtTime(0.16, now);
-                    gain.gain.exponentialRampToValueAtTime(0.001, now + 0.055);
-                    osc.connect(gain);
-                    gain.connect(this.sfxGain);
-                    osc.start(now);
-                    osc.stop(now + 0.06);
-                }
-
-                sfxReelStop(col = 0) {
-                    if (!this.enabled || !this.ensureContext()) return;
-                    const now = this.ctx.currentTime;
-                    const osc = this.ctx.createOscillator();
-                    const gain = this.ctx.createGain();
-                    osc.type = "triangle";
-                    osc.frequency.setValueAtTime(260 + col * 65, now);
-                    osc.frequency.exponentialRampToValueAtTime(120, now + 0.07);
-                    gain.gain.setValueAtTime(0.24, now);
-                    gain.gain.exponentialRampToValueAtTime(0.001, now + 0.075);
-                    osc.connect(gain);
-                    gain.connect(this.sfxGain);
-                    osc.start(now);
-                    osc.stop(now + 0.08);
-                }
-
-                sfxLoss() {
-                    if (!this.enabled || !this.ensureContext()) return;
-                    const now = this.ctx.currentTime;
-                    [392.00, 329.63, 293.66].forEach((f, idx) => {
-                        const start = now + idx * 0.065;
-                        const osc = this.ctx.createOscillator();
-                        const gain = this.ctx.createGain();
-                        osc.type = "triangle";
-                        osc.frequency.setValueAtTime(f, start);
-                        osc.frequency.linearRampToValueAtTime(f * 0.92, start + 0.1);
-                        gain.gain.setValueAtTime(0.14, start);
-                        gain.gain.exponentialRampToValueAtTime(0.001, start + 0.11);
-                        osc.connect(gain);
-                        gain.connect(this.sfxGain);
-                        osc.start(start);
-                        osc.stop(start + 0.12);
-                    });
-                }
-
-                sfxCoinsJackpot(big = false) {
-                    if (!this.enabled || !this.ensureContext()) return;
-                    const now = this.ctx.currentTime;
-                    const coinCount = big ? 18 : 10;
-                    const coinFreqs = [1318.51, 1567.98, 1760.0, 2093.0, 2349.32, 2637.02];
-                    for (let i = 0; i < coinCount; i++) {
-                        const t = now + i * 0.045;
-                        const f1 = coinFreqs[i % coinFreqs.length];
-                        const f2 = f1 * 1.25;
-                        const osc = this.ctx.createOscillator();
-                        const gain = this.ctx.createGain();
-                        osc.type = "sine";
-                        osc.frequency.setValueAtTime(f1, t);
-                        osc.frequency.setValueAtTime(f2, t + 0.022);
-                        gain.gain.setValueAtTime(0.001, t);
-                        gain.gain.linearRampToValueAtTime(0.32, t + 0.01);
-                        gain.gain.exponentialRampToValueAtTime(0.001, t + 0.13);
-                        osc.connect(gain);
-                        gain.connect(this.sfxGain);
-                        osc.start(t);
-                        osc.stop(t + 0.14);
-                    }
+                    if (label) label.textContent = this.enabled ? "Música: ON" : "Música: OFF";
                 }
             }
 
-            const casinoAudio = new CasinoVegasAudio();
+            const trackAudio = new CustomTrackAudio();
 
             // ==================== ESTADO Y PERSISTENCIA ====================
             function getRoomStorageKey(roomCode) {
@@ -1295,7 +1036,6 @@
             let adminUnlocked = false;
             let remoteConnected = false;
 
-            // Partículas doradas HD para celebraciones en canvas
             let winParticles = [];
             let particleRafId = null;
 
@@ -1460,7 +1200,6 @@
                                 const lTime = Number(lu.updatedAt || lu.lastActiveAt || 0);
                                 const mergedUser = rTime >= lTime ? { ...lu, ...ru } : { ...ru, ...lu };
 
-                                // Si el jugador está girando en este dispositivo, conservar su saldo local en curso
                                 if (isSpinning && activeMode === "real" && uid === activeUserId && lu) {
                                     mergedUser.balance = lu.balance;
                                     mergedUser.totalWagered = lu.totalWagered;
@@ -1780,7 +1519,6 @@
                 ctx.save();
                 ctx.scale(dpr, dpr);
 
-                // Cilindro tridimensional de fondo con luz cenital y sombra inferior/superior
                 const cylGrad = ctx.createLinearGradient(0, 0, 0, h);
                 cylGrad.addColorStop(0, "#190233");
                 cylGrad.addColorStop(0.18, "#470e82");
@@ -1793,7 +1531,6 @@
                 const cellW = w / COLS;
                 const cellH = h / ROWS;
 
-                // Relieve metálico entre los 5 carretes
                 for (let c = 0; c < COLS; c++) {
                     const colGrad = ctx.createLinearGradient(c * cellW, 0, (c + 1) * cellW, 0);
                     colGrad.addColorStop(0, "rgba(0, 0, 0, 0.36)");
@@ -1833,7 +1570,6 @@
                         const cy = r * cellH + cellH / 2;
                         const isWin = highlightSet.has(`${c},${r}`);
 
-                        // Halo volumétrico de profundidad detrás de cada símbolo
                         const radialGlow = ctx.createRadialGradient(cx, cy, 4, cx, cy, Math.min(cellW, cellH) * 0.44);
                         radialGlow.addColorStop(0, isWin ? "rgba(255, 224, 102, 0.45)" : (sym.glow || "rgba(255, 255, 255, 0.14)"));
                         radialGlow.addColorStop(1, "rgba(0, 0, 0, 0)");
@@ -1872,7 +1608,6 @@
                     }
                 }
 
-                // Trazado luminoso de línea ganadora con núcleo blanco y halo dorado
                 if (winLineObj && highlightCoords.length >= 2) {
                     ctx.save();
                     ctx.strokeStyle = winLineObj.color || "#ffd426";
@@ -1897,7 +1632,6 @@
                     ctx.restore();
                 }
 
-                // Partículas doradas de premio
                 if (winParticles.length > 0) {
                     for (const p of winParticles) {
                         if (p.alpha <= 0) continue;
@@ -1913,7 +1647,6 @@
                     }
                 }
 
-                // Brillo especular superior e inferior del cristal del gabinete HD
                 const glassSheen = ctx.createLinearGradient(0, 0, 0, h * 0.28);
                 glassSheen.addColorStop(0, "rgba(255, 255, 255, 0.14)");
                 glassSheen.addColorStop(1, "rgba(255, 255, 255, 0)");
@@ -1926,14 +1659,12 @@
             function spinReelsAnimation(finalGrid, winCoords, winLineObj, onComplete) {
                 isSpinning = true;
                 winParticles = [];
-                casinoAudio.setSpinBoost(true);
                 updateSpinButtonState();
 
                 const isFast = turboMode;
                 const duration = isFast ? 380 : 920;
                 const startTime = performance.now();
                 const stopTimes = isFast ? [0.25, 0.42, 0.58, 0.75, 0.92] : [0.35, 0.50, 0.65, 0.80, 0.95];
-                const colStopped = [false, false, false, false, false];
 
                 function frame(now) {
                     const progress = Math.min(1, (now - startTime) / duration);
@@ -1943,10 +1674,6 @@
                         if (progress >= stopTimes[c]) {
                             animatedGrid.push(finalGrid[c]);
                             movingCols.push(false);
-                            if (!colStopped[c]) {
-                                colStopped[c] = true;
-                                casinoAudio.sfxReelStop(c);
-                            }
                         } else {
                             movingCols.push(true);
                             const col = [];
@@ -1964,7 +1691,6 @@
                         activeWinLine = winLineObj;
                         drawSlotCanvas(currentGrid, activeWinCoords, activeWinLine, [false, false, false, false, false]);
                         isSpinning = false;
-                        casinoAudio.setSpinBoost(false);
                         updateSpinButtonState();
                         if (typeof onComplete === "function") onComplete();
                     }
@@ -2085,6 +1811,7 @@
             }
 
             async function enterWorkspace(mode, userId = null) {
+                trackAudio.playTrack();
                 activeMode = mode;
                 activeUserId = userId;
                 stopAutoSpin();
@@ -2133,8 +1860,7 @@
 
             function handleSpin() {
                 if (isSpinning || !activeMode) return;
-                casinoAudio.ensureContext();
-                casinoAudio.sfxSpinButton();
+                trackAudio.playTrack();
 
                 if (getCurrentBalance() < currentBet) {
                     stopAutoSpin();
@@ -2187,7 +1913,6 @@
                             state.settings.totalWon = (Number(state.settings.totalWon) || 0) + winAmt;
                         }
                         const isBig = winAmt >= currentBet * 1.6 || winAmt >= 5000;
-                        casinoAudio.sfxCoinsJackpot(isBig);
                         spawnWinParticles(Math.max(240, rect.width), Math.max(160, rect.height), outcome.winCoords);
 
                         if (outcome.winSymbol) highlightPaytableSymbol(outcome.winSymbol.id);
@@ -2210,7 +1935,6 @@
                             uObj.lastActiveAt = Date.now();
                             uObj.updatedAt = Date.now();
                         }
-                        casinoAudio.sfxLoss();
                         highlightPaytableSymbol(null);
                         document.getElementById("slot-status-main").textContent = "¡BUENA SUERTE!";
                         document.getElementById("slot-status-sub").textContent = "Toca girar o mantén pulsado para Tirada Turbo";
@@ -2259,7 +1983,6 @@
                 document.getElementById("recharge-banner-detail").textContent =
                     `¡Felicidades ${u.nick}! Tu recarga fue acreditada. Saldo actual: ${formatMoney(u.balance)}.`;
                 banner.classList.remove("hidden");
-                casinoAudio.sfxCoinsJackpot(true);
             }
 
             async function creditUserBalance(userId, amount, fromRequestId = null) {
@@ -2524,35 +2247,28 @@
             // ==================== INICIALIZACIÓN Y EVENTOS ====================
             function wireEvents() {
                 document.getElementById("btn-music-toggle").addEventListener("click", () => {
-                    casinoAudio.toggleEnabled();
-                });
-                document.getElementById("btn-music-groove").addEventListener("click", () => {
-                    casinoAudio.ensureContext();
-                    casinoAudio.cycleGroove();
+                    trackAudio.toggleEnabled();
                 });
                 document.getElementById("music-volume").addEventListener("input", (e) => {
-                    casinoAudio.ensureContext();
-                    casinoAudio.setVolume(e.target.value);
+                    trackAudio.setVolume(e.target.value);
+                    trackAudio.playTrack();
                 });
 
                 document.getElementById("btn-open-bet-settings").addEventListener("click", () => {
-                    casinoAudio.ensureContext();
-                    casinoAudio.sfxClick();
+                    trackAudio.playTrack();
                     updateHUD();
                     document.getElementById("modal-bet-settings").classList.remove("hidden");
                 });
 
                 document.getElementById("btn-coins-panel").addEventListener("click", () => {
-                    casinoAudio.ensureContext();
-                    casinoAudio.sfxClick();
+                    trackAudio.playTrack();
                     updateHUD();
                     document.getElementById("modal-bet-settings").classList.remove("hidden");
                 });
 
                 document.getElementById("btn-quick-plus").addEventListener("click", () => {
                     if (isSpinning) return;
-                    casinoAudio.ensureContext();
-                    casinoAudio.sfxClick();
+                    trackAudio.playTrack();
                     const idx = BET_STEPS.findIndex((v) => v >= currentBet);
                     const nextIdx = idx < 0 || idx >= BET_STEPS.length - 1 ? 0 : idx + 1;
                     setTotalBetDirectly(BET_STEPS[nextIdx]);
@@ -2560,7 +2276,6 @@
                 });
 
                 document.getElementById("cfg-coins-minus").addEventListener("click", () => {
-                    casinoAudio.sfxClick();
                     const i = COINS_PER_LINE_OPTIONS.indexOf(coinsPerLine);
                     if (i > 0) coinsPerLine = COINS_PER_LINE_OPTIONS[i - 1];
                     syncBetFromCoins();
@@ -2568,7 +2283,6 @@
                 });
 
                 document.getElementById("cfg-coins-plus").addEventListener("click", () => {
-                    casinoAudio.sfxClick();
                     const i = COINS_PER_LINE_OPTIONS.indexOf(coinsPerLine);
                     if (i < COINS_PER_LINE_OPTIONS.length - 1) coinsPerLine = COINS_PER_LINE_OPTIONS[i + 1];
                     syncBetFromCoins();
@@ -2576,7 +2290,6 @@
                 });
 
                 document.getElementById("cfg-coinval-minus").addEventListener("click", () => {
-                    casinoAudio.sfxClick();
                     const i = COIN_VALUE_OPTIONS.indexOf(coinValue);
                     if (i > 0) coinValue = COIN_VALUE_OPTIONS[i - 1];
                     syncBetFromCoins();
@@ -2584,7 +2297,6 @@
                 });
 
                 document.getElementById("cfg-coinval-plus").addEventListener("click", () => {
-                    casinoAudio.sfxClick();
                     const i = COIN_VALUE_OPTIONS.indexOf(coinValue);
                     if (i < COIN_VALUE_OPTIONS.length - 1) coinValue = COIN_VALUE_OPTIONS[i + 1];
                     syncBetFromCoins();
@@ -2592,7 +2304,6 @@
                 });
 
                 document.getElementById("cfg-total-minus").addEventListener("click", () => {
-                    casinoAudio.sfxClick();
                     const idx = BET_STEPS.findIndex((v) => v >= currentBet);
                     const nextIdx = idx <= 0 ? 0 : idx - 1;
                     setTotalBetDirectly(BET_STEPS[nextIdx]);
@@ -2600,7 +2311,6 @@
                 });
 
                 document.getElementById("cfg-total-plus").addEventListener("click", () => {
-                    casinoAudio.sfxClick();
                     const idx = BET_STEPS.findIndex((v) => v >= currentBet);
                     const nextIdx = idx < 0 || idx >= BET_STEPS.length - 1 ? BET_STEPS.length - 1 : idx + 1;
                     setTotalBetDirectly(BET_STEPS[nextIdx]);
@@ -2608,7 +2318,6 @@
                 });
 
                 document.getElementById("btn-toggle-turbo-modal").addEventListener("click", () => {
-                    casinoAudio.sfxClick();
                     turboMode = !turboMode;
                     updateSpinButtonState();
                 });
@@ -2631,8 +2340,7 @@
                 spinBtn.addEventListener("click", handleSpin);
 
                 document.getElementById("btn-auto-spin").addEventListener("click", () => {
-                    casinoAudio.ensureContext();
-                    casinoAudio.sfxClick();
+                    trackAudio.playTrack();
                     if (autoSpinActive) {
                         stopAutoSpin();
                         notifyToast("Tirada automática detenida.", "info");
@@ -2649,15 +2357,12 @@
                 });
 
                 document.getElementById("btn-start-demo").addEventListener("click", () => {
-                    casinoAudio.ensureContext();
-                    casinoAudio.sfxClick();
                     enterWorkspace("demo");
                 });
 
                 document.getElementById("player-entry-form").addEventListener("submit", async (e) => {
                     e.preventDefault();
-                    casinoAudio.ensureContext();
-                    casinoAudio.sfxClick();
+                    trackAudio.playTrack();
 
                     const nick = document.getElementById("inp-nick").value.trim();
                     const whatsapp = document.getElementById("inp-whatsapp").value.trim();
@@ -2724,8 +2429,7 @@
 
                 document.getElementById("btn-refresh-balance").addEventListener("click", async () => {
                     if (isSpinning) return;
-                    casinoAudio.ensureContext();
-                    casinoAudio.sfxClick();
+                    trackAudio.playTrack();
                     await pullFromRemote();
                     if (activeMode === "real") {
                         const u = getActiveUser();
@@ -2740,7 +2444,6 @@
                 });
 
                 document.getElementById("btn-switch-user").addEventListener("click", () => {
-                    casinoAudio.sfxClick();
                     returnToEntryScreen();
                 });
 
@@ -2761,8 +2464,7 @@
                 });
 
                 document.getElementById("btn-open-recharge").addEventListener("click", () => {
-                    casinoAudio.ensureContext();
-                    casinoAudio.sfxClick();
+                    trackAudio.playTrack();
                     document.getElementById("recharge-feedback").classList.add("hidden");
                     refreshRechargeModalLinks();
                     document.getElementById("modal-recharge").classList.remove("hidden");
@@ -2834,8 +2536,7 @@
                 });
 
                 document.getElementById("btn-open-withdraw").addEventListener("click", () => {
-                    casinoAudio.ensureContext();
-                    casinoAudio.sfxClick();
+                    trackAudio.playTrack();
                     document.getElementById("withdraw-feedback").classList.add("hidden");
                     updateWithdrawBreakdown();
                     document.getElementById("modal-withdraw").classList.remove("hidden");
@@ -2921,8 +2622,7 @@
                 });
 
                 document.getElementById("btn-open-admin").addEventListener("click", async () => {
-                    casinoAudio.ensureContext();
-                    casinoAudio.sfxClick();
+                    trackAudio.playTrack();
                     document.getElementById("admin-pin-error").classList.add("hidden");
                     document.getElementById("admin-pin-input").value = "";
                     document.getElementById("modal-admin").classList.remove("hidden");
@@ -3031,7 +2731,7 @@
                     state.settings.dbUrl = DEFAULT_CLOUD_CONFIG.dbUrl;
                     wireEvents();
                     refreshPaytableAmounts();
-                    casinoAudio.syncUI();
+                    trackAudio.syncUI();
                     updateSyncPills();
                     drawSlotCanvas(currentGrid, [], null, [false, false, false, false, false]);
 
@@ -3049,8 +2749,6 @@
                         drawSlotCanvas(currentGrid, [], null, [false, false, false, false, false]);
                         if (activeMode === "real") checkRechargeAlertBanner();
                     }, 350);
-
-                    casinoAudio.startLoop();
 
                     setInterval(async () => {
                         if (isSpinning || isSyncingNow) return;
