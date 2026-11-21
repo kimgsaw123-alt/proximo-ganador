@@ -44,7 +44,6 @@
             letter-spacing: 0.02em;
         }
 
-        /* Gabinete vertical HD con profundidad de iluminación y bisel metálico */
         .epg-vertical-machine {
             width: 100%;
             max-width: 454px;
@@ -266,7 +265,7 @@
         </header>
 
         <!-- PANTALLA DE INGRESO SENCILLA -->
-        <section id="entry-screen" class="rounded-3xl bg-white/10 backdrop-blur-md border border-white/20 p-4 sm:p-6 shadow-2xl">
+        <section id="entry-screen" class="rounded-3xl bg-white/10 backdrop-blur-md border border-white/20 p-4 sm:p-6 shadow-2xl space-y-4">
             <div class="grid grid-cols-1 lg:grid-cols-12 gap-5 items-stretch">
                 <div class="lg:col-span-5 rounded-2xl bg-gradient-to-br from-cyan-500/20 via-indigo-600/20 to-fuchsia-600/20 border border-cyan-300/40 p-5 flex flex-col justify-between space-y-4">
                     <div class="space-y-2.5">
@@ -319,6 +318,13 @@
                     </form>
                 </div>
             </div>
+
+            <!-- NOTAS IMPORTANTES EN PANTALLA DE INGRESO -->
+            <div class="rounded-2xl bg-black/45 border border-amber-300/30 p-3.5 text-[11px] text-amber-100/90 space-y-1">
+                <div class="font-black text-amber-300 uppercase text-[10px]">📌 Notas importantes</div>
+                <p>1. Este espacio está pensado principalmente como un <strong>juego recreativo para pasar el rato</strong> y probar suerte en cualquier momento.</p>
+                <p>2. Si decides apostar y ganar, hazlo siempre <strong>con responsabilidad</strong>, controlando tu tiempo y tu presupuesto.</p>
+            </div>
         </section>
 
         <!-- GABINETE VERTICAL HD DE EL PRÓXIMO GANADOR -->
@@ -345,7 +351,6 @@
                 <!-- 1. TABLA DE PAGOS SUPERIOR CON MARCA EL PRÓXIMO GANADOR -->
                 <div class="epg-paytable-panel p-2 space-y-1.5">
                     <div class="grid grid-cols-3 gap-1.5 items-stretch">
-                        <!-- Izquierda: Payaso, Guitarra, Diamante Rojo -->
                         <div class="space-y-1.5">
                             <div id="paycell-joker" class="epg-pay-cell flex items-center gap-1.5">
                                 <span class="text-xl leading-none shrink-0 drop-shadow">🤡</span>
@@ -375,7 +380,6 @@
                             </div>
                         </div>
 
-                        <!-- Centro: Título El Próximo Ganador + Bonus, Pinos, Diamante Azul -->
                         <div class="space-y-1.5 flex flex-col justify-between">
                             <div class="text-center py-0.5">
                                 <div class="font-display text-sm sm:text-base font-bold leading-tight bg-gradient-to-b from-yellow-200 via-amber-400 to-orange-500 bg-clip-text text-transparent drop-shadow">
@@ -405,7 +409,6 @@
                             </div>
                         </div>
 
-                        <!-- Derecha: Corona Bonus, Bufones, Diamante Blanco -->
                         <div class="space-y-1.5">
                             <div id="paycell-crown" class="epg-pay-cell flex items-center gap-1.5 border-amber-300/50">
                                 <span class="text-xl leading-none shrink-0 drop-shadow">👑</span>
@@ -543,6 +546,28 @@
                     <div id="stat-withdrawn-done" class="font-display text-base font-bold text-amber-300">$0</div>
                 </div>
             </section>
+
+            <!-- NOTAS IMPORTANTES DEL JUEGO -->
+            <section class="max-w-[454px] mx-auto rounded-2xl bg-black/45 border border-amber-300/30 px-3.5 py-2.5 text-[10.5px] text-amber-100/90 space-y-1">
+                <div class="font-black text-amber-300 uppercase text-[9.5px]">📌 Notas importantes</div>
+                <p>• Este juego es <strong>recreativo para pasar el rato</strong> y disfrutar de la dinámica.</p>
+                <p>• Si vas a apostar y ganar, hazlo siempre <strong>con responsabilidad</strong>.</p>
+            </section>
+
+            <!-- CHAT EN TIEMPO REAL DEL JUGADOR CON ADMIN -->
+            <section id="player-chat-section" class="max-w-[454px] mx-auto rounded-2xl bg-white/10 border border-cyan-300/35 p-3 space-y-2.5">
+                <div class="flex items-center justify-between">
+                    <h4 class="font-display text-sm font-bold text-cyan-300">💬 Chat en Vivo con Admin</h4>
+                    <span class="text-[10px] text-white/65">Tiempo real</span>
+                </div>
+                <div id="player-chat-messages" class="space-y-1.5 max-h-40 overflow-y-auto bg-black/45 rounded-xl p-2.5 text-xs"></div>
+                <form id="player-chat-form" class="flex gap-2">
+                    <input id="player-chat-input" type="text" placeholder="Escribe un mensaje al Admin..." class="flex-1 px-3 py-2 rounded-xl bg-slate-950/90 border border-white/20 text-white text-xs placeholder-white/40 focus:outline-none focus:border-cyan-300">
+                    <button type="submit" class="px-3.5 py-2 rounded-xl bg-gradient-to-r from-cyan-300 to-emerald-300 text-slate-950 font-black text-xs">
+                        Enviar
+                    </button>
+                </form>
+            </section>
         </main>
     </div>
 
@@ -594,6 +619,10 @@
                 </div>
             </div>
 
+            <div class="rounded-2xl bg-black/35 border border-amber-300/25 p-2.5 text-[10.5px] text-amber-100/85 space-y-0.5">
+                <p>📌 Juego recreativo para pasar el rato. Si vas a apostar y ganar, hazlo con responsabilidad.</p>
+            </div>
+
             <button type="button" data-close-modal="modal-bet-settings" class="w-full py-3 rounded-2xl bg-gradient-to-r from-amber-300 via-orange-400 to-pink-500 text-slate-950 font-black text-sm shadow-lg">
                 ✅ Aplicar y Jugar
             </button>
@@ -604,20 +633,16 @@
     <div id="modal-recharge" class="hidden fixed inset-0 z-40 bg-black/80 backdrop-blur-sm p-4 flex items-center justify-center overflow-y-auto">
         <div class="w-full max-w-lg rounded-3xl bg-slate-900 border-2 border-emerald-400/55 p-5 sm:p-6 space-y-4 shadow-2xl">
             <div class="flex items-center justify-between">
-                <h3 class="font-display text-xl sm:text-2xl font-bold text-emerald-300">💳 Recargar Saldo por Nequi</h3>
+                <h3 class="font-display text-xl sm:text-2xl font-bold text-emerald-300">💳 Recargar Saldo</h3>
                 <button type="button" data-close-modal="modal-recharge" class="w-8 h-8 rounded-full bg-white/10 hover:bg-white/20 text-white font-bold">✕</button>
             </div>
 
             <div class="rounded-2xl bg-emerald-500/15 border border-emerald-400/40 p-3.5 space-y-1.5 text-xs sm:text-sm">
-                <div class="text-emerald-200 font-bold">Cuenta Nequi Oficial:</div>
-                <div class="flex items-center justify-between gap-2">
-                    <span id="recharge-nequi-display" class="font-display text-2xl font-bold text-yellow-300 tracking-wide">3106047749</span>
-                    <button type="button" id="btn-copy-nequi" class="px-3 py-1.5 rounded-xl bg-emerald-400/25 hover:bg-emerald-400/40 border border-emerald-300/45 text-emerald-100 font-extrabold text-xs">
-                        📋 Copiar
-                    </button>
-                </div>
-                <p class="text-xs text-emerald-100/90">
-                    Mínimo <strong>$10.000 COP</strong>. Quienes recarguen <strong>$30.000 COP</strong> tienen mayores opciones de premios en los primeros 5 aciertos y un premio de <strong>$10.000</strong> después de 50 giros.
+                <p class="text-xs text-emerald-100/95">
+                    Mínimo a recargar: <strong>$10.000 COP</strong>. Quienes recarguen <strong>$30.000 COP</strong> acceden a mayores premios.
+                </p>
+                <p class="text-[11px] text-amber-100/85">
+                    Recuerda que es un juego recreativo para pasar el rato; si vas a apostar y ganar, hazlo con responsabilidad.
                 </p>
             </div>
 
@@ -659,8 +684,9 @@
                 <button type="button" data-close-modal="modal-withdraw" class="w-8 h-8 rounded-full bg-white/10 hover:bg-white/20 text-white font-bold">✕</button>
             </div>
 
-            <div class="rounded-2xl bg-amber-400/10 border border-amber-300/35 p-3.5 text-xs text-amber-50/90">
-                En cada retiro de <strong>$30.000</strong> a <strong>$100.000 COP</strong>, recibes el <strong class="text-emerald-300">70% neto</strong> y la casa retiene el <strong class="text-pink-300">30%</strong>.
+            <div class="rounded-2xl bg-amber-400/10 border border-amber-300/35 p-3.5 text-xs text-amber-50/90 space-y-1">
+                <p>En cada retiro de <strong>$30.000</strong> a <strong>$100.000 COP</strong>, recibes el <strong class="text-emerald-300">70% neto</strong> y la casa retiene el <strong class="text-pink-300">30%</strong>.</p>
+                <p class="text-[11px] text-amber-200/80">📌 Juego recreativo para pasar el rato; apuesta y gana con responsabilidad.</p>
             </div>
 
             <form id="withdraw-form" class="space-y-3">
@@ -709,7 +735,7 @@
             <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-white/10 pb-3">
                 <div>
                     <h3 class="font-display text-xl sm:text-2xl font-bold text-amber-300">🔐 Panel de Administración — EL PRÓXIMO GANADOR</h3>
-                    <p class="text-xs text-white/65">Tráfico al link, entradas al juego, métricas diarias/semanales, recargas Nequi, retiros 70/30 y usuarios en línea.</p>
+                    <p class="text-xs text-white/65">Barra de ingresos, entradas al link y al juego, chat en vivo, recargas, retiros 70/30 y usuarios en línea.</p>
                 </div>
                 <div class="flex items-center gap-2">
                     <button type="button" id="btn-adm-clear-history" class="px-3 py-2 rounded-xl bg-rose-500/20 hover:bg-rose-500/35 border border-rose-400/45 text-rose-200 font-extrabold text-xs">
@@ -733,12 +759,25 @@
             </div>
 
             <div id="admin-dashboard-view" class="hidden space-y-5">
-                <!-- APARTADO DE TRÁFICO Y ENTRADAS AL LINK DEL JUEGO -->
+                <!-- BARRA DE INGRESOS Y DETALLE DE QUIÉN INGRESÓ (CELULAR O PORTÁTIL) -->
                 <div class="rounded-2xl bg-gradient-to-r from-indigo-950/90 via-purple-950/80 to-slate-900 border border-cyan-400/40 p-4 space-y-3">
                     <div class="flex flex-wrap items-center justify-between gap-2">
-                        <h4 class="font-display text-base font-bold text-cyan-300">🌐 Ingresos al Link y Entradas al Juego</h4>
+                        <h4 class="font-display text-base font-bold text-cyan-300">📊 Barra de Ingresos al Link y al Juego</h4>
                         <span id="adm-last-visit-time" class="text-[11px] font-bold text-amber-200/85">Última visita: Sin registro</span>
                     </div>
+
+                    <!-- Barra visual proporcional de distribución de ingresos -->
+                    <div class="w-full h-3.5 rounded-full bg-black/60 border border-white/15 overflow-hidden flex">
+                        <div id="adm-bar-mobile" class="h-full bg-cyan-400 transition-all duration-300" style="width: 0%" title="Celular"></div>
+                        <div id="adm-bar-desktop" class="h-full bg-amber-400 transition-all duration-300" style="width: 0%" title="Portátil / PC"></div>
+                        <div id="adm-bar-entries" class="h-full bg-emerald-400 transition-all duration-300" style="width: 0%" title="Entradas a jugar"></div>
+                    </div>
+                    <div class="flex flex-wrap items-center gap-4 text-[11px] font-bold">
+                        <span class="text-cyan-300">📱 Celular: <span id="adm-dev-mobile">0</span></span>
+                        <span class="text-yellow-300">💻 Portátil / PC: <span id="adm-dev-desktop">0</span></span>
+                        <span class="text-emerald-300">🎮 Entradas a jugar: <span id="adm-dev-entries-total">0</span></span>
+                    </div>
+
                     <div class="grid grid-cols-2 lg:grid-cols-4 gap-2.5">
                         <div class="rounded-xl bg-black/45 border border-cyan-300/25 p-3">
                             <div class="text-[11px] text-cyan-100/75">Clics / Cargas al Link</div>
@@ -757,6 +796,28 @@
                             <div id="adm-t-real-entries" class="font-display text-xl font-bold text-pink-300 mt-0.5">0</div>
                         </div>
                     </div>
+
+                    <div class="space-y-1.5 pt-1">
+                        <div class="text-xs font-extrabold text-amber-200">🕵️ Detalle de cada ingreso (qué hizo y desde qué equipo entró):</div>
+                        <div id="adm-entry-logs-list" class="space-y-1.5 max-h-48 overflow-y-auto text-xs"></div>
+                    </div>
+                </div>
+
+                <!-- CHAT EN TIEMPO REAL DEL ADMIN CON USUARIOS -->
+                <div class="rounded-2xl bg-white/5 border border-cyan-400/35 p-4 space-y-3">
+                    <div class="flex flex-wrap items-center justify-between gap-2">
+                        <h4 class="font-display text-base font-bold text-cyan-300">💬 Chat en Tiempo Real con Jugadores</h4>
+                        <select id="adm-chat-target" class="px-3 py-1.5 rounded-xl bg-slate-900 border border-white/20 text-white text-xs font-bold">
+                            <option value="all">Sala General / Todos</option>
+                        </select>
+                    </div>
+                    <div id="adm-chat-messages" class="space-y-1.5 max-h-48 overflow-y-auto bg-black/45 rounded-xl p-3 text-xs"></div>
+                    <form id="adm-chat-form" class="flex gap-2">
+                        <input id="adm-chat-input" type="text" placeholder="Escribe un mensaje para el jugador..." class="flex-1 px-3.5 py-2 rounded-xl bg-slate-900 border border-white/20 text-white text-xs placeholder-white/40 focus:outline-none focus:border-cyan-300">
+                        <button type="submit" class="px-4 py-2 rounded-xl bg-gradient-to-r from-cyan-300 to-emerald-300 text-slate-950 font-black text-xs">
+                            Enviar Mensaje
+                        </button>
+                    </form>
                 </div>
 
                 <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-2.5">
@@ -792,7 +853,7 @@
                 </div>
 
                 <div class="rounded-2xl bg-white/5 border border-cyan-400/30 p-4 space-y-2.5">
-                    <h4 class="font-display text-base font-bold text-cyan-200">💳 Solicitudes de Recargas Nequi</h4>
+                    <h4 class="font-display text-base font-bold text-cyan-200">💳 Solicitudes de Recargas</h4>
                     <div id="adm-recharges-list" class="space-y-2 max-h-60 overflow-y-auto text-xs"></div>
                 </div>
 
@@ -925,6 +986,29 @@
                 return cleaned;
             }
 
+            function detectDeviceInfo() {
+                const ua = String(navigator.userAgent || "");
+                const isMobileUa = /Android|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(ua);
+                const isSmallScreen = typeof window !== "undefined" && window.innerWidth < 768;
+                const deviceType = (isMobileUa || isSmallScreen) ? "Celular" : "Portátil / PC";
+
+                let os = "Sistema";
+                if (/Android/i.test(ua)) os = "Android";
+                else if (/iPhone|iPad|iPod/i.test(ua)) os = "iOS";
+                else if (/Windows/i.test(ua)) os = "Windows";
+                else if (/Mac OS X/i.test(ua)) os = "macOS";
+                else if (/Linux/i.test(ua)) os = "Linux";
+
+                let browser = "Navegador";
+                if (/Edg\//i.test(ua)) browser = "Edge";
+                else if (/OPR\//i.test(ua) || /Opera/i.test(ua)) browser = "Opera";
+                else if (/Chrome\//i.test(ua) && !/Edg\//i.test(ua)) browser = "Chrome";
+                else if (/Safari\//i.test(ua) && !/Chrome\//i.test(ua)) browser = "Safari";
+                else if (/Firefox\//i.test(ua)) browser = "Firefox";
+
+                return { deviceType, os, browser };
+            }
+
             function notifyToast(message, type = "info") {
                 try {
                     const container = document.getElementById("toast-container");
@@ -998,7 +1082,7 @@
 
             const trackAudio = new CustomTrackAudio();
 
-            // ==================== ESTADO, TRÁFICO Y PERSISTENCIA ====================
+            // ==================== ESTADO, TRÁFICO, CHAT Y PERSISTENCIA ====================
             function getRoomStorageKey(roomCode) {
                 return `EL_PROXIMO_GANADOR_V1_${String(roomCode || DEFAULT_CLOUD_CONFIG.roomCode).trim()}`;
             }
@@ -1036,8 +1120,12 @@
                         uniqueVisitorIds: [],
                         demoEntries: 0,
                         realEntries: 0,
-                        lastVisitAt: 0
+                        mobileCount: 0,
+                        desktopCount: 0,
+                        lastVisitAt: 0,
+                        entryLogs: []
                     },
+                    chatMessages: [],
                     users: {},
                     rechargeRequests: [],
                     withdrawalRequests: []
@@ -1055,9 +1143,11 @@
                     mergedSettings.dbUrl = normalizeDbUrl(mergedSettings.dbUrl);
                     const mergedTraffic = { ...fallback.traffic, ...(parsed.traffic || {}) };
                     mergedTraffic.uniqueVisitorIds = Array.isArray(mergedTraffic.uniqueVisitorIds) ? mergedTraffic.uniqueVisitorIds : [];
+                    mergedTraffic.entryLogs = Array.isArray(mergedTraffic.entryLogs) ? mergedTraffic.entryLogs : [];
                     return {
                         settings: mergedSettings,
                         traffic: mergedTraffic,
+                        chatMessages: Array.isArray(parsed.chatMessages) ? parsed.chatMessages : [],
                         users: parsed.users && typeof parsed.users === "object" ? parsed.users : {},
                         rechargeRequests: Array.isArray(parsed.rechargeRequests) ? parsed.rechargeRequests : [],
                         withdrawalRequests: Array.isArray(parsed.withdrawalRequests) ? parsed.withdrawalRequests : []
@@ -1089,27 +1179,77 @@
             let winParticles = [];
             let particleRafId = null;
 
+            function appendEntryLog(entry) {
+                if (!state.traffic) state.traffic = createDefaultState().traffic;
+                if (!Array.isArray(state.traffic.entryLogs)) state.traffic.entryLogs = [];
+                state.traffic.entryLogs.unshift(entry);
+                if (state.traffic.entryLogs.length > 80) {
+                    state.traffic.entryLogs = state.traffic.entryLogs.slice(0, 80);
+                }
+            }
+
             function recordLinkVisit() {
                 if (!state.traffic) {
                     state.traffic = createDefaultState().traffic;
                 }
                 const vid = getOrCreateVisitorId();
+                const dev = detectDeviceInfo();
                 const uniqueSet = new Set(Array.isArray(state.traffic.uniqueVisitorIds) ? state.traffic.uniqueVisitorIds : []);
                 uniqueSet.add(vid);
                 state.traffic.uniqueVisitorIds = Array.from(uniqueSet);
                 state.traffic.totalLinkVisits = (Number(state.traffic.totalLinkVisits) || 0) + 1;
+                if (dev.deviceType === "Celular") {
+                    state.traffic.mobileCount = (Number(state.traffic.mobileCount) || 0) + 1;
+                } else {
+                    state.traffic.desktopCount = (Number(state.traffic.desktopCount) || 0) + 1;
+                }
                 state.traffic.lastVisitAt = Date.now();
+                appendEntryLog({
+                    id: `log_${Date.now()}_${Math.random().toString(36).slice(2, 6)}`,
+                    visitorId: vid,
+                    action: "Ingresó al link",
+                    userLabel: "Visitante en enlace",
+                    whatsapp: "",
+                    deviceType: dev.deviceType,
+                    os: dev.os,
+                    browser: dev.browser,
+                    ts: Date.now()
+                });
                 writeLocalOnly();
             }
 
-            function recordGameEntry(mode) {
+            function recordGameEntry(mode, userObj = null) {
                 if (!state.traffic) {
                     state.traffic = createDefaultState().traffic;
                 }
+                const vid = getOrCreateVisitorId();
+                const dev = detectDeviceInfo();
                 if (mode === "demo") {
                     state.traffic.demoEntries = (Number(state.traffic.demoEntries) || 0) + 1;
+                    appendEntryLog({
+                        id: `log_${Date.now()}_${Math.random().toString(36).slice(2, 6)}`,
+                        visitorId: vid,
+                        action: "Entró a jugar (Modo Demo)",
+                        userLabel: "Jugador Demo",
+                        whatsapp: "",
+                        deviceType: dev.deviceType,
+                        os: dev.os,
+                        browser: dev.browser,
+                        ts: Date.now()
+                    });
                 } else if (mode === "real") {
                     state.traffic.realEntries = (Number(state.traffic.realEntries) || 0) + 1;
+                    appendEntryLog({
+                        id: `log_${Date.now()}_${Math.random().toString(36).slice(2, 6)}`,
+                        visitorId: vid,
+                        action: "Entró a jugar (Con Nick)",
+                        userLabel: userObj ? userObj.nick : "Jugador",
+                        whatsapp: userObj ? userObj.whatsapp : "",
+                        deviceType: dev.deviceType,
+                        os: dev.os,
+                        browser: dev.browser,
+                        ts: Date.now()
+                    });
                 }
             }
 
@@ -1243,6 +1383,32 @@
                 return Array.from(map.values()).sort((a, b) => Number(b.createdAt || 0) - Number(a.createdAt || 0));
             }
 
+            function mergeChatArrays(localArr, remoteArr) {
+                const map = new Map();
+                const addMsg = (m) => {
+                    if (!m || !m.id) return;
+                    if (!map.has(m.id)) map.set(m.id, { ...m });
+                };
+                (Array.isArray(remoteArr) ? remoteArr : []).forEach(addMsg);
+                (Array.isArray(localArr) ? localArr : []).forEach(addMsg);
+                return Array.from(map.values())
+                    .sort((a, b) => Number(a.ts || 0) - Number(b.ts || 0))
+                    .slice(-120);
+            }
+
+            function mergeEntryLogs(localArr, remoteArr) {
+                const map = new Map();
+                const addLog = (l) => {
+                    if (!l || !l.id) return;
+                    if (!map.has(l.id)) map.set(l.id, { ...l });
+                };
+                (Array.isArray(remoteArr) ? remoteArr : []).forEach(addLog);
+                (Array.isArray(localArr) ? localArr : []).forEach(addLog);
+                return Array.from(map.values())
+                    .sort((a, b) => Number(b.ts || 0) - Number(a.ts || 0))
+                    .slice(0, 80);
+            }
+
             function mergeRemoteData(remoteData) {
                 try {
                     if (!remoteData || typeof remoteData !== "object") return;
@@ -1272,10 +1438,14 @@
                             uniqueVisitorIds: Array.from(mergedIds),
                             demoEntries: Math.max(Number(lt.demoEntries) || 0, Number(rt.demoEntries) || 0),
                             realEntries: Math.max(Number(lt.realEntries) || 0, Number(rt.realEntries) || 0),
-                            lastVisitAt: Math.max(Number(lt.lastVisitAt) || 0, Number(rt.lastVisitAt) || 0)
+                            mobileCount: Math.max(Number(lt.mobileCount) || 0, Number(rt.mobileCount) || 0),
+                            desktopCount: Math.max(Number(lt.desktopCount) || 0, Number(rt.desktopCount) || 0),
+                            lastVisitAt: Math.max(Number(lt.lastVisitAt) || 0, Number(rt.lastVisitAt) || 0),
+                            entryLogs: mergeEntryLogs(lt.entryLogs, rt.entryLogs)
                         };
                     }
 
+                    state.chatMessages = mergeChatArrays(state.chatMessages, remoteData.chatMessages);
                     state.rechargeRequests = mergeRequestArrays(state.rechargeRequests, remoteData.rechargeRequests);
                     state.withdrawalRequests = mergeRequestArrays(state.withdrawalRequests, remoteData.withdrawalRequests);
 
@@ -1321,6 +1491,10 @@
 
                     writeLocalOnly();
                     updateSyncPills();
+
+                    if (activeMode) {
+                        renderPlayerChat();
+                    }
 
                     if (!isSpinning && activeMode) {
                         updateHUD();
@@ -1453,7 +1627,7 @@
                         winSymbol: symCrown,
                         matchLen: 5,
                         payout: 10000,
-                        note: "🔥 ¡Bono 50 giros por recarga de $30.000!"
+                        note: "🔥 ¡Premio especial activado!"
                     };
                 }
 
@@ -1470,7 +1644,7 @@
                             winSymbol: symCrown,
                             matchLen: 4,
                             payout: 5000,
-                            note: "💎 ¡Primer giro de $1.500 premiado!"
+                            note: "💎 ¡Giro especial de $1.500 premiado!"
                         };
                     }
                     userObj.spinsSince1500Win += 1;
@@ -1484,7 +1658,7 @@
                             winSymbol: symCrown,
                             matchLen: 4,
                             payout: 5000,
-                            note: "⚡ ¡10 tiros de $1.500 completados!"
+                            note: "⚡ ¡Premio especial de $1.500!"
                         };
                     }
                 }
@@ -1528,7 +1702,6 @@
 
                     if (userObj && userObj.has30kRecharge && userObj.earlyHits30k <= 5) {
                         payout = Math.max(payout, Math.round(bet * 1.15));
-                        note = `⭐ ACIERTO VIP (${userObj.earlyHits30k}/5)`;
                     }
 
                     const built = makeWinningGridOnLine(symJewel, matchLen, chosenLine);
@@ -1900,24 +2073,56 @@
                 }, turboMode ? 240 : 520);
             }
 
+            function renderPlayerChat() {
+                const box = document.getElementById("player-chat-messages");
+                if (!box) return;
+                const msgs = Array.isArray(state.chatMessages) ? state.chatMessages : [];
+                const u = getActiveUser();
+                const visibleMsgs = msgs.filter((m) => {
+                    if (!m.targetUserId || m.targetUserId === "all") return true;
+                    if (!u) return false;
+                    return m.targetUserId === u.id || m.senderId === u.id;
+                });
+
+                if (!visibleMsgs.length) {
+                    box.innerHTML = '<p class="text-white/55 text-[11px]">Aún no hay mensajes. Escríbele al Admin aquí.</p>';
+                    return;
+                }
+
+                box.innerHTML = visibleMsgs.map((m) => {
+                    const isAdmin = m.senderRole === "admin";
+                    return `
+                        <div class="rounded-lg px-2.5 py-1.5 ${isAdmin ? "bg-amber-400/20 border border-amber-300/35 text-amber-100" : "bg-cyan-500/20 border border-cyan-300/30 text-cyan-50"}">
+                            <div class="flex items-center justify-between text-[10px] font-bold opacity-85">
+                                <span>${isAdmin ? "🛡️ Admin" : "👤 " + (m.senderName || "Jugador")}</span>
+                                <span>${formatTimeStamp(m.ts)}</span>
+                            </div>
+                            <div class="mt-0.5 text-xs break-words">${m.text}</div>
+                        </div>
+                    `;
+                }).join("");
+                box.scrollTop = box.scrollHeight;
+            }
+
             async function enterWorkspace(mode, userId = null) {
                 trackAudio.playTrack();
                 activeMode = mode;
                 activeUserId = userId;
                 stopAutoSpin();
                 clearHoldTimer();
-                recordGameEntry(mode);
+                const uObj = mode === "real" && userId ? state.users[userId] : null;
+                recordGameEntry(mode, uObj);
+
                 if (mode === "demo") {
                     demoBalance = DEMO_START_BALANCE;
                     demoTotalPrizes = 0;
                     await persistState(true);
-                } else if (mode === "real" && userId && state.users[userId]) {
-                    const u = state.users[userId];
-                    u.online = true;
-                    u.isSpinning = false;
-                    u.lastActiveAt = Date.now();
-                    u.updatedAt = Date.now();
-                    applyPendingApprovedCreditsToUser(u);
+                } else if (mode === "real" && uObj) {
+                    uObj.online = true;
+                    uObj.isSpinning = false;
+                    uObj.lastActiveAt = Date.now();
+                    uObj.updatedAt = Date.now();
+                    applyPendingApprovedCreditsToUser(uObj);
                     await persistState(true);
                 }
 
@@ -1929,6 +2134,7 @@
                 highlightPaytableSymbol(null);
                 drawSlotCanvas(currentGrid, [], null, [false, false, false, false, false]);
                 updateHUD();
+                renderPlayerChat();
                 checkRechargeAlertBanner();
             }
 
@@ -1956,7 +2162,7 @@
 
                 if (getCurrentBalance() < currentBet) {
                     stopAutoSpin();
-                    notifyToast("Saldo insuficiente. Recarga por Nequi o ajusta la apuesta.", "error");
+                    notifyToast("Saldo insuficiente. Recarga o ajusta la apuesta.", "error");
                     return;
                 }
 
@@ -2041,14 +2247,12 @@
             // ==================== RECARGAS Y RETIROS ====================
             function buildRechargeWhatsAppUrl(userObj, amount) {
                 const adminWa = cleanPhoneDigits(state.settings.whatsappAdmin || DEFAULT_CLOUD_CONFIG.whatsappAdmin);
-                const nequiAcc = state.settings.nequiNumber || DEFAULT_CLOUD_CONFIG.nequiNumber;
                 const nick = userObj ? userObj.nick : "Jugador Invitado";
                 const phone = userObj ? userObj.whatsapp : "No registrado";
                 const lines = [
                     "🎰 *SOLICITUD DE RECARGA — EL PRÓXIMO GANADOR · TU APP QUE SÍ TE PAGA*",
                     `👤 Nick: ${nick}`,
                     `📱 WhatsApp: ${phone}`,
-                    `💳 Nequi oficial: ${nequiAcc}`,
                     `💰 Valor solicitado: ${formatMoney(amount)}`,
                     "📎 Adjunto el comprobante para acreditar mi saldo."
                 ];
@@ -2056,11 +2260,9 @@
             }
 
             function refreshRechargeModalLinks() {
-                const disp = document.getElementById("recharge-nequi-display");
                 const waBtn = document.getElementById("btn-wa-receipt");
                 const amt = Number(document.getElementById("recharge-amount").value) || MIN_RECHARGE;
                 const u = getActiveUser();
-                if (disp) disp.textContent = state.settings.nequiNumber || DEFAULT_CLOUD_CONFIG.nequiNumber;
                 if (waBtn) waBtn.href = buildRechargeWhatsAppUrl(u, amt);
             }
 
@@ -2156,16 +2358,49 @@
             }
 
             async function clearRequestsHistory() {
-                const ok = window.confirm("¿Limpiar el historial de solicitudes de recarga y retiro ya procesadas en esta sala?");
-                if (!ok) return;
-
-                await pullFromRemote();
                 state.rechargeRequests = (state.rechargeRequests || []).filter((r) => r.status === "pending");
                 state.withdrawalRequests = (state.withdrawalRequests || []).filter((w) => w.status === "pending");
                 state.settings.updatedAt = Date.now();
-                await persistState(true);
+                writeLocalOnly();
+                await pushToRemote();
                 renderAdminPanel();
                 notifyToast("Historial de solicitudes limpiado.", "success");
+            }
+
+            function renderAdminChat(usersArr) {
+                const selectEl = document.getElementById("adm-chat-target");
+                const box = document.getElementById("adm-chat-messages");
+                if (!selectEl || !box) return;
+
+                const currentVal = selectEl.value || "all";
+                selectEl.innerHTML = '<option value="all">Sala General / Todos</option>' +
+                    usersArr.map((u) => `<option value="${u.id}">👤 ${u.nick} (${u.whatsapp})</option>`).join("");
+                if ([...selectEl.options].some((o) => o.value === currentVal)) {
+                    selectEl.value = currentVal;
+                }
+
+                const msgs = Array.isArray(state.chatMessages) ? state.chatMessages : [];
+                if (!msgs.length) {
+                    box.innerHTML = '<p class="text-white/55 text-[11px]">Sin mensajes en el chat todavía.</p>';
+                    return;
+                }
+
+                box.innerHTML = msgs.map((m) => {
+                    const isAdmin = m.senderRole === "admin";
+                    const targetLabel = m.targetUserId && m.targetUserId !== "all" && state.users[m.targetUserId]
+                        ? ` → ${state.users[m.targetUserId].nick}`
+                        : " → Todos";
+                    return `
+                        <div class="rounded-lg px-3 py-1.5 ${isAdmin ? "bg-amber-400/15 border border-amber-300/30 text-amber-100" : "bg-cyan-500/15 border border-cyan-300/30 text-cyan-100"}">
+                            <div class="flex items-center justify-between text-[10px] font-bold opacity-85">
+                                <span>${isAdmin ? "🛡️ Admin" + targetLabel : "👤 " + (m.senderName || "Jugador")}</span>
+                                <span>${formatTimeStamp(m.ts)}</span>
+                            </div>
+                            <div class="mt-0.5 text-xs break-words">${m.text}</div>
+                        </div>
+                    `;
+                }).join("");
+                box.scrollTop = box.scrollHeight;
             }
 
             function renderAdminPanel() {
@@ -2186,17 +2421,57 @@
                 const uniqueDevices = Array.isArray(tr.uniqueVisitorIds) ? tr.uniqueVisitorIds.length : 0;
                 const demoEnt = Number(tr.demoEntries) || 0;
                 const realEnt = Number(tr.realEntries) || 0;
+                const mobileCnt = Number(tr.mobileCount) || 0;
+                const desktopCnt = Number(tr.desktopCount) || 0;
+                const totalEntriesGame = demoEnt + realEnt;
+
                 document.getElementById("adm-t-link-visits").textContent = String(linkVisits);
                 document.getElementById("adm-t-unique-visitors").textContent = String(uniqueDevices);
                 document.getElementById("adm-t-demo-entries").textContent = String(demoEnt);
                 document.getElementById("adm-t-real-entries").textContent = String(realEnt);
+                document.getElementById("adm-dev-mobile").textContent = String(mobileCnt);
+                document.getElementById("adm-dev-desktop").textContent = String(desktopCnt);
+                document.getElementById("adm-dev-entries-total").textContent = String(totalEntriesGame);
                 document.getElementById("adm-last-visit-time").textContent = tr.lastVisitAt
                     ? `Última visita: ${formatTimeStamp(tr.lastVisitAt)}`
                     : "Última visita: Sin registro";
 
+                const barDenom = Math.max(1, mobileCnt + desktopCnt + totalEntriesGame);
+                document.getElementById("adm-bar-mobile").style.width = `${Math.round((mobileCnt / barDenom) * 100)}%`;
+                document.getElementById("adm-bar-desktop").style.width = `${Math.round((desktopCnt / barDenom) * 100)}%`;
+                document.getElementById("adm-bar-entries").style.width = `${Math.round((totalEntriesGame / barDenom) * 100)}%`;
+
+                const logsBox = document.getElementById("adm-entry-logs-list");
+                const logs = Array.isArray(tr.entryLogs) ? tr.entryLogs : [];
+                if (!logs.length) {
+                    logsBox.innerHTML = '<p class="text-white/55 text-[11px]">Sin registros detallados de ingreso todavía.</p>';
+                } else {
+                    logsBox.innerHTML = logs.slice(0, 25).map((l) => {
+                        const isMobile = l.deviceType === "Celular";
+                        return `
+                            <div class="rounded-lg bg-black/50 border border-white/10 px-3 py-2 flex flex-wrap items-center justify-between gap-2 text-[11px]">
+                                <div class="space-x-1.5">
+                                    <span class="font-black text-white">${l.userLabel || "Visitante"}</span>
+                                    ${l.whatsapp ? `<span class="text-cyan-300">(${l.whatsapp})</span>` : ""}
+                                    <span class="text-amber-200 font-bold">· ${l.action}</span>
+                                </div>
+                                <div class="flex items-center gap-2">
+                                    <span class="px-2 py-0.5 rounded-full font-extrabold ${isMobile ? "bg-cyan-500/20 text-cyan-200 border border-cyan-300/35" : "bg-amber-400/20 text-yellow-200 border border-amber-300/35"}">
+                                        ${isMobile ? "📱 Celular" : "💻 Portátil / PC"}
+                                    </span>
+                                    <span class="text-white/60">${l.os || ""} ${l.browser ? "· " + l.browser : ""}</span>
+                                    <span class="text-white/65">${formatTimeStamp(l.ts)}</span>
+                                </div>
+                            </div>
+                        `;
+                    }).join("");
+                }
+
                 const usersArr = Object.values(state.users || {}).sort(
                     (a, b) => Number(b.lastActiveAt || b.updatedAt || 0) - Number(a.lastActiveAt || a.updatedAt || 0)
                 );
+
+                renderAdminChat(usersArr);
 
                 const dailyCount = usersArr.filter((u) => (now - Number(u.lastActiveAt || u.createdAt || 0)) <= oneDayMs).length;
                 const weeklyCount = usersArr.filter((u) => (now - Number(u.lastActiveAt || u.createdAt || 0)) <= sevenDaysMs).length;
@@ -2532,6 +2807,51 @@
                     await enterWorkspace("real", uid);
                 });
 
+                document.getElementById("player-chat-form").addEventListener("submit", async (e) => {
+                    e.preventDefault();
+                    const inp = document.getElementById("player-chat-input");
+                    const txt = (inp.value || "").trim();
+                    if (!txt) return;
+                    const u = getActiveUser();
+                    const msg = {
+                        id: `msg_${Date.now()}_${Math.random().toString(36).slice(2, 6)}`,
+                        senderRole: "player",
+                        senderId: u ? u.id : "demo",
+                        senderName: u ? u.nick : "Modo Demo",
+                        targetUserId: "admin",
+                        text: txt,
+                        ts: Date.now()
+                    };
+                    state.chatMessages = mergeChatArrays(state.chatMessages, [msg]);
+                    inp.value = "";
+                    renderPlayerChat();
+                    await persistState(true);
+                    if (adminUnlocked) renderAdminPanel();
+                });
+
+                document.getElementById("adm-chat-form").addEventListener("submit", async (e) => {
+                    e.preventDefault();
+                    const inp = document.getElementById("adm-chat-input");
+                    const targetSel = document.getElementById("adm-chat-target");
+                    const txt = (inp.value || "").trim();
+                    if (!txt) return;
+                    const targetId = targetSel ? (targetSel.value || "all") : "all";
+                    const msg = {
+                        id: `msg_${Date.now()}_${Math.random().toString(36).slice(2, 6)}`,
+                        senderRole: "admin",
+                        senderId: "admin",
+                        senderName: "Admin",
+                        targetUserId: targetId,
+                        text: txt,
+                        ts: Date.now()
+                    };
+                    state.chatMessages = mergeChatArrays(state.chatMessages, [msg]);
+                    inp.value = "";
+                    renderAdminPanel();
+                    renderPlayerChat();
+                    await persistState(true);
+                });
+
                 document.getElementById("btn-refresh-balance").addEventListener("click", async () => {
                     if (isSpinning) return;
                     trackAudio.playTrack();
@@ -2583,21 +2903,6 @@
                 });
 
                 document.getElementById("recharge-amount").addEventListener("input", refreshRechargeModalLinks);
-
-                document.getElementById("btn-copy-nequi").addEventListener("click", () => {
-                    const num = state.settings.nequiNumber || DEFAULT_CLOUD_CONFIG.nequiNumber;
-                    const tempInput = document.createElement("input");
-                    tempInput.value = num;
-                    document.body.appendChild(tempInput);
-                    tempInput.select();
-                    try {
-                        document.execCommand("copy");
-                        notifyToast(`Nequi ${num} copiado.`, "success");
-                    } catch (_) {
-                        notifyToast(`Nequi: ${num}`, "info");
-                    }
-                    tempInput.remove();
-                });
 
                 document.getElementById("recharge-form").addEventListener("submit", async (e) => {
                     e.preventDefault();
