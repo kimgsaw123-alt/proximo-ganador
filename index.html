@@ -23,7 +23,7 @@
             user-select: none;
         }
 
-        input {
+        input, select {
             user-select: text;
         }
 
@@ -158,6 +158,41 @@
             box-shadow: 0 0 22px rgba(52, 211, 153, 0.75), inset 0 1px 2px rgba(255, 255, 255, 0.45);
         }
 
+        .admin-nav-tab {
+            position: relative;
+            background: rgba(255, 255, 255, 0.06);
+            border: 1px solid rgba(255, 255, 255, 0.16);
+            color: #e2e8f0;
+            transition: all 0.15s ease;
+        }
+
+        .admin-nav-tab:hover {
+            background: rgba(255, 255, 255, 0.14);
+            border-color: rgba(255, 212, 38, 0.5);
+        }
+
+        .admin-nav-tab.is-active {
+            background: linear-gradient(90deg, rgba(255, 212, 38, 0.28), rgba(255, 42, 133, 0.25));
+            border-color: #ffd426;
+            color: #ffe066;
+            box-shadow: 0 0 14px rgba(255, 212, 38, 0.25);
+        }
+
+        .green-alert-dot {
+            display: inline-block;
+            width: 9px;
+            height: 9px;
+            border-radius: 9999px;
+            background-color: #22c55e;
+            box-shadow: 0 0 8px #22c55e, 0 0 14px rgba(34, 197, 94, 0.85);
+            animation: dotPing 1.35s infinite ease-in-out;
+        }
+
+        @keyframes dotPing {
+            0%, 100% { transform: scale(1); opacity: 1; }
+            50% { transform: scale(1.28); opacity: 0.75; }
+        }
+
         @keyframes pulseGlow {
             0%, 100% { transform: scale(1); box-shadow: 0 0 24px rgba(52, 211, 153, 0.48), 0 0 42px rgba(255, 212, 38, 0.35); }
             50% { transform: scale(1.015); box-shadow: 0 0 36px rgba(255, 42, 133, 0.65), 0 0 56px rgba(0, 229, 255, 0.45); }
@@ -266,8 +301,9 @@
                     <button type="button" id="btn-switch-user" class="px-2.5 py-1 rounded-lg bg-white/10 hover:bg-white/20 border border-white/20 text-white font-bold text-[10px] transition">
                         👤 Cambiar
                     </button>
-                    <button type="button" id="btn-open-admin" class="px-2.5 py-1 rounded-lg bg-amber-400/25 hover:bg-amber-400/40 border border-amber-300/50 text-amber-200 font-extrabold text-[10px] transition">
-                        🔐 Admin
+                    <button type="button" id="btn-open-admin" class="relative px-2.5 py-1 rounded-lg bg-amber-400/25 hover:bg-amber-400/40 border border-amber-300/50 text-amber-200 font-extrabold text-[10px] inline-flex items-center gap-1.5 transition">
+                        <span>🔐 Admin</span>
+                        <span id="header-admin-alert-dot" class="hidden green-alert-dot" title="Nuevas solicitudes o mensajes"></span>
                     </button>
                 </div>
             </div>
@@ -727,7 +763,7 @@
         </div>
     </div>
 
-    <!-- MODAL DE RETIRO -->
+    <!-- MODAL DE RETIRO (DESDE $10.000 PARA PROBAR) -->
     <div id="modal-withdraw" class="hidden fixed inset-0 z-40 bg-black/80 backdrop-blur-sm p-4 flex items-center justify-center overflow-y-auto">
         <div class="w-full max-w-lg rounded-3xl bg-slate-900 border-2 border-amber-400/55 p-5 sm:p-6 space-y-4 shadow-2xl">
             <div class="flex items-center justify-between">
@@ -740,20 +776,21 @@
                     🚫 NO SE PIDEN ANTICIPOS para entregar tu dinero.
                 </p>
                 <p>
-                    Al retirar, solo se entrega el <strong class="text-emerald-300">70% de las ganancias / valor solicitado</strong> y la casa se queda con el <strong class="text-pink-300">30% del valor total</strong> (retiros entre <strong>$30.000</strong> y <strong>$100.000 COP</strong>).
+                    Puedes retirar desde <strong class="text-yellow-300">$10.000 COP</strong> (hasta <strong>$100.000 COP</strong>) si no deseas seguir jugando. Solo se entrega el <strong class="text-emerald-300">70% de las ganancias / valor solicitado</strong> y la casa se queda con el <strong class="text-pink-300">30% del valor total</strong>.
                 </p>
                 <p class="text-[11px] text-amber-200/80">📌 Juego recreativo para pasar el rato; apuesta y gana con responsabilidad.</p>
             </div>
 
             <form id="withdraw-form" class="space-y-3">
                 <div>
-                    <label class="block text-xs font-bold text-amber-200 mb-1.5">Monto a retirar ($30.000 a $100.000):</label>
-                    <div class="grid grid-cols-3 gap-2 mb-2">
+                    <label class="block text-xs font-bold text-amber-200 mb-1.5">Monto a retirar ($10.000 a $100.000):</label>
+                    <div class="grid grid-cols-2 sm:grid-cols-4 gap-2 mb-2">
+                        <button type="button" data-withdraw-preset="10000" class="py-2 rounded-xl bg-emerald-400/20 hover:bg-emerald-400/35 border border-emerald-300/60 text-xs font-black text-emerald-200">$10.000 ⚡</button>
                         <button type="button" data-withdraw-preset="30000" class="py-2 rounded-xl bg-white/10 hover:bg-amber-400/25 border border-white/15 text-xs font-extrabold text-white">$30.000</button>
                         <button type="button" data-withdraw-preset="50000" class="py-2 rounded-xl bg-white/10 hover:bg-amber-400/25 border border-white/15 text-xs font-extrabold text-white">$50.000</button>
                         <button type="button" data-withdraw-preset="100000" class="py-2 rounded-xl bg-white/10 hover:bg-amber-400/25 border border-white/15 text-xs font-extrabold text-white">$100.000</button>
                     </div>
-                    <input id="withdraw-amount" type="number" min="30000" max="100000" step="1000" value="30000" required class="w-full px-3.5 py-2.5 rounded-xl bg-slate-950 border border-white/20 text-white font-bold text-sm">
+                    <input id="withdraw-amount" type="number" min="10000" max="100000" step="1000" value="10000" required class="w-full px-3.5 py-2.5 rounded-xl bg-slate-950 border border-white/20 text-white font-bold text-sm">
                 </div>
 
                 <div>
@@ -764,15 +801,15 @@
                 <div class="rounded-2xl bg-black/45 border border-white/15 p-3.5 space-y-1.5 text-xs">
                     <div class="flex justify-between text-white/80">
                         <span>Valor total solicitado:</span>
-                        <span id="wd-calc-gross" class="font-bold text-white">$30.000</span>
+                        <span id="wd-calc-gross" class="font-bold text-white">$10.000</span>
                     </div>
                     <div class="flex justify-between text-pink-200">
                         <span>Casa (30% del valor total):</span>
-                        <span id="wd-calc-house" class="font-bold">-$9.000</span>
+                        <span id="wd-calc-house" class="font-bold">-$3.000</span>
                     </div>
                     <div class="border-t border-white/10 pt-1.5 flex justify-between text-sm font-black text-emerald-300">
                         <span>Te entregamos (70% · Sin anticipos):</span>
-                        <span id="wd-calc-net">$21.000</span>
+                        <span id="wd-calc-net">$7.000</span>
                     </div>
                 </div>
 
@@ -791,7 +828,7 @@
             <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-white/10 pb-3">
                 <div>
                     <h3 class="font-display text-xl sm:text-2xl font-bold text-amber-300">🔐 Panel de Administración — EL PRÓXIMO GANADOR</h3>
-                    <p class="text-xs text-white/65">Barra de ingresos, entradas al link y al juego, chat en vivo, recargas, retiros 70/30 y usuarios en línea.</p>
+                    <p class="text-xs text-white/65">Selecciona una sección para abrirla y revisar recargas, retiros 70/30, mensajes y métricas.</p>
                 </div>
                 <div class="flex items-center gap-2">
                     <button type="button" id="btn-adm-clear-history" class="px-3 py-2 rounded-xl bg-rose-500/20 hover:bg-rose-500/35 border border-rose-400/45 text-rose-200 font-extrabold text-xs">
@@ -814,9 +851,129 @@
                 </form>
             </div>
 
-            <div id="admin-dashboard-view" class="hidden space-y-5">
-                <!-- BARRA DE INGRESOS Y DETALLE DE QUIÉN INGRESÓ (CELULAR O PORTÁTIL) -->
-                <div class="rounded-2xl bg-gradient-to-r from-indigo-950/90 via-purple-950/80 to-slate-900 border border-cyan-400/40 p-4 space-y-3">
+            <div id="admin-dashboard-view" class="hidden space-y-4">
+
+                <!-- MÉTRICAS GENERALES SIEMPRE VISIBLES -->
+                <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-2.5">
+                    <div class="rounded-2xl bg-white/5 border border-white/10 p-3">
+                        <div class="text-[11px] text-white/65">Usuarios Diarios</div>
+                        <div id="adm-m-daily" class="font-display text-xl font-bold text-cyan-300 mt-0.5">0</div>
+                    </div>
+                    <div class="rounded-2xl bg-white/5 border border-white/10 p-3">
+                        <div class="text-[11px] text-white/65">Usuarios Activos</div>
+                        <div id="adm-m-active" class="font-display text-xl font-bold text-emerald-300 mt-0.5">0</div>
+                    </div>
+                    <div class="rounded-2xl bg-white/5 border border-white/10 p-3">
+                        <div class="text-[11px] text-white/65">Usuarios Semanales</div>
+                        <div id="adm-m-weekly" class="font-display text-xl font-bold text-pink-300 mt-0.5">0</div>
+                    </div>
+                    <div class="rounded-2xl bg-white/5 border border-white/10 p-3">
+                        <div class="text-[11px] text-white/65">Total Apostado General</div>
+                        <div id="adm-m-wagered" class="font-display text-lg font-bold text-yellow-300 mt-0.5">$0</div>
+                    </div>
+                    <div class="rounded-2xl bg-white/5 border border-white/10 p-3">
+                        <div class="text-[11px] text-white/65">Premios Pagados</div>
+                        <div id="adm-m-won" class="font-display text-lg font-bold text-emerald-300 mt-0.5">$0</div>
+                    </div>
+                    <div class="rounded-2xl bg-gradient-to-br from-pink-500/25 to-amber-400/20 border border-amber-300/45 p-3">
+                        <div class="text-[11px] font-bold text-amber-200">Ganancia Casa</div>
+                        <div id="adm-m-house" class="font-display text-lg font-bold text-amber-300 mt-0.5">$0</div>
+                    </div>
+                </div>
+
+                <!-- BOTONES DE SECCIÓN PARA DESPLEGAR CADA PÁGINA -->
+                <div class="rounded-2xl bg-white/5 border border-amber-300/30 p-2.5 flex flex-wrap items-center gap-2" role="tablist">
+                    <button type="button" data-admin-section="recharges" class="admin-nav-tab is-active px-3.5 py-2 rounded-xl font-extrabold text-xs inline-flex items-center gap-2">
+                        <span>💳 Recargas</span>
+                        <span id="dot-tab-recharges" class="hidden green-alert-dot" title="Nueva solicitud de recarga"></span>
+                    </button>
+
+                    <button type="button" data-admin-section="withdrawals" class="admin-nav-tab px-3.5 py-2 rounded-xl font-extrabold text-xs inline-flex items-center gap-2">
+                        <span>💸 Retiros (70/30)</span>
+                        <span id="dot-tab-withdrawals" class="hidden green-alert-dot" title="Nueva solicitud de retiro"></span>
+                    </button>
+
+                    <button type="button" data-admin-section="chat" class="admin-nav-tab px-3.5 py-2 rounded-xl font-extrabold text-xs inline-flex items-center gap-2">
+                        <span>💬 Mensajes Jugadores</span>
+                        <span id="dot-tab-chat" class="hidden green-alert-dot" title="Nuevo mensaje de jugador"></span>
+                    </button>
+
+                    <button type="button" data-admin-section="users" class="admin-nav-tab px-3.5 py-2 rounded-xl font-extrabold text-xs inline-flex items-center gap-2">
+                        <span>👥 Jugadores y En Línea</span>
+                    </button>
+
+                    <button type="button" data-admin-section="traffic" class="admin-nav-tab px-3.5 py-2 rounded-xl font-extrabold text-xs inline-flex items-center gap-2">
+                        <span>📊 Barra de Ingresos</span>
+                    </button>
+
+                    <button type="button" data-admin-section="combos" class="admin-nav-tab px-3.5 py-2 rounded-xl font-extrabold text-xs inline-flex items-center gap-2">
+                        <span>🎯 Secuencias Secretas</span>
+                    </button>
+
+                    <button type="button" data-admin-section="settings" class="admin-nav-tab px-3.5 py-2 rounded-xl font-extrabold text-xs inline-flex items-center gap-2">
+                        <span>⚙️ Configuración</span>
+                    </button>
+                </div>
+
+                <!-- SECCIÓN 1: SOLICITUDES DE RECARGA -->
+                <div id="admin-sec-recharges" data-admin-panel-section="recharges" class="rounded-2xl bg-white/5 border border-cyan-400/30 p-4 space-y-2.5">
+                    <div class="flex flex-wrap items-center justify-between gap-2">
+                        <h4 class="font-display text-base font-bold text-cyan-200">💳 Solicitudes de Recargas</h4>
+                        <button type="button" id="btn-adm-clear-recharges" class="px-2.5 py-1 rounded-lg bg-rose-500/20 hover:bg-rose-500/35 border border-rose-400/40 text-rose-200 font-extrabold text-xs">
+                            🧹 Limpiar Recargas
+                        </button>
+                    </div>
+                    <div id="adm-recharges-list" class="space-y-2 max-h-96 overflow-y-auto text-xs"></div>
+                </div>
+
+                <!-- SECCIÓN 2: SOLICITUDES DE RETIRO -->
+                <div id="admin-sec-withdrawals" data-admin-panel-section="withdrawals" class="hidden rounded-2xl bg-white/5 border border-amber-400/30 p-4 space-y-2.5">
+                    <div class="flex flex-wrap items-center justify-between gap-2">
+                        <h4 class="font-display text-base font-bold text-amber-300">💸 Solicitudes de Retiro (70% Jugador / 30% Casa · Sin Anticipos)</h4>
+                        <button type="button" id="btn-adm-clear-withdrawals" class="px-2.5 py-1 rounded-lg bg-rose-500/20 hover:bg-rose-500/35 border border-rose-400/40 text-rose-200 font-extrabold text-xs">
+                            🧹 Limpiar Retiros
+                        </button>
+                    </div>
+                    <div id="adm-withdrawals-list" class="space-y-2 max-h-96 overflow-y-auto text-xs"></div>
+                </div>
+
+                <!-- SECCIÓN 3: CHAT EN TIEMPO REAL DEL ADMIN CON USUARIOS -->
+                <div id="admin-sec-chat" data-admin-panel-section="chat" class="hidden rounded-2xl bg-white/5 border border-cyan-400/35 p-4 space-y-3">
+                    <div class="flex flex-wrap items-center justify-between gap-2">
+                        <h4 class="font-display text-base font-bold text-cyan-300">💬 Chat en Tiempo Real con Jugadores</h4>
+                        <div class="flex items-center gap-2">
+                            <select id="adm-chat-target" class="px-3 py-1.5 rounded-xl bg-slate-900 border border-white/20 text-white text-xs font-bold">
+                                <option value="all">Sala General / Todos</option>
+                            </select>
+                            <button type="button" id="btn-adm-clear-chat" class="px-2.5 py-1.5 rounded-lg bg-rose-500/20 hover:bg-rose-500/35 border border-rose-400/40 text-rose-200 font-extrabold text-xs">
+                                🧹 Limpiar Chat
+                            </button>
+                        </div>
+                    </div>
+                    <div id="adm-chat-messages" class="space-y-1.5 max-h-64 overflow-y-auto bg-black/45 rounded-xl p-3 text-xs"></div>
+                    <form id="adm-chat-form" class="flex gap-2">
+                        <input id="adm-chat-input" type="text" placeholder="Escribe un mensaje para el jugador..." class="flex-1 px-3.5 py-2 rounded-xl bg-slate-900 border border-white/20 text-white text-xs placeholder-white/40 focus:outline-none focus:border-cyan-300">
+                        <button type="submit" class="px-4 py-2 rounded-xl bg-gradient-to-r from-cyan-300 to-emerald-300 text-slate-950 font-black text-xs">
+                            Enviar Mensaje
+                        </button>
+                    </form>
+                </div>
+
+                <!-- SECCIÓN 4: USUARIOS EN LÍNEA Y BALANCE POR JUGADOR -->
+                <div id="admin-sec-users" data-admin-panel-section="users" class="hidden space-y-4">
+                    <div class="rounded-2xl bg-white/5 border border-emerald-400/30 p-4 space-y-2.5">
+                        <h4 class="font-display text-base font-bold text-emerald-300">🟢 Usuarios en Línea y Solicitudes Activas</h4>
+                        <div id="adm-online-requests-list" class="space-y-2 max-h-60 overflow-y-auto text-xs"></div>
+                    </div>
+
+                    <div class="rounded-2xl bg-white/5 border border-pink-400/30 p-4 space-y-2.5">
+                        <h4 class="font-display text-base font-bold text-pink-200">📊 Total Apostado, Anuncio $10k y Balance por Jugador</h4>
+                        <div id="adm-users-list" class="space-y-2.5 max-h-80 overflow-y-auto text-xs"></div>
+                    </div>
+                </div>
+
+                <!-- SECCIÓN 5: BARRA DE INGRESOS Y DETALLE DE DISPOSITIVO -->
+                <div id="admin-sec-traffic" data-admin-panel-section="traffic" class="hidden rounded-2xl bg-gradient-to-r from-indigo-950/90 via-purple-950/80 to-slate-900 border border-cyan-400/40 p-4 space-y-3">
                     <div class="flex flex-wrap items-center justify-between gap-2">
                         <h4 class="font-display text-base font-bold text-cyan-300">📊 Barra de Ingresos al Link y al Juego</h4>
                         <div class="flex items-center gap-2">
@@ -859,102 +1016,24 @@
 
                     <div class="space-y-1.5 pt-1">
                         <div class="text-xs font-extrabold text-amber-200">🕵️ Detalle de cada ingreso (qué hizo y desde qué equipo entró):</div>
-                        <div id="adm-entry-logs-list" class="space-y-1.5 max-h-48 overflow-y-auto text-xs"></div>
+                        <div id="adm-entry-logs-list" class="space-y-1.5 max-h-60 overflow-y-auto text-xs"></div>
                     </div>
                 </div>
 
-                <!-- 10 COMBINACIONES SECRETAS (EXCLUSIVO ADMIN) -->
-                <div class="rounded-2xl bg-gradient-to-r from-amber-950/70 via-fuchsia-950/60 to-slate-900 border border-amber-300/45 p-4 space-y-2.5">
+                <!-- SECCIÓN 6: 10 COMBINACIONES SECRETAS -->
+                <div id="admin-sec-combos" data-admin-panel-section="combos" class="hidden rounded-2xl bg-gradient-to-r from-amber-950/70 via-fuchsia-950/60 to-slate-900 border border-amber-300/45 p-4 space-y-2.5">
                     <div class="flex flex-wrap items-center justify-between gap-2">
                         <h4 class="font-display text-base font-bold text-yellow-300">🎯 10 Combinaciones Secretas de Secuencia de Apuestas (Solo Admin)</h4>
                         <span class="text-[10.5px] font-extrabold text-emerald-300">Premios de $5.000 a $20.000 de un solo golpe</span>
                     </div>
                     <p class="text-[11px] text-amber-100/80">
-                        Si un jugador ejecuta estas secuencias consecutivas de apuestas, el sistema activa el premio inmediato al instante (sin mostrar estas reglas en la pantalla del jugador):
+                        Si un jugador ejecuta estas secuencias consecutivas de apuestas, el sistema activa el premio inmediato al instante:
                     </p>
                     <div id="adm-secret-combos-list" class="grid grid-cols-1 md:grid-cols-2 gap-2 text-xs"></div>
                 </div>
 
-                <!-- CHAT EN TIEMPO REAL DEL ADMIN CON USUARIOS -->
-                <div class="rounded-2xl bg-white/5 border border-cyan-400/35 p-4 space-y-3">
-                    <div class="flex flex-wrap items-center justify-between gap-2">
-                        <h4 class="font-display text-base font-bold text-cyan-300">💬 Chat en Tiempo Real con Jugadores</h4>
-                        <div class="flex items-center gap-2">
-                            <select id="adm-chat-target" class="px-3 py-1.5 rounded-xl bg-slate-900 border border-white/20 text-white text-xs font-bold">
-                                <option value="all">Sala General / Todos</option>
-                            </select>
-                            <button type="button" id="btn-adm-clear-chat" class="px-2.5 py-1.5 rounded-lg bg-rose-500/20 hover:bg-rose-500/35 border border-rose-400/40 text-rose-200 font-extrabold text-xs">
-                                🧹 Limpiar Chat
-                            </button>
-                        </div>
-                    </div>
-                    <div id="adm-chat-messages" class="space-y-1.5 max-h-48 overflow-y-auto bg-black/45 rounded-xl p-3 text-xs"></div>
-                    <form id="adm-chat-form" class="flex gap-2">
-                        <input id="adm-chat-input" type="text" placeholder="Escribe un mensaje para el jugador..." class="flex-1 px-3.5 py-2 rounded-xl bg-slate-900 border border-white/20 text-white text-xs placeholder-white/40 focus:outline-none focus:border-cyan-300">
-                        <button type="submit" class="px-4 py-2 rounded-xl bg-gradient-to-r from-cyan-300 to-emerald-300 text-slate-950 font-black text-xs">
-                            Enviar Mensaje
-                        </button>
-                    </form>
-                </div>
-
-                <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-2.5">
-                    <div class="rounded-2xl bg-white/5 border border-white/10 p-3">
-                        <div class="text-[11px] text-white/65">Usuarios Diarios</div>
-                        <div id="adm-m-daily" class="font-display text-xl font-bold text-cyan-300 mt-0.5">0</div>
-                    </div>
-                    <div class="rounded-2xl bg-white/5 border border-white/10 p-3">
-                        <div class="text-[11px] text-white/65">Usuarios Activos</div>
-                        <div id="adm-m-active" class="font-display text-xl font-bold text-emerald-300 mt-0.5">0</div>
-                    </div>
-                    <div class="rounded-2xl bg-white/5 border border-white/10 p-3">
-                        <div class="text-[11px] text-white/65">Usuarios Semanales</div>
-                        <div id="adm-m-weekly" class="font-display text-xl font-bold text-pink-300 mt-0.5">0</div>
-                    </div>
-                    <div class="rounded-2xl bg-white/5 border border-white/10 p-3">
-                        <div class="text-[11px] text-white/65">Total Apostado General</div>
-                        <div id="adm-m-wagered" class="font-display text-lg font-bold text-yellow-300 mt-0.5">$0</div>
-                    </div>
-                    <div class="rounded-2xl bg-white/5 border border-white/10 p-3">
-                        <div class="text-[11px] text-white/65">Premios Pagados</div>
-                        <div id="adm-m-won" class="font-display text-lg font-bold text-emerald-300 mt-0.5">$0</div>
-                    </div>
-                    <div class="rounded-2xl bg-gradient-to-br from-pink-500/25 to-amber-400/20 border border-amber-300/45 p-3">
-                        <div class="text-[11px] font-bold text-amber-200">Ganancia Casa</div>
-                        <div id="adm-m-house" class="font-display text-lg font-bold text-amber-300 mt-0.5">$0</div>
-                    </div>
-                </div>
-
-                <div class="rounded-2xl bg-white/5 border border-emerald-400/30 p-4 space-y-2.5">
-                    <h4 class="font-display text-base font-bold text-emerald-300">Usuarios en Línea y Solicitudes Activas (Recarga / Retiro)</h4>
-                    <div id="adm-online-requests-list" class="space-y-2 max-h-56 overflow-y-auto text-xs"></div>
-                </div>
-
-                <div class="rounded-2xl bg-white/5 border border-cyan-400/30 p-4 space-y-2.5">
-                    <div class="flex flex-wrap items-center justify-between gap-2">
-                        <h4 class="font-display text-base font-bold text-cyan-200">💳 Solicitudes de Recargas</h4>
-                        <button type="button" id="btn-adm-clear-recharges" class="px-2.5 py-1 rounded-lg bg-rose-500/20 hover:bg-rose-500/35 border border-rose-400/40 text-rose-200 font-extrabold text-xs">
-                            🧹 Limpiar Recargas
-                        </button>
-                    </div>
-                    <div id="adm-recharges-list" class="space-y-2 max-h-60 overflow-y-auto text-xs"></div>
-                </div>
-
-                <div class="rounded-2xl bg-white/5 border border-amber-400/30 p-4 space-y-2.5">
-                    <div class="flex flex-wrap items-center justify-between gap-2">
-                        <h4 class="font-display text-base font-bold text-amber-300">💸 Solicitudes de Retiro (70% Jugador / 30% Casa)</h4>
-                        <button type="button" id="btn-adm-clear-withdrawals" class="px-2.5 py-1 rounded-lg bg-rose-500/20 hover:bg-rose-500/35 border border-rose-400/40 text-rose-200 font-extrabold text-xs">
-                            🧹 Limpiar Retiros
-                        </button>
-                    </div>
-                    <div id="adm-withdrawals-list" class="space-y-2 max-h-60 overflow-y-auto text-xs"></div>
-                </div>
-
-                <div class="rounded-2xl bg-white/5 border border-pink-400/30 p-4 space-y-2.5">
-                    <h4 class="font-display text-base font-bold text-pink-200">📊 Total Apostado, Anuncio $10k y Balance por Jugador</h4>
-                    <div id="adm-users-list" class="space-y-2.5 max-h-64 overflow-y-auto text-xs"></div>
-                </div>
-
-                <div class="rounded-2xl bg-white/5 border border-white/15 p-4 space-y-3 text-xs">
+                <!-- SECCIÓN 7: CONFIGURACIÓN GENERAL -->
+                <div id="admin-sec-settings" data-admin-panel-section="settings" class="hidden rounded-2xl bg-white/5 border border-white/15 p-4 space-y-3 text-xs">
                     <h4 class="font-display text-base font-bold text-yellow-200">⚙️ Configuración General de Sala y Banca</h4>
                     <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
                         <div>
@@ -1014,7 +1093,7 @@
             const MIN_RECHARGE = 5000;
             const PROMO_RECHARGE_30K = 30000;
             const MILESTONE_10K = 10000;
-            const MIN_WITHDRAW = 30000;
+            const MIN_WITHDRAW = 10000;
             const MAX_WITHDRAW = 100000;
             const HOUSE_RETENTION_SHARE = 0.30;
             const DEFAULT_ADMIN_PIN = "1980";
@@ -1288,6 +1367,7 @@
                         totalWon: 0,
                         totalPaidOutNet: 0,
                         totalHouseRetained: 0,
+                        lastSeenChatTs: 0,
                         updatedAt: Date.now()
                     },
                     traffic: {
@@ -1350,10 +1430,65 @@
             let isSpinning = false;
             let isSyncingNow = false;
             let adminUnlocked = false;
+            let activeAdminSection = "recharges";
             let remoteConnected = false;
 
             let winParticles = [];
             let particleRafId = null;
+
+            // ==================== PUNTOS VERDES DE ALERTA EN ADMIN ====================
+            function getAdminAlertStatus() {
+                const pendingRecharges = (state.rechargeRequests || []).filter((r) => r.status === "pending").length > 0;
+                const pendingWithdrawals = (state.withdrawalRequests || []).filter((w) => w.status === "pending").length > 0;
+                const lastSeenChat = Number((state.settings && state.settings.lastSeenChatTs) || 0);
+                const unreadPlayerChat = (state.chatMessages || []).some(
+                    (m) => m.senderRole === "player" && Number(m.ts || 0) > lastSeenChat
+                );
+                return {
+                    recharges: pendingRecharges,
+                    withdrawals: pendingWithdrawals,
+                    chat: unreadPlayerChat,
+                    any: pendingRecharges || pendingWithdrawals || unreadPlayerChat
+                };
+            }
+
+            function syncAdminAlertDots() {
+                const alerts = getAdminAlertStatus();
+                const headerDot = document.getElementById("header-admin-alert-dot");
+                const recDot = document.getElementById("dot-tab-recharges");
+                const wdDot = document.getElementById("dot-tab-withdrawals");
+                const chatDot = document.getElementById("dot-tab-chat");
+
+                if (headerDot) headerDot.classList.toggle("hidden", !alerts.any);
+                if (recDot) recDot.classList.toggle("hidden", !alerts.recharges);
+                if (wdDot) wdDot.classList.toggle("hidden", !alerts.withdrawals);
+                if (chatDot) chatDot.classList.toggle("hidden", !alerts.chat);
+            }
+
+            function markPlayerChatAsReadByAdmin() {
+                const maxPlayerTs = (state.chatMessages || [])
+                    .filter((m) => m.senderRole === "player")
+                    .reduce((max, m) => Math.max(max, Number(m.ts || 0)), 0);
+                if (maxPlayerTs > (Number(state.settings.lastSeenChatTs) || 0)) {
+                    state.settings.lastSeenChatTs = maxPlayerTs;
+                    writeLocalOnly();
+                    pushToRemote();
+                }
+                syncAdminAlertDots();
+            }
+
+            function setAdminSection(sectionKey) {
+                activeAdminSection = sectionKey;
+                document.querySelectorAll("[data-admin-section]").forEach((btn) => {
+                    btn.classList.toggle("is-active", btn.getAttribute("data-admin-section") === sectionKey);
+                });
+                document.querySelectorAll("[data-admin-panel-section]").forEach((panel) => {
+                    panel.classList.toggle("hidden", panel.getAttribute("data-admin-panel-section") !== sectionKey);
+                });
+                if (sectionKey === "chat") {
+                    markPlayerChatAsReadByAdmin();
+                }
+            }
 
             function appendEntryLog(entry) {
                 if (!state.traffic) state.traffic = createDefaultState().traffic;
@@ -1462,6 +1597,7 @@
             function persistState(pushRemote = true) {
                 state.settings.updatedAt = Date.now();
                 writeLocalOnly();
+                syncAdminAlertDots();
                 if (pushRemote) return pushToRemote();
                 return Promise.resolve(true);
             }
@@ -1614,6 +1750,7 @@
                             ...state.settings,
                             ...remoteData.settings,
                             dbUrl: DEFAULT_CLOUD_CONFIG.dbUrl,
+                            lastSeenChatTs: Math.max(Number(state.settings.lastSeenChatTs) || 0, Number(remoteData.settings.lastSeenChatTs) || 0),
                             totalWagered: Math.max(Number(state.settings.totalWagered) || 0, Number(remoteData.settings.totalWagered) || 0),
                             totalWon: Math.max(Number(state.settings.totalWon) || 0, Number(remoteData.settings.totalWon) || 0),
                             totalPaidOutNet: Math.max(Number(state.settings.totalPaidOutNet) || 0, Number(remoteData.settings.totalPaidOutNet) || 0),
@@ -1689,6 +1826,7 @@
 
                     writeLocalOnly();
                     updateSyncPills();
+                    syncAdminAlertDots();
 
                     if (activeMode) {
                         renderPlayerChat();
@@ -1704,7 +1842,10 @@
                             notifyToast(`¡Recarga recibida! Nuevo saldo: ${formatMoney(newBalance)}`, "success");
                         }
                     }
-                    if (adminUnlocked) renderAdminPanel();
+                    if (adminUnlocked) {
+                        if (activeAdminSection === "chat") markPlayerChatAsReadByAdmin();
+                        renderAdminPanel();
+                    }
                 } catch (_) {}
             }
 
@@ -2634,6 +2775,7 @@
 
             async function clearChatMessages() {
                 state.chatMessages = [];
+                state.settings.lastSeenChatTs = Date.now();
                 await persistState(true);
                 renderAdminPanel();
                 renderPlayerChat();
@@ -2718,6 +2860,7 @@
             }
 
             function renderAdminPanel() {
+                syncAdminAlertDots();
                 if (!adminUnlocked) {
                     document.getElementById("admin-lock-view").classList.remove("hidden");
                     document.getElementById("admin-dashboard-view").classList.add("hidden");
@@ -2725,6 +2868,7 @@
                 }
                 document.getElementById("admin-lock-view").classList.add("hidden");
                 document.getElementById("admin-dashboard-view").classList.remove("hidden");
+                setAdminSection(activeAdminSection);
 
                 renderSecretCombosAdmin();
 
@@ -2845,7 +2989,7 @@
                         const waShown = req.whatsapp || (uObj ? uObj.whatsapp : "") || "No indicado";
                         const emailShown = req.email || (uObj ? uObj.email : "") || "";
                         const statusBadge = isPending
-                            ? '<span class="text-[10px] font-extrabold px-2 py-0.5 rounded-full bg-amber-400/20 text-amber-200">Pendiente</span>'
+                            ? '<span class="text-[10px] font-extrabold px-2 py-0.5 rounded-full bg-emerald-500/20 text-emerald-300 border border-emerald-400/40">● Pendiente</span>'
                             : (req.status === "denied"
                                 ? '<span class="text-[10px] font-extrabold px-2 py-0.5 rounded-full bg-rose-500/20 text-rose-200">Denegada</span>'
                                 : '<span class="text-[10px] font-extrabold px-2 py-0.5 rounded-full bg-emerald-500/20 text-emerald-200">Aprobada</span>');
@@ -2885,19 +3029,19 @@
                 } else {
                     wdBox.innerHTML = withdrawals.map((wd) => {
                         const isPending = wd.status === "pending";
-                        const estadoLabel = isPending ? "Pendiente" : "Aprobado";
+                        const estadoLabel = isPending ? "● Pendiente" : "Aprobado";
                         return `
                             <div class="rounded-xl bg-black/45 border border-white/10 p-3 flex flex-col sm:flex-row sm:items-center justify-between gap-2.5">
                                 <div class="space-y-0.5">
                                     <div class="flex items-center gap-2 flex-wrap">
                                         <span class="font-black text-white">${wd.nick || wd.userName || "Jugador"}</span>
                                         <span class="text-white/70">(${wd.email || wd.whatsapp || ""})</span>
-                                        <span class="text-[10px] font-extrabold px-2 py-0.5 rounded-full ${isPending ? "bg-amber-400/20 text-amber-200" : "bg-emerald-500/20 text-emerald-200"}">${estadoLabel}</span>
+                                        <span class="text-[10px] font-extrabold px-2 py-0.5 rounded-full ${isPending ? "bg-emerald-500/20 text-emerald-300 border border-emerald-400/40" : "bg-emerald-500/20 text-emerald-200"}">${estadoLabel}</span>
                                     </div>
                                     <div class="text-amber-200 font-bold">
                                         Solicitado: ${formatMoney(wd.grossAmount)} · <span class="text-emerald-300">70% Jugador: ${formatMoney(wd.netAmount)}</span> · <span class="text-pink-300">30% Casa: ${formatMoney(wd.houseAmount)}</span>
                                     </div>
-                                    <div class="text-cyan-200">Destino: ${wd.account} · 🕒 Solicitado: ${formatTimeStamp(wd.createdAt)}${wd.approvedAt ? ` · ✔ Aprobado: ${formatTimeStamp(wd.approvedAt)}` : ""}</div>
+                                    <div class="text-cyan-200">Destino: ${wd.account} · Sin anticipos · 🕒 Solicitado: ${formatTimeStamp(wd.createdAt)}${wd.approvedAt ? ` · ✔ Aprobado: ${formatTimeStamp(wd.approvedAt)}` : ""}</div>
                                 </div>
                                 ${isPending ? `
                                     <button type="button" data-approve-withdraw="${wd.id}" class="px-3.5 py-2 rounded-xl bg-amber-300 hover:bg-amber-200 text-slate-950 font-black text-xs shrink-0">
@@ -2973,6 +3117,13 @@
                 document.getElementById("btn-close-milestone-10k").addEventListener("click", () => {
                     trackAudio.playTrack();
                     document.getElementById("modal-milestone-10k").classList.add("hidden");
+                });
+
+                document.querySelectorAll("[data-admin-section]").forEach((btn) => {
+                    btn.addEventListener("click", () => {
+                        const sec = btn.getAttribute("data-admin-section");
+                        setAdminSection(sec);
+                    });
                 });
 
                 document.getElementById("btn-open-bet-settings").addEventListener("click", () => {
@@ -3205,6 +3356,7 @@
                         ts: Date.now()
                     };
                     state.chatMessages = mergeChatArrays(state.chatMessages, [msg]);
+                    state.settings.lastSeenChatTs = Date.now();
                     inp.value = "";
                     renderAdminPanel();
                     renderPlayerChat();
@@ -3438,6 +3590,7 @@
                         document.getElementById("admin-pin-error").classList.add("hidden");
                         await pullFromRemote();
                         renderAdminPanel();
+                        if (activeAdminSection === "chat") markPlayerChatAsReadByAdmin();
                     } else {
                         document.getElementById("admin-pin-error").classList.remove("hidden");
                     }
@@ -3549,6 +3702,7 @@
                     refreshPaytableAmounts();
                     trackAudio.syncUI();
                     updateSyncPills();
+                    syncAdminAlertDots();
                     drawSlotCanvas(currentGrid, [], null, [false, false, false, false, false]);
 
                     if (bar) bar.style.width = "65%";
