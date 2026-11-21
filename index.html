@@ -167,6 +167,15 @@
             animation: pulseGlow 1.6s infinite ease-in-out;
         }
 
+        @keyframes lobbyBannerPulse {
+            0%, 100% { transform: scale(1); box-shadow: 0 0 24px rgba(255, 212, 38, 0.45), 0 12px 30px rgba(0, 0, 0, 0.65); }
+            50% { transform: scale(1.012); box-shadow: 0 0 38px rgba(255, 42, 133, 0.65), 0 14px 36px rgba(0, 229, 255, 0.35); }
+        }
+
+        .lobby-promo-banner {
+            animation: lobbyBannerPulse 2.2s infinite ease-in-out;
+        }
+
         ::-webkit-scrollbar {
             width: 6px;
             height: 6px;
@@ -266,6 +275,17 @@
 
         <!-- PANTALLA DE INGRESO SENCILLA -->
         <section id="entry-screen" class="rounded-3xl bg-white/10 backdrop-blur-md border border-white/20 p-4 sm:p-6 shadow-2xl space-y-4">
+
+            <!-- AVISO GRANDE Y COLORIDO EN TODA LA PORTADA DEL LOBBY -->
+            <div class="lobby-promo-banner rounded-3xl p-4 sm:p-5 bg-gradient-to-r from-fuchsia-600 via-amber-400 to-cyan-400 border-2 border-yellow-200 text-center">
+                <div class="inline-flex items-center gap-1.5 px-3 py-0.5 rounded-full bg-slate-950 text-yellow-300 text-[10px] sm:text-xs font-black uppercase tracking-wider mb-1.5 shadow">
+                    <span>🔥 DATO CALIENTE DE LA MESA 🔥</span>
+                </div>
+                <h1 class="font-display text-xl sm:text-3xl font-bold text-slate-950 leading-snug drop-shadow-sm">
+                    ¿Sabías que apostando <span class="underline decoration-pink-600 decoration-4">$5.000 pesos</span> con tu nick puedes ganar hasta <span class="px-2 py-0.5 rounded-xl bg-slate-950 text-emerald-300">$21.000</span>?
+                </h1>
+            </div>
+
             <div class="grid grid-cols-1 lg:grid-cols-12 gap-5 items-stretch">
                 <div class="lg:col-span-5 rounded-2xl bg-gradient-to-br from-cyan-500/20 via-indigo-600/20 to-fuchsia-600/20 border border-cyan-300/40 p-5 flex flex-col justify-between space-y-4">
                     <div class="space-y-2.5">
@@ -506,7 +526,7 @@
                     </button>
                 </div>
 
-                <!-- 6. ZONA INFERIOR: TUERCA + MARCA + CRÉDITO Y APUESTA + RÁPIDO -->
+                <!-- 6. ZONA INFERIOR: TUERCA + MARCA + CRÉDITO Y APUESTA + RÁPIDO (- Y +) -->
                 <div class="px-3 pb-3 pt-1 flex items-end justify-between gap-2">
                     <div class="flex flex-col items-start gap-1">
                         <button type="button" id="btn-open-bet-settings" title="Configuración de moneda por línea, valor de moneda y apuesta" class="w-8 h-8 rounded-full bg-white/10 hover:bg-amber-400/25 border border-white/25 flex items-center justify-center text-base text-amber-200 transition">
@@ -528,7 +548,10 @@
                         </div>
                     </div>
 
-                    <div class="w-8 text-right">
+                    <div class="flex items-center gap-1 shrink-0">
+                        <button type="button" id="btn-quick-minus" title="Bajar apuesta rápida" class="w-8 h-8 rounded-full bg-white/10 hover:bg-amber-400/25 border border-white/25 text-cyan-200 font-black text-base flex items-center justify-center transition">
+                            −
+                        </button>
                         <button type="button" id="btn-quick-plus" title="Subir apuesta rápida" class="w-8 h-8 rounded-full bg-white/10 hover:bg-amber-400/25 border border-white/25 text-yellow-300 font-black text-base flex items-center justify-center transition">
                             +
                         </button>
@@ -571,6 +594,25 @@
                 </form>
             </section>
         </main>
+    </div>
+
+    <!-- MODAL ANUNCIO ÚNICO AL LLEGAR A $10.000 -->
+    <div id="modal-milestone-10k" class="hidden fixed inset-0 z-50 bg-black/85 backdrop-blur-sm p-4 flex items-center justify-center">
+        <div class="w-full max-w-md rounded-3xl bg-gradient-to-br from-[#3b0764] via-[#1f053d] to-slate-950 border-2 border-yellow-300 p-6 text-center space-y-4 shadow-2xl">
+            <div class="text-5xl animate-bounce">🏆🔥</div>
+            <div class="inline-block px-3 py-1 rounded-full bg-amber-400/20 border border-amber-300/50 text-yellow-300 text-[11px] font-black uppercase tracking-wider">
+                ¡NUEVO NIVEL EN TU MARCADOR!
+            </div>
+            <h3 class="font-display text-2xl font-bold text-white leading-snug">
+                ¡Felicitaciones, ya subiste a <span class="text-yellow-300">$10.000</span>! 🔥
+            </h3>
+            <p class="text-sm font-bold text-amber-100/95 leading-relaxed">
+                ¿Quieres seguir apostando para ir por los <span class="text-emerald-300 font-black">$30.000</span>?
+            </p>
+            <button type="button" id="btn-close-milestone-10k" class="w-full py-3.5 px-4 rounded-2xl bg-gradient-to-r from-amber-300 via-orange-400 to-pink-500 hover:brightness-105 text-slate-950 font-black text-sm shadow-lg transition">
+                🔥 ¡Sí, vamos por los $30.000!
+            </button>
+        </div>
     </div>
 
     <!-- MODAL CONFIGURACIÓN DE APUESTA -->
@@ -641,7 +683,7 @@
 
             <div class="rounded-2xl bg-emerald-500/15 border border-emerald-400/40 p-3.5 space-y-1.5 text-xs sm:text-sm">
                 <p class="text-xs text-emerald-100/95">
-                    Mínimo a recargar: <strong>$10.000 COP</strong>. Quienes recarguen <strong>$30.000 COP</strong> acceden a mayores premios.
+                    Mínimo a recargar: <strong>$5.000 COP</strong>. Quienes recarguen <strong>$30.000 COP</strong> acceden a mayores premios.
                 </p>
                 <p class="text-[11px] text-amber-100/85">
                     Recuerda que es un juego recreativo para pasar el rato; si vas a apostar y ganar, hazlo con responsabilidad.
@@ -654,14 +696,16 @@
 
             <form id="recharge-form" class="space-y-3">
                 <div>
-                    <label class="block text-xs font-bold text-amber-200 mb-1.5">Valor a recargar (mínimo $10.000):</label>
-                    <div class="grid grid-cols-4 gap-2 mb-2">
+                    <label class="block text-xs font-bold text-amber-200 mb-1.5">Valor a recargar (mínimo $5.000):</label>
+                    <div class="grid grid-cols-3 gap-2 mb-2">
+                        <button type="button" data-recharge-preset="5000" class="py-2 rounded-xl bg-white/10 hover:bg-emerald-400/25 border border-white/15 text-xs font-extrabold text-white">$5.000</button>
                         <button type="button" data-recharge-preset="10000" class="py-2 rounded-xl bg-white/10 hover:bg-emerald-400/25 border border-white/15 text-xs font-extrabold text-white">$10.000</button>
+                        <button type="button" data-recharge-preset="20000" class="py-2 rounded-xl bg-white/10 hover:bg-emerald-400/25 border border-white/15 text-xs font-extrabold text-white">$20.000</button>
                         <button type="button" data-recharge-preset="30000" class="py-2 rounded-xl bg-amber-400/25 hover:bg-amber-400/40 border border-amber-300/60 text-xs font-black text-yellow-200">$30.000 🔥</button>
                         <button type="button" data-recharge-preset="50000" class="py-2 rounded-xl bg-white/10 hover:bg-emerald-400/25 border border-white/15 text-xs font-extrabold text-white">$50.000</button>
                         <button type="button" data-recharge-preset="100000" class="py-2 rounded-xl bg-white/10 hover:bg-emerald-400/25 border border-white/15 text-xs font-extrabold text-white">$100.000</button>
                     </div>
-                    <input id="recharge-amount" type="number" min="10000" step="1000" value="30000" required class="w-full px-3.5 py-2.5 rounded-xl bg-slate-950 border border-white/20 text-white font-bold text-sm">
+                    <input id="recharge-amount" type="number" min="5000" step="1000" value="5000" required class="w-full px-3.5 py-2.5 rounded-xl bg-slate-950 border border-white/20 text-white font-bold text-sm">
                 </div>
 
                 <div id="recharge-feedback" class="hidden rounded-xl px-3.5 py-2 text-xs font-bold"></div>
@@ -897,7 +941,7 @@
                 </div>
 
                 <div class="rounded-2xl bg-white/5 border border-pink-400/30 p-4 space-y-2.5">
-                    <h4 class="font-display text-base font-bold text-pink-200">📊 Total Apostado y Balance de Pérdida por Jugador</h4>
+                    <h4 class="font-display text-base font-bold text-pink-200">📊 Total Apostado, Anuncio $10k y Balance por Jugador</h4>
                     <div id="adm-users-list" class="space-y-2.5 max-h-64 overflow-y-auto text-xs"></div>
                 </div>
 
@@ -958,8 +1002,9 @@
             const BET_STEPS = [50, 100, 200, 500, 1000, 1500, 3000, 5000];
 
             const DEMO_START_BALANCE = 50000;
-            const MIN_RECHARGE = 10000;
+            const MIN_RECHARGE = 5000;
             const PROMO_RECHARGE_30K = 30000;
+            const MILESTONE_10K = 10000;
             const MIN_WITHDRAW = 30000;
             const MAX_WITHDRAW = 100000;
             const HOUSE_RETENTION_SHARE = 0.30;
@@ -1399,6 +1444,25 @@
                 return Promise.resolve(true);
             }
 
+            // ==================== ANUNCIO ÚNICO DE $10.000 POR JUGADOR ====================
+            function checkAndTrigger10kMilestone(userObj) {
+                if (activeMode !== "real" || !userObj) return false;
+                if (userObj.seen10kModal) return false;
+                const bal = Number(userObj.balance) || 0;
+                if (bal >= MILESTONE_10K) {
+                    userObj.seen10kModal = true;
+                    userObj.seen10kAt = Date.now();
+                    userObj.updatedAt = Date.now();
+                    stopAutoSpin();
+                    const modal = document.getElementById("modal-milestone-10k");
+                    if (modal) modal.classList.remove("hidden");
+                    persistState(true);
+                    if (adminUnlocked) renderAdminPanel();
+                    return true;
+                }
+                return false;
+            }
+
             // ==================== SINCRONIZACIÓN FIREBASE Y CRÉDITOS ====================
             function getRemoteDatabaseEndpoint() {
                 const rawUrl = normalizeDbUrl(state.settings && state.settings.dbUrl);
@@ -1577,6 +1641,9 @@
                                     mergedUser.isSpinning = true;
                                 }
 
+                                mergedUser.seen10kModal = Boolean(lu.seen10kModal || ru.seen10kModal);
+                                mergedUser.seen10kAt = Math.max(Number(lu.seen10kAt || 0), Number(ru.seen10kAt || 0));
+
                                 const mergedCredits = new Set([
                                     ...(Array.isArray(lu.appliedCreditIds) ? lu.appliedCreditIds : []),
                                     ...(Array.isArray(ru.appliedCreditIds) ? ru.appliedCreditIds : [])
@@ -1608,6 +1675,8 @@
                     if (!isSpinning && activeMode) {
                         updateHUD();
                         checkRechargeAlertBanner();
+                        const activeU = getActiveUser();
+                        if (activeU) checkAndTrigger10kMilestone(activeU);
                         const newBalance = activeMode === "real" ? getCurrentBalance() : 0;
                         if (activeMode === "real" && newBalance > prevBalance) {
                             notifyToast(`¡Recarga recibida! Nuevo saldo: ${formatMoney(newBalance)}`, "success");
@@ -2287,6 +2356,7 @@
                 updateHUD();
                 renderPlayerChat();
                 checkRechargeAlertBanner();
+                if (uObj) checkAndTrigger10kMilestone(uObj);
             }
 
             function returnToEntryScreen() {
@@ -2304,6 +2374,7 @@
                 document.getElementById("game-workspace").classList.add("hidden");
                 document.getElementById("entry-screen").classList.remove("hidden");
                 document.getElementById("recharge-success-banner").classList.add("hidden");
+                document.getElementById("modal-milestone-10k").classList.add("hidden");
                 document.getElementById("pill-player").textContent = "Sin jugador activo";
             }
 
@@ -2390,8 +2461,9 @@
                         updateHUD();
                     }
 
-                    if (activeMode === "real") persistState(true);
-                    if (autoSpinActive) scheduleNextAutoSpin();
+                    const triggered10k = uObj ? checkAndTrigger10kMilestone(uObj) : false;
+                    if (activeMode === "real" && !triggered10k) persistState(true);
+                    if (autoSpinActive && !triggered10k) scheduleNextAutoSpin();
                 });
             }
 
@@ -2482,6 +2554,7 @@
                 if (!isSpinning && activeMode === "real" && activeUserId === userId) {
                     updateHUD();
                     checkRechargeAlertBanner();
+                    checkAndTrigger10kMilestone(targetUser);
                 }
 
                 if (savedOk) {
@@ -2811,6 +2884,9 @@
                         const wag = Number(u.totalWagered) || 0;
                         const won = Number(u.totalWon) || 0;
                         const lossBalance = wag - won;
+                        const saw10kBadge = u.seen10kModal
+                            ? `<span class="text-[10px] font-extrabold px-2 py-0.5 rounded-full bg-amber-400/25 text-yellow-200 border border-amber-300/45" title="${u.seen10kAt ? formatTimeStamp(u.seen10kAt) : ""}">🔥 Vio anuncio $10k</span>`
+                            : `<span class="text-[10px] font-bold px-2 py-0.5 rounded-full bg-white/10 text-white/60">Sin anuncio $10k</span>`;
                         const existingInput = document.querySelector(`[data-admin-credit-input="${u.id}"]`);
                         const currentInputVal = existingInput ? existingInput.value : "0";
                         return `
@@ -2819,6 +2895,7 @@
                                     <div class="flex items-center gap-2 flex-wrap">
                                         <span class="font-black text-sm text-white">${u.nick}</span>
                                         <span class="text-xs font-bold text-emerald-200">${pres.label}</span>
+                                        ${saw10kBadge}
                                         <span class="text-white/70">WA: ${u.whatsapp} · PIN: ${u.pin}</span>
                                     </div>
                                     <span class="font-display text-base font-bold text-yellow-300">Saldo: ${formatMoney(u.balance)}</span>
@@ -2857,6 +2934,11 @@
                     trackAudio.playTrack();
                 });
 
+                document.getElementById("btn-close-milestone-10k").addEventListener("click", () => {
+                    trackAudio.playTrack();
+                    document.getElementById("modal-milestone-10k").classList.add("hidden");
+                });
+
                 document.getElementById("btn-open-bet-settings").addEventListener("click", () => {
                     trackAudio.playTrack();
                     updateHUD();
@@ -2869,11 +2951,20 @@
                     document.getElementById("modal-bet-settings").classList.remove("hidden");
                 });
 
+                document.getElementById("btn-quick-minus").addEventListener("click", () => {
+                    if (isSpinning) return;
+                    trackAudio.playTrack();
+                    const idx = BET_STEPS.findIndex((v) => v >= currentBet);
+                    const prevIdx = idx <= 0 ? 0 : idx - 1;
+                    setTotalBetDirectly(BET_STEPS[prevIdx]);
+                    updateHUD();
+                });
+
                 document.getElementById("btn-quick-plus").addEventListener("click", () => {
                     if (isSpinning) return;
                     trackAudio.playTrack();
                     const idx = BET_STEPS.findIndex((v) => v >= currentBet);
-                    const nextIdx = idx < 0 || idx >= BET_STEPS.length - 1 ? 0 : idx + 1;
+                    const nextIdx = idx < 0 || idx >= BET_STEPS.length - 1 ? BET_STEPS.length - 1 : idx + 1;
                     setTotalBetDirectly(BET_STEPS[nextIdx]);
                     updateHUD();
                 });
@@ -2995,6 +3086,7 @@
                         existing.whatsapp = whatsapp;
                         existing.recentBets = Array.isArray(existing.recentBets) ? existing.recentBets : [];
                         existing.claimedSecretCombos = Array.isArray(existing.claimedSecretCombos) ? existing.claimedSecretCombos : [];
+                        existing.seen10kModal = Boolean(existing.seen10kModal);
                         existing.online = true;
                         existing.isSpinning = false;
                         existing.lastActiveAt = Date.now();
@@ -3019,6 +3111,8 @@
                             earlyHits30k: 0,
                             spinsAfter30k: 0,
                             won50Spins30kBonus: false,
+                            seen10kModal: false,
+                            seen10kAt: 0,
                             recentBets: [],
                             claimedSecretCombos: [],
                             appliedCreditIds: [],
@@ -3085,7 +3179,10 @@
                     await pullFromRemote();
                     if (activeMode === "real") {
                         const u = getActiveUser();
-                        if (u) applyPendingApprovedCreditsToUser(u);
+                        if (u) {
+                            applyPendingApprovedCreditsToUser(u);
+                            checkAndTrigger10kMilestone(u);
+                        }
                         updateHUD();
                         checkRechargeAlertBanner();
                         notifyToast(`Saldo actualizado: ${formatMoney(getCurrentBalance())}`, "success");
@@ -3409,7 +3506,11 @@
                         document.getElementById("loading-screen").classList.add("hidden");
                         document.getElementById("app-shell").classList.remove("hidden");
                         drawSlotCanvas(currentGrid, [], null, [false, false, false, false, false]);
-                        if (activeMode === "real") checkRechargeAlertBanner();
+                        if (activeMode === "real") {
+                            checkRechargeAlertBanner();
+                            const u = getActiveUser();
+                            if (u) checkAndTrigger10kMilestone(u);
+                        }
                     }, 350);
 
                     setInterval(async () => {
