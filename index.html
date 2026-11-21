@@ -324,6 +324,7 @@
                 <div class="font-black text-amber-300 uppercase text-[10px]">📌 Notas importantes</div>
                 <p>1. Este espacio está pensado principalmente como un <strong>juego recreativo para pasar el rato</strong> y probar suerte en cualquier momento.</p>
                 <p>2. Si decides apostar y ganar, hazlo siempre <strong>con responsabilidad</strong>, controlando tu tiempo y tu presupuesto.</p>
+                <p>3. Existen <strong>combinaciones secretas de secuencias de apuestas</strong> para premios inmediatos desde <strong>$5.000</strong>.</p>
             </div>
         </section>
 
@@ -552,6 +553,7 @@
                 <div class="font-black text-amber-300 uppercase text-[9.5px]">📌 Notas importantes</div>
                 <p>• Este juego es <strong>recreativo para pasar el rato</strong> y disfrutar de la dinámica.</p>
                 <p>• Si vas a apostar y ganar, hazlo siempre <strong>con responsabilidad</strong>.</p>
+                <p>• Hay <strong>combinaciones secretas de secuencias de apuestas</strong> con premios inmediatos desde <strong>$5.000</strong>.</p>
             </section>
 
             <!-- CHAT EN TIEMPO REAL DEL JUGADOR CON ADMIN -->
@@ -763,7 +765,12 @@
                 <div class="rounded-2xl bg-gradient-to-r from-indigo-950/90 via-purple-950/80 to-slate-900 border border-cyan-400/40 p-4 space-y-3">
                     <div class="flex flex-wrap items-center justify-between gap-2">
                         <h4 class="font-display text-base font-bold text-cyan-300">📊 Barra de Ingresos al Link y al Juego</h4>
-                        <span id="adm-last-visit-time" class="text-[11px] font-bold text-amber-200/85">Última visita: Sin registro</span>
+                        <div class="flex items-center gap-2">
+                            <span id="adm-last-visit-time" class="text-[11px] font-bold text-amber-200/85">Última visita: Sin registro</span>
+                            <button type="button" id="btn-adm-clear-entries" class="px-2.5 py-1 rounded-lg bg-rose-500/20 hover:bg-rose-500/35 border border-rose-400/40 text-rose-200 font-extrabold text-[11px]">
+                                🧹 Limpiar Ingresos
+                            </button>
+                        </div>
                     </div>
 
                     <!-- Barra visual proporcional de distribución de ingresos -->
@@ -803,13 +810,30 @@
                     </div>
                 </div>
 
+                <!-- 10 COMBINACIONES SECRETAS (EXCLUSIVO ADMIN) -->
+                <div class="rounded-2xl bg-gradient-to-r from-amber-950/70 via-fuchsia-950/60 to-slate-900 border border-amber-300/45 p-4 space-y-2.5">
+                    <div class="flex flex-wrap items-center justify-between gap-2">
+                        <h4 class="font-display text-base font-bold text-yellow-300">🎯 10 Combinaciones Secretas de Secuencia de Apuestas (Solo Admin)</h4>
+                        <span class="text-[10.5px] font-extrabold text-emerald-300">Premios de $5.000 a $20.000 de un solo golpe</span>
+                    </div>
+                    <p class="text-[11px] text-amber-100/80">
+                        Si un jugador ejecuta estas secuencias consecutivas de apuestas, el sistema activa el premio inmediato al instante (sin mostrar estas reglas en la pantalla del jugador):
+                    </p>
+                    <div id="adm-secret-combos-list" class="grid grid-cols-1 md:grid-cols-2 gap-2 text-xs"></div>
+                </div>
+
                 <!-- CHAT EN TIEMPO REAL DEL ADMIN CON USUARIOS -->
                 <div class="rounded-2xl bg-white/5 border border-cyan-400/35 p-4 space-y-3">
                     <div class="flex flex-wrap items-center justify-between gap-2">
                         <h4 class="font-display text-base font-bold text-cyan-300">💬 Chat en Tiempo Real con Jugadores</h4>
-                        <select id="adm-chat-target" class="px-3 py-1.5 rounded-xl bg-slate-900 border border-white/20 text-white text-xs font-bold">
-                            <option value="all">Sala General / Todos</option>
-                        </select>
+                        <div class="flex items-center gap-2">
+                            <select id="adm-chat-target" class="px-3 py-1.5 rounded-xl bg-slate-900 border border-white/20 text-white text-xs font-bold">
+                                <option value="all">Sala General / Todos</option>
+                            </select>
+                            <button type="button" id="btn-adm-clear-chat" class="px-2.5 py-1.5 rounded-lg bg-rose-500/20 hover:bg-rose-500/35 border border-rose-400/40 text-rose-200 font-extrabold text-xs">
+                                🧹 Limpiar Chat
+                            </button>
+                        </div>
                     </div>
                     <div id="adm-chat-messages" class="space-y-1.5 max-h-48 overflow-y-auto bg-black/45 rounded-xl p-3 text-xs"></div>
                     <form id="adm-chat-form" class="flex gap-2">
@@ -853,12 +877,22 @@
                 </div>
 
                 <div class="rounded-2xl bg-white/5 border border-cyan-400/30 p-4 space-y-2.5">
-                    <h4 class="font-display text-base font-bold text-cyan-200">💳 Solicitudes de Recargas</h4>
+                    <div class="flex flex-wrap items-center justify-between gap-2">
+                        <h4 class="font-display text-base font-bold text-cyan-200">💳 Solicitudes de Recargas</h4>
+                        <button type="button" id="btn-adm-clear-recharges" class="px-2.5 py-1 rounded-lg bg-rose-500/20 hover:bg-rose-500/35 border border-rose-400/40 text-rose-200 font-extrabold text-xs">
+                            🧹 Limpiar Recargas
+                        </button>
+                    </div>
                     <div id="adm-recharges-list" class="space-y-2 max-h-60 overflow-y-auto text-xs"></div>
                 </div>
 
                 <div class="rounded-2xl bg-white/5 border border-amber-400/30 p-4 space-y-2.5">
-                    <h4 class="font-display text-base font-bold text-amber-300">💸 Solicitudes de Retiro (70% Jugador / 30% Casa)</h4>
+                    <div class="flex flex-wrap items-center justify-between gap-2">
+                        <h4 class="font-display text-base font-bold text-amber-300">💸 Solicitudes de Retiro (70% Jugador / 30% Casa)</h4>
+                        <button type="button" id="btn-adm-clear-withdrawals" class="px-2.5 py-1 rounded-lg bg-rose-500/20 hover:bg-rose-500/35 border border-rose-400/40 text-rose-200 font-extrabold text-xs">
+                            🧹 Limpiar Retiros
+                        </button>
+                    </div>
                     <div id="adm-withdrawals-list" class="space-y-2 max-h-60 overflow-y-auto text-xs"></div>
                 </div>
 
@@ -930,6 +964,80 @@
             const MAX_WITHDRAW = 100000;
             const HOUSE_RETENTION_SHARE = 0.30;
             const DEFAULT_ADMIN_PIN = "1980";
+
+            // 10 COMBINACIONES SECRETAS DE SECUENCIA DE APUESTAS ($5.000 hasta $20.000)
+            const SECRET_BET_COMBINATIONS = [
+                {
+                    id: "combo_1_escalera_completa",
+                    name: "1. Escalera Completa (50 → 5000)",
+                    seq: [50, 100, 200, 500, 1000, 1500, 3000, 5000],
+                    payout: 20000,
+                    difficulty: "Máxima"
+                },
+                {
+                    id: "combo_2_salto_relampago",
+                    name: "2. Salto Relámpago",
+                    seq: [50, 5000, 200, 3000],
+                    payout: 15000,
+                    difficulty: "Alta"
+                },
+                {
+                    id: "combo_3_descendente_total",
+                    name: "3. Cascada Descendente",
+                    seq: [5000, 3000, 1500, 1000, 500, 200, 100, 50],
+                    payout: 15000,
+                    difficulty: "Alta"
+                },
+                {
+                    id: "combo_4_doble_pulso_extremo",
+                    name: "4. Doble Pulso Extremo",
+                    seq: [100, 5000, 100, 5000],
+                    payout: 12000,
+                    difficulty: "Media-Alta"
+                },
+                {
+                    id: "combo_5_ascenso_media",
+                    name: "5. Ascenso de Media",
+                    seq: [100, 200, 500, 1000, 1500],
+                    payout: 10000,
+                    difficulty: "Media"
+                },
+                {
+                    id: "combo_6_caida_rapida",
+                    name: "6. Caída Rápida",
+                    seq: [3000, 1500, 500, 100],
+                    payout: 8000,
+                    difficulty: "Media"
+                },
+                {
+                    id: "combo_7_chispa_alta",
+                    name: "7. Chispa Alta",
+                    seq: [50, 1500, 50, 3000],
+                    payout: 8000,
+                    difficulty: "Media"
+                },
+                {
+                    id: "combo_8_ritmo_1000",
+                    name: "8. Ritmo de Miles",
+                    seq: [1000, 1000, 3000, 500],
+                    payout: 7000,
+                    difficulty: "Accesible"
+                },
+                {
+                    id: "combo_9_tanteo_1500",
+                    name: "9. Tanteo al 1500",
+                    seq: [50, 200, 1500, 200],
+                    payout: 6000,
+                    difficulty: "Accesible"
+                },
+                {
+                    id: "combo_10_inicio_clasico",
+                    name: "10. Inicio Clásico",
+                    seq: [50, 100, 200, 500],
+                    payout: 5000,
+                    difficulty: "Base"
+                }
+            ];
 
             const SYMBOLS = [
                 { id: "joker", glyph: "🤡", label: "Payaso", accent: "#ff2a85", glow: "rgba(255, 42, 133, 0.55)", weight: 9, m5: 200, m4: 40, m3: 4, mult: 1.95 },
@@ -1162,6 +1270,7 @@
             let activeUserId = null;
             let demoBalance = DEMO_START_BALANCE;
             let demoTotalPrizes = 0;
+            let demoBetHistory = [];
 
             let coinsPerLine = 1;
             let coinValue = 10;
@@ -1568,7 +1677,7 @@
                 }
             }
 
-            // ==================== MOTOR DE TRAGAMONEDAS Y RENDERIZADO HD REALISTA ====================
+            // ==================== MOTOR DE TRAGAMONEDAS Y COMBINACIONES SECRETAS ====================
             function pickWeightedSymbol() {
                 const totalWeight = SYMBOLS.reduce((acc, s) => acc + s.weight, 0);
                 let r = Math.random() * totalWeight;
@@ -1600,10 +1709,51 @@
                 return { grid, winCoords, lineObj, sym };
             }
 
+            function checkSecretBetCombination(historyArr, userObj) {
+                if (!Array.isArray(historyArr) || historyArr.length === 0) return null;
+                const claimed = userObj && Array.isArray(userObj.claimedSecretCombos) ? userObj.claimedSecretCombos : [];
+
+                for (const combo of SECRET_BET_COMBINATIONS) {
+                    if (claimed.includes(combo.id)) continue;
+                    const len = combo.seq.length;
+                    if (historyArr.length < len) continue;
+                    const tail = historyArr.slice(-len);
+                    const matches = combo.seq.every((val, idx) => Number(tail[idx]) === Number(val));
+                    if (matches) {
+                        if (userObj) {
+                            userObj.claimedSecretCombos = [...claimed, combo.id];
+                        }
+                        return combo;
+                    }
+                }
+                return null;
+            }
+
             function evaluateSpin(bet, userObj) {
                 const chosenLine = PAYLINE_PATHS[Math.floor(Math.random() * PAYLINE_PATHS.length)];
                 const symJewel = pickWeightedSymbol();
                 const symCrown = SYMBOLS.find((s) => s.id === "crown") || SYMBOLS[0];
+
+                let betHist = activeMode === "demo"
+                    ? demoBetHistory
+                    : (userObj ? (Array.isArray(userObj.recentBets) ? userObj.recentBets : []) : []);
+                betHist.push(Number(bet) || 0);
+                if (betHist.length > 25) betHist = betHist.slice(-25);
+                if (userObj) userObj.recentBets = betHist;
+
+                const matchedCombo = checkSecretBetCombination(betHist, userObj);
+                if (matchedCombo) {
+                    const built = makeWinningGridOnLine(symCrown, 5, PAYLINE_PATHS[0]);
+                    return {
+                        grid: built.grid,
+                        winCoords: built.winCoords,
+                        winLine: built.lineObj,
+                        winSymbol: symCrown,
+                        matchLen: 5,
+                        payout: matchedCombo.payout,
+                        note: "🎯 ¡COMBINACIÓN SECRETA!"
+                    };
+                }
 
                 if (userObj) {
                     userObj.streakCount = Number(userObj.streakCount) || 0;
@@ -2116,6 +2266,7 @@
                 if (mode === "demo") {
                     demoBalance = DEMO_START_BALANCE;
                     demoTotalPrizes = 0;
+                    demoBetHistory = [];
                     await persistState(true);
                 } else if (mode === "real" && uObj) {
                     uObj.online = true;
@@ -2281,7 +2432,10 @@
 
             async function creditUserBalance(userId, amount, fromRequestId = null) {
                 const addAmt = Math.round(Number(amount) || 0);
-                if (!userId || addAmt <= 0) return;
+                if (!userId || addAmt <= 0) {
+                    notifyToast("Ingresa un monto mayor a $0 para acreditar.", "error");
+                    return;
+                }
 
                 await pullFromRemote();
 
@@ -2357,6 +2511,43 @@
                 return { online: false, label: `Hace ${Math.max(1, Math.floor(diffSec / 60))}m` };
             }
 
+            async function clearEntryLogs() {
+                if (!state.traffic) state.traffic = createDefaultState().traffic;
+                state.traffic.entryLogs = [];
+                state.traffic.totalLinkVisits = 0;
+                state.traffic.uniqueVisitorIds = [];
+                state.traffic.demoEntries = 0;
+                state.traffic.realEntries = 0;
+                state.traffic.mobileCount = 0;
+                state.traffic.desktopCount = 0;
+                state.traffic.lastVisitAt = 0;
+                await persistState(true);
+                renderAdminPanel();
+                notifyToast("Historial de ingresos limpiado.", "success");
+            }
+
+            async function clearChatMessages() {
+                state.chatMessages = [];
+                await persistState(true);
+                renderAdminPanel();
+                renderPlayerChat();
+                notifyToast("Chat limpiado.", "success");
+            }
+
+            async function clearRechargeRequests() {
+                state.rechargeRequests = [];
+                await persistState(true);
+                renderAdminPanel();
+                notifyToast("Solicitudes de recarga limpiadas.", "success");
+            }
+
+            async function clearWithdrawalRequests() {
+                state.withdrawalRequests = [];
+                await persistState(true);
+                renderAdminPanel();
+                notifyToast("Solicitudes de retiro limpiadas.", "success");
+            }
+
             async function clearRequestsHistory() {
                 state.rechargeRequests = (state.rechargeRequests || []).filter((r) => r.status === "pending");
                 state.withdrawalRequests = (state.withdrawalRequests || []).filter((w) => w.status === "pending");
@@ -2403,6 +2594,23 @@
                 box.scrollTop = box.scrollHeight;
             }
 
+            function renderSecretCombosAdmin() {
+                const box = document.getElementById("adm-secret-combos-list");
+                if (!box) return;
+                box.innerHTML = SECRET_BET_COMBINATIONS.map((c) => {
+                    const stepsText = c.seq.map((v) => formatMoney(v)).join(" → ");
+                    return `
+                        <div class="rounded-xl bg-black/50 border border-amber-300/25 px-3 py-2 flex items-center justify-between gap-2">
+                            <div class="space-y-0.5">
+                                <div class="font-black text-white text-xs">${c.name} <span class="text-[10px] text-amber-200/80">(${c.difficulty})</span></div>
+                                <div class="text-[11px] text-cyan-200 font-bold">${stepsText}</div>
+                            </div>
+                            <span class="font-display text-sm font-bold text-emerald-300 shrink-0">+${formatMoney(c.payout)}</span>
+                        </div>
+                    `;
+                }).join("");
+            }
+
             function renderAdminPanel() {
                 if (!adminUnlocked) {
                     document.getElementById("admin-lock-view").classList.remove("hidden");
@@ -2411,6 +2619,8 @@
                 }
                 document.getElementById("admin-lock-view").classList.add("hidden");
                 document.getElementById("admin-dashboard-view").classList.remove("hidden");
+
+                renderSecretCombosAdmin();
 
                 const now = Date.now();
                 const oneDayMs = 24 * 60 * 60 * 1000;
@@ -2526,6 +2736,12 @@
                         const isPending = req.status === "pending";
                         const uObj = state.users[req.userId];
                         const pinShown = req.pin || (uObj ? uObj.pin : "N/A");
+                        const statusBadge = isPending
+                            ? '<span class="text-[10px] font-extrabold px-2 py-0.5 rounded-full bg-amber-400/20 text-amber-200">Pendiente</span>'
+                            : (req.status === "denied"
+                                ? '<span class="text-[10px] font-extrabold px-2 py-0.5 rounded-full bg-rose-500/20 text-rose-200">Denegada</span>'
+                                : '<span class="text-[10px] font-extrabold px-2 py-0.5 rounded-full bg-emerald-500/20 text-emerald-200">Aprobada</span>');
+
                         return `
                             <div class="rounded-xl bg-black/45 border border-white/10 p-3 flex flex-col sm:flex-row sm:items-center justify-between gap-2.5">
                                 <div class="space-y-0.5">
@@ -2533,16 +2749,21 @@
                                         <span class="font-black text-white">Nick: ${req.nick || req.userName || "Jugador"}</span>
                                         <span class="text-cyan-200">WA: ${req.whatsapp}</span>
                                         <span class="text-amber-200 font-bold">PIN: ${pinShown}</span>
-                                        <span class="text-[10px] font-extrabold px-2 py-0.5 rounded-full ${isPending ? "bg-amber-400/20 text-amber-200" : "bg-emerald-500/20 text-emerald-200"}">${isPending ? "Pendiente" : "Aprobada"}</span>
+                                        ${statusBadge}
                                     </div>
                                     <div class="text-emerald-300 font-extrabold">Valor: ${formatMoney(req.amount)} · 🕒 ${formatTimeStamp(req.createdAt)}${req.approvedAt ? ` · ✔ ${formatTimeStamp(req.approvedAt)}` : ""}</div>
                                 </div>
                                 ${isPending ? `
-                                    <button type="button" data-approve-recharge="${req.id}" class="px-3.5 py-2 rounded-xl bg-emerald-400 hover:bg-emerald-300 text-slate-950 font-black text-xs shrink-0">
-                                        ✅ Aprobar
-                                    </button>
+                                    <div class="flex items-center gap-2 shrink-0">
+                                        <button type="button" data-approve-recharge="${req.id}" class="px-3.5 py-2 rounded-xl bg-emerald-400 hover:bg-emerald-300 text-slate-950 font-black text-xs">
+                                            ✅ Aprobar
+                                        </button>
+                                        <button type="button" data-deny-recharge="${req.id}" class="px-3.5 py-2 rounded-xl bg-rose-500 hover:bg-rose-400 text-white font-black text-xs">
+                                            ❌ Denegar
+                                        </button>
+                                    </div>
                                 ` : `
-                                    <span class="text-emerald-300 font-bold text-xs shrink-0">✔ Aprobada</span>
+                                    <span class="${req.status === "denied" ? "text-rose-300" : "text-emerald-300"} font-bold text-xs shrink-0">${req.status === "denied" ? "✖ Denegada" : "✔ Aprobada"}</span>
                                 `}
                             </div>
                         `;
@@ -2590,6 +2811,8 @@
                         const wag = Number(u.totalWagered) || 0;
                         const won = Number(u.totalWon) || 0;
                         const lossBalance = wag - won;
+                        const existingInput = document.querySelector(`[data-admin-credit-input="${u.id}"]`);
+                        const currentInputVal = existingInput ? existingInput.value : "0";
                         return `
                             <div class="rounded-xl bg-black/45 border border-white/10 p-3 space-y-2">
                                 <div class="flex flex-wrap items-center justify-between gap-2">
@@ -2606,7 +2829,7 @@
                                     <div>Balance Pérdida Jugador: <strong class="${lossBalance >= 0 ? "text-pink-300" : "text-amber-300"}">${lossBalance >= 0 ? formatMoney(lossBalance) + " (perdió)" : "-" + formatMoney(Math.abs(lossBalance)) + " (ganó)"}</strong></div>
                                 </div>
                                 <div class="flex flex-wrap items-center gap-2">
-                                    <input type="number" min="1000" step="1000" value="30000" data-admin-credit-input="${u.id}" class="w-32 px-2.5 py-1.5 rounded-lg bg-slate-900 border border-white/20 text-white font-bold text-xs">
+                                    <input type="number" min="1" step="1" value="${currentInputVal}" placeholder="Monto a acreditar" data-admin-credit-input="${u.id}" class="w-36 px-2.5 py-1.5 rounded-lg bg-slate-900 border border-white/20 text-white font-bold text-xs">
                                     <button type="button" data-admin-credit-btn="${u.id}" class="px-3 py-1.5 rounded-lg bg-emerald-400 hover:bg-emerald-300 text-slate-950 font-black text-xs">
                                         + Acreditar
                                     </button>
@@ -2770,6 +2993,8 @@
                     if (existing) {
                         existing.nick = nick;
                         existing.whatsapp = whatsapp;
+                        existing.recentBets = Array.isArray(existing.recentBets) ? existing.recentBets : [];
+                        existing.claimedSecretCombos = Array.isArray(existing.claimedSecretCombos) ? existing.claimedSecretCombos : [];
                         existing.online = true;
                         existing.isSpinning = false;
                         existing.lastActiveAt = Date.now();
@@ -2794,6 +3019,8 @@
                             earlyHits30k: 0,
                             spinsAfter30k: 0,
                             won50Spins30kBonus: false,
+                            recentBets: [],
+                            claimedSecretCombos: [],
                             appliedCreditIds: [],
                             online: true,
                             isSpinning: false,
@@ -3041,6 +3268,10 @@
                 });
 
                 document.getElementById("btn-adm-clear-history").addEventListener("click", clearRequestsHistory);
+                document.getElementById("btn-adm-clear-entries").addEventListener("click", clearEntryLogs);
+                document.getElementById("btn-adm-clear-chat").addEventListener("click", clearChatMessages);
+                document.getElementById("btn-adm-clear-recharges").addEventListener("click", clearRechargeRequests);
+                document.getElementById("btn-adm-clear-withdrawals").addEventListener("click", clearWithdrawalRequests);
 
                 document.getElementById("admin-pin-form").addEventListener("submit", async (e) => {
                     e.preventDefault();
@@ -3057,23 +3288,41 @@
                 });
 
                 document.getElementById("adm-recharges-list").addEventListener("click", async (e) => {
-                    const btn = e.target.closest("[data-approve-recharge]");
-                    if (!btn) return;
-                    btn.disabled = true;
-                    const reqId = btn.getAttribute("data-approve-recharge");
-                    const req = (state.rechargeRequests || []).find((r) => r.id === reqId);
-                    if (!req) {
-                        btn.disabled = false;
+                    const approveBtn = e.target.closest("[data-approve-recharge]");
+                    if (approveBtn) {
+                        approveBtn.disabled = true;
+                        const reqId = approveBtn.getAttribute("data-approve-recharge");
+                        const req = (state.rechargeRequests || []).find((r) => r.id === reqId);
+                        if (!req) {
+                            approveBtn.disabled = false;
+                            return;
+                        }
+                        if (req.userId === "demo") {
+                            req.status = "approved";
+                            req.approvedAt = Date.now();
+                            await persistState(true);
+                            renderAdminPanel();
+                            return;
+                        }
+                        await creditUserBalance(req.userId, req.amount, req.id);
                         return;
                     }
-                    if (req.userId === "demo") {
-                        req.status = "approved";
-                        req.approvedAt = Date.now();
+
+                    const denyBtn = e.target.closest("[data-deny-recharge]");
+                    if (denyBtn) {
+                        denyBtn.disabled = true;
+                        const reqId = denyBtn.getAttribute("data-deny-recharge");
+                        const req = (state.rechargeRequests || []).find((r) => r.id === reqId);
+                        if (!req) {
+                            denyBtn.disabled = false;
+                            return;
+                        }
+                        req.status = "denied";
+                        req.deniedAt = Date.now();
                         await persistState(true);
                         renderAdminPanel();
-                        return;
+                        notifyToast(`Solicitud de recarga de ${formatMoney(req.amount)} denegada.`, "info");
                     }
-                    await creditUserBalance(req.userId, req.amount, req.id);
                 });
 
                 document.getElementById("adm-withdrawals-list").addEventListener("click", async (e) => {
