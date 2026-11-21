@@ -263,10 +263,10 @@
                         <span id="music-icon">🎶</span>
                         <span id="music-label">Música: ON</span>
                     </button>
-                    <button type="button" id="btn-switch-user" class="px-2 py-1 rounded-lg bg-white/10 hover:bg-white/20 border border-white/20 text-white font-bold text-[10px] transition">
+                    <button type="button" id="btn-switch-user" class="px-2.5 py-1 rounded-lg bg-white/10 hover:bg-white/20 border border-white/20 text-white font-bold text-[10px] transition">
                         👤 Cambiar
                     </button>
-                    <button type="button" id="btn-open-admin" class="px-2 py-1 rounded-lg bg-amber-400/25 hover:bg-amber-400/40 border border-amber-300/50 text-amber-200 font-extrabold text-[10px] transition">
+                    <button type="button" id="btn-open-admin" class="px-2.5 py-1 rounded-lg bg-amber-400/25 hover:bg-amber-400/40 border border-amber-300/50 text-amber-200 font-extrabold text-[10px] transition">
                         🔐 Admin
                     </button>
                 </div>
@@ -309,7 +309,7 @@
                         </span>
                         <h2 class="font-display text-2xl sm:text-3xl font-bold text-white">Entra con tu Nick</h2>
                         <p class="text-xs sm:text-sm text-fuchsia-100/85">
-                            Solo necesitas tu <strong>Nick</strong>, tu <strong>WhatsApp</strong> y tu <strong>PIN de 4 dígitos</strong>.
+                            Solo necesitas tu <strong>Nick</strong>, tu <strong>correo electrónico</strong> y tu <strong>PIN de 4 dígitos</strong>.
                         </p>
                     </div>
 
@@ -321,8 +321,8 @@
 
                         <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
                             <div>
-                                <label for="inp-whatsapp" class="block text-xs font-bold text-amber-200 mb-1">Número de WhatsApp *</label>
-                                <input id="inp-whatsapp" type="tel" required placeholder="Ej: 3023607054" class="w-full px-3.5 py-2.5 rounded-xl bg-slate-950/80 border border-white/20 text-white text-sm placeholder-white/40 focus:outline-none focus:border-amber-300">
+                                <label for="inp-email" class="block text-xs font-bold text-amber-200 mb-1">Correo electrónico *</label>
+                                <input id="inp-email" type="email" required placeholder="Ej: jugador@correo.com" class="w-full px-3.5 py-2.5 rounded-xl bg-slate-950/80 border border-white/20 text-white text-sm placeholder-white/40 focus:outline-none focus:border-amber-300">
                             </div>
                             <div>
                                 <label for="inp-pin" class="block text-xs font-bold text-amber-200 mb-1">PIN de 4 dígitos *</label>
@@ -696,6 +696,11 @@
 
             <form id="recharge-form" class="space-y-3">
                 <div>
+                    <label for="recharge-whatsapp" class="block text-xs font-bold text-emerald-200 mb-1">Tu número de WhatsApp para tu recarga *</label>
+                    <input id="recharge-whatsapp" type="tel" required placeholder="Ej: 3023607054" class="w-full px-3.5 py-2.5 rounded-xl bg-slate-950 border border-white/20 text-white font-bold text-sm placeholder-white/40 focus:outline-none focus:border-emerald-300">
+                </div>
+
+                <div>
                     <label class="block text-xs font-bold text-amber-200 mb-1.5">Valor a recargar (mínimo $5.000):</label>
                     <div class="grid grid-cols-3 gap-2 mb-2">
                         <button type="button" data-recharge-preset="5000" class="py-2 rounded-xl bg-white/10 hover:bg-emerald-400/25 border border-white/15 text-xs font-extrabold text-white">$5.000</button>
@@ -730,8 +735,13 @@
                 <button type="button" data-close-modal="modal-withdraw" class="w-8 h-8 rounded-full bg-white/10 hover:bg-white/20 text-white font-bold">✕</button>
             </div>
 
-            <div class="rounded-2xl bg-amber-400/10 border border-amber-300/35 p-3.5 text-xs text-amber-50/90 space-y-1">
-                <p>En cada retiro de <strong>$30.000</strong> a <strong>$100.000 COP</strong>, recibes el <strong class="text-emerald-300">70% neto</strong> y la casa retiene el <strong class="text-pink-300">30%</strong>.</p>
+            <div class="rounded-2xl bg-amber-400/15 border border-amber-300/50 p-3.5 text-xs text-amber-50 space-y-1.5">
+                <p class="font-black text-emerald-300 text-xs sm:text-sm">
+                    🚫 NO SE PIDEN ANTICIPOS para entregar tu dinero.
+                </p>
+                <p>
+                    Al retirar, solo se entrega el <strong class="text-emerald-300">70% de las ganancias / valor solicitado</strong> y la casa se queda con el <strong class="text-pink-300">30% del valor total</strong> (retiros entre <strong>$30.000</strong> y <strong>$100.000 COP</strong>).
+                </p>
                 <p class="text-[11px] text-amber-200/80">📌 Juego recreativo para pasar el rato; apuesta y gana con responsabilidad.</p>
             </div>
 
@@ -753,15 +763,15 @@
 
                 <div class="rounded-2xl bg-black/45 border border-white/15 p-3.5 space-y-1.5 text-xs">
                     <div class="flex justify-between text-white/80">
-                        <span>Solicitado:</span>
+                        <span>Valor total solicitado:</span>
                         <span id="wd-calc-gross" class="font-bold text-white">$30.000</span>
                     </div>
                     <div class="flex justify-between text-pink-200">
-                        <span>Casa (30%):</span>
+                        <span>Casa (30% del valor total):</span>
                         <span id="wd-calc-house" class="font-bold">-$9.000</span>
                     </div>
                     <div class="border-t border-white/10 pt-1.5 flex justify-between text-sm font-black text-emerald-300">
-                        <span>Recibes (70%):</span>
+                        <span>Te entregamos (70% · Sin anticipos):</span>
                         <span id="wd-calc-net">$21.000</span>
                     </div>
                 </div>
@@ -817,7 +827,6 @@
                         </div>
                     </div>
 
-                    <!-- Barra visual proporcional de distribución de ingresos -->
                     <div class="w-full h-3.5 rounded-full bg-black/60 border border-white/15 overflow-hidden flex">
                         <div id="adm-bar-mobile" class="h-full bg-cyan-400 transition-all duration-300" style="width: 0%" title="Celular"></div>
                         <div id="adm-bar-desktop" class="h-full bg-amber-400 transition-all duration-300" style="width: 0%" title="Portátil / PC"></div>
@@ -1010,7 +1019,6 @@
             const HOUSE_RETENTION_SHARE = 0.30;
             const DEFAULT_ADMIN_PIN = "1980";
 
-            // 10 COMBINACIONES SECRETAS DE SECUENCIA DE APUESTAS ($5.000 hasta $20.000)
             const SECRET_BET_COMBINATIONS = [
                 {
                     id: "combo_1_escalera_completa",
@@ -1129,6 +1137,20 @@
 
             function cleanPhoneDigits(phone) {
                 return String(phone || "").replace(/\D+/g, "");
+            }
+
+            function normalizeEmail(email) {
+                return String(email || "").trim().toLowerCase();
+            }
+
+            function buildUserIdFromEmail(email) {
+                const norm = normalizeEmail(email);
+                let hash = 2166136261;
+                for (let i = 0; i < norm.length; i++) {
+                    hash ^= norm.charCodeAt(i);
+                    hash = Math.imul(hash, 16777619);
+                }
+                return "u_mail_" + (hash >>> 0).toString(36);
             }
 
             function normalizeDbUrl(urlVal) {
@@ -1363,7 +1385,7 @@
                     visitorId: vid,
                     action: "Ingresó al link",
                     userLabel: "Visitante en enlace",
-                    whatsapp: "",
+                    contactInfo: "",
                     deviceType: dev.deviceType,
                     os: dev.os,
                     browser: dev.browser,
@@ -1385,7 +1407,7 @@
                         visitorId: vid,
                         action: "Entró a jugar (Modo Demo)",
                         userLabel: "Jugador Demo",
-                        whatsapp: "",
+                        contactInfo: "",
                         deviceType: dev.deviceType,
                         os: dev.os,
                         browser: dev.browser,
@@ -1398,7 +1420,7 @@
                         visitorId: vid,
                         action: "Entró a jugar (Con Nick)",
                         userLabel: userObj ? userObj.nick : "Jugador",
-                        whatsapp: userObj ? userObj.whatsapp : "",
+                        contactInfo: userObj ? (userObj.email || userObj.whatsapp || "") : "",
                         deviceType: dev.deviceType,
                         os: dev.os,
                         browser: dev.browser,
@@ -2255,7 +2277,7 @@
                 } else if (activeMode === "real") {
                     const u = getActiveUser();
                     if (u) {
-                        document.getElementById("pill-player").textContent = `${u.nick} · ${u.whatsapp}`;
+                        document.getElementById("pill-player").textContent = `${u.nick} · ${u.email || u.whatsapp || ""}`;
                         document.getElementById("stat-total-prizes").textContent = formatMoney(Number(u.totalWon) || 0);
                         document.getElementById("stat-withdrawn-done").textContent = formatMoney(Number(u.totalWithdrawnNet) || 0);
                     }
@@ -2468,14 +2490,23 @@
             }
 
             // ==================== RECARGAS Y RETIROS ====================
-            function buildRechargeWhatsAppUrl(userObj, amount) {
+            function getRechargeWhatsappValue(userObj) {
+                const inp = document.getElementById("recharge-whatsapp");
+                const fromInput = inp ? (inp.value || "").trim() : "";
+                if (fromInput) return fromInput;
+                return userObj && userObj.whatsapp ? userObj.whatsapp : "";
+            }
+
+            function buildRechargeWhatsAppUrl(userObj, amount, waNumber) {
                 const adminWa = cleanPhoneDigits(state.settings.whatsappAdmin || DEFAULT_CLOUD_CONFIG.whatsappAdmin);
                 const nick = userObj ? userObj.nick : "Jugador Invitado";
-                const phone = userObj ? userObj.whatsapp : "No registrado";
+                const email = userObj && userObj.email ? userObj.email : "No registrado";
+                const playerWa = waNumber || (userObj && userObj.whatsapp) || "No indicado";
                 const lines = [
                     "🎰 *SOLICITUD DE RECARGA — EL PRÓXIMO GANADOR · TU APP QUE SÍ TE PAGA*",
                     `👤 Nick: ${nick}`,
-                    `📱 WhatsApp: ${phone}`,
+                    `📧 Correo: ${email}`,
+                    `📱 WhatsApp del jugador: ${playerWa}`,
                     `💰 Valor solicitado: ${formatMoney(amount)}`,
                     "📎 Adjunto el comprobante para acreditar mi saldo."
                 ];
@@ -2486,7 +2517,8 @@
                 const waBtn = document.getElementById("btn-wa-receipt");
                 const amt = Number(document.getElementById("recharge-amount").value) || MIN_RECHARGE;
                 const u = getActiveUser();
-                if (waBtn) waBtn.href = buildRechargeWhatsAppUrl(u, amt);
+                const waVal = getRechargeWhatsappValue(u);
+                if (waBtn) waBtn.href = buildRechargeWhatsAppUrl(u, amt, waVal);
             }
 
             function checkRechargeAlertBanner() {
@@ -2532,7 +2564,8 @@
                         userId: targetUser.id,
                         nick: targetUser.nick,
                         userName: targetUser.nick,
-                        whatsapp: targetUser.whatsapp,
+                        email: targetUser.email || "",
+                        whatsapp: targetUser.whatsapp || "N/A",
                         pin: targetUser.pin,
                         nequiNumber: state.settings.nequiNumber || DEFAULT_CLOUD_CONFIG.nequiNumber,
                         amount: addAmt,
@@ -2638,7 +2671,7 @@
 
                 const currentVal = selectEl.value || "all";
                 selectEl.innerHTML = '<option value="all">Sala General / Todos</option>' +
-                    usersArr.map((u) => `<option value="${u.id}">👤 ${u.nick} (${u.whatsapp})</option>`).join("");
+                    usersArr.map((u) => `<option value="${u.id}">👤 ${u.nick} (${u.email || u.whatsapp || ""})</option>`).join("");
                 if ([...selectEl.options].some((o) => o.value === currentVal)) {
                     selectEl.value = currentVal;
                 }
@@ -2735,7 +2768,7 @@
                             <div class="rounded-lg bg-black/50 border border-white/10 px-3 py-2 flex flex-wrap items-center justify-between gap-2 text-[11px]">
                                 <div class="space-x-1.5">
                                     <span class="font-black text-white">${l.userLabel || "Visitante"}</span>
-                                    ${l.whatsapp ? `<span class="text-cyan-300">(${l.whatsapp})</span>` : ""}
+                                    ${l.contactInfo ? `<span class="text-cyan-300">(${l.contactInfo})</span>` : ""}
                                     <span class="text-amber-200 font-bold">· ${l.action}</span>
                                 </div>
                                 <div class="flex items-center gap-2">
@@ -2792,7 +2825,7 @@
                             <div class="rounded-xl bg-black/45 border border-white/10 p-3 flex flex-wrap items-center justify-between gap-2">
                                 <div>
                                     <span class="font-black text-white">${u.nick}</span>
-                                    <span class="text-white/70">(${u.whatsapp})</span>
+                                    <span class="text-white/70">(${u.email || u.whatsapp || ""})</span>
                                     <span class="ml-2 text-emerald-300 font-bold">En línea</span>
                                 </div>
                                 <div class="text-amber-200 font-bold">${reqText}</div>
@@ -2809,6 +2842,8 @@
                         const isPending = req.status === "pending";
                         const uObj = state.users[req.userId];
                         const pinShown = req.pin || (uObj ? uObj.pin : "N/A");
+                        const waShown = req.whatsapp || (uObj ? uObj.whatsapp : "") || "No indicado";
+                        const emailShown = req.email || (uObj ? uObj.email : "") || "";
                         const statusBadge = isPending
                             ? '<span class="text-[10px] font-extrabold px-2 py-0.5 rounded-full bg-amber-400/20 text-amber-200">Pendiente</span>'
                             : (req.status === "denied"
@@ -2820,7 +2855,8 @@
                                 <div class="space-y-0.5">
                                     <div class="flex items-center gap-2 flex-wrap">
                                         <span class="font-black text-white">Nick: ${req.nick || req.userName || "Jugador"}</span>
-                                        <span class="text-cyan-200">WA: ${req.whatsapp}</span>
+                                        ${emailShown ? `<span class="text-white/75">${emailShown}</span>` : ""}
+                                        <span class="text-cyan-200 font-bold">WA: ${waShown}</span>
                                         <span class="text-amber-200 font-bold">PIN: ${pinShown}</span>
                                         ${statusBadge}
                                     </div>
@@ -2855,7 +2891,7 @@
                                 <div class="space-y-0.5">
                                     <div class="flex items-center gap-2 flex-wrap">
                                         <span class="font-black text-white">${wd.nick || wd.userName || "Jugador"}</span>
-                                        <span class="text-white/70">(${wd.whatsapp})</span>
+                                        <span class="text-white/70">(${wd.email || wd.whatsapp || ""})</span>
                                         <span class="text-[10px] font-extrabold px-2 py-0.5 rounded-full ${isPending ? "bg-amber-400/20 text-amber-200" : "bg-emerald-500/20 text-emerald-200"}">${estadoLabel}</span>
                                     </div>
                                     <div class="text-amber-200 font-bold">
@@ -2896,7 +2932,7 @@
                                         <span class="font-black text-sm text-white">${u.nick}</span>
                                         <span class="text-xs font-bold text-emerald-200">${pres.label}</span>
                                         ${saw10kBadge}
-                                        <span class="text-white/70">WA: ${u.whatsapp} · PIN: ${u.pin}</span>
+                                        <span class="text-white/70">${u.email ? "Correo: " + u.email : ""}${u.whatsapp ? " · WA: " + u.whatsapp : ""} · PIN: ${u.pin}</span>
                                     </div>
                                     <span class="font-display text-base font-bold text-yellow-300">Saldo: ${formatMoney(u.balance)}</span>
                                 </div>
@@ -3059,12 +3095,13 @@
                     trackAudio.playTrack();
 
                     const nick = document.getElementById("inp-nick").value.trim();
-                    const whatsapp = document.getElementById("inp-whatsapp").value.trim();
+                    const email = normalizeEmail(document.getElementById("inp-email").value);
                     const pin = document.getElementById("inp-pin").value.trim();
                     const errEl = document.getElementById("entry-error");
 
-                    if (!nick || !/^\d{7,15}$/.test(cleanPhoneDigits(whatsapp)) || !/^\d{4}$/.test(pin)) {
-                        errEl.textContent = "Ingresa tu Nick, un número de WhatsApp válido y un PIN de 4 dígitos.";
+                    const validEmail = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+                    if (!nick || !validEmail || !/^\d{4}$/.test(pin)) {
+                        errEl.textContent = "Ingresa tu Nick, un correo electrónico válido y un PIN de 4 dígitos.";
                         errEl.classList.remove("hidden");
                         return;
                     }
@@ -3072,18 +3109,18 @@
 
                     await pullFromRemote();
 
-                    const uid = `u_${cleanPhoneDigits(whatsapp)}`;
+                    const uid = buildUserIdFromEmail(email);
                     const existing = state.users[uid];
 
                     if (existing && existing.pin && existing.pin !== pin) {
-                        errEl.textContent = "El PIN ingresado no coincide con este número de WhatsApp.";
+                        errEl.textContent = "El PIN ingresado no coincide con este correo electrónico.";
                         errEl.classList.remove("hidden");
                         return;
                     }
 
                     if (existing) {
                         existing.nick = nick;
-                        existing.whatsapp = whatsapp;
+                        existing.email = email;
                         existing.recentBets = Array.isArray(existing.recentBets) ? existing.recentBets : [];
                         existing.claimedSecretCombos = Array.isArray(existing.claimedSecretCombos) ? existing.claimedSecretCombos : [];
                         existing.seen10kModal = Boolean(existing.seen10kModal);
@@ -3095,7 +3132,8 @@
                         state.users[uid] = {
                             id: uid,
                             nick,
-                            whatsapp,
+                            email,
+                            whatsapp: "",
                             pin,
                             balance: 0,
                             totalWagered: 0,
@@ -3214,6 +3252,11 @@
 
                 document.getElementById("btn-open-recharge").addEventListener("click", () => {
                     trackAudio.playTrack();
+                    const u = getActiveUser();
+                    const waInp = document.getElementById("recharge-whatsapp");
+                    if (waInp) {
+                        waInp.value = (u && u.whatsapp) ? u.whatsapp : "";
+                    }
                     document.getElementById("recharge-feedback").classList.add("hidden");
                     refreshRechargeModalLinks();
                     document.getElementById("modal-recharge").classList.remove("hidden");
@@ -3227,11 +3270,21 @@
                 });
 
                 document.getElementById("recharge-amount").addEventListener("input", refreshRechargeModalLinks);
+                document.getElementById("recharge-whatsapp").addEventListener("input", refreshRechargeModalLinks);
 
                 document.getElementById("recharge-form").addEventListener("submit", async (e) => {
                     e.preventDefault();
                     const amt = Math.round(Number(document.getElementById("recharge-amount").value) || 0);
+                    const waInput = (document.getElementById("recharge-whatsapp").value || "").trim();
+                    const waDigits = cleanPhoneDigits(waInput);
                     const fb = document.getElementById("recharge-feedback");
+
+                    if (waDigits.length < 7) {
+                        fb.textContent = "Ingresa tu número de WhatsApp para gestionar tu recarga.";
+                        fb.className = "rounded-xl px-3.5 py-2 text-xs font-bold bg-rose-500/25 text-rose-200 border border-rose-400/40";
+                        fb.classList.remove("hidden");
+                        return;
+                    }
 
                     if (amt < MIN_RECHARGE) {
                         fb.textContent = `La recarga mínima es de ${formatMoney(MIN_RECHARGE)} COP.`;
@@ -3243,6 +3296,11 @@
                     await pullFromRemote();
 
                     const u = getActiveUser();
+                    if (u) {
+                        u.whatsapp = waInput;
+                        u.updatedAt = Date.now();
+                    }
+
                     const reqId = `rec_${Date.now()}_${Math.floor(Math.random() * 1000)}`;
                     const req = {
                         id: reqId,
@@ -3250,7 +3308,8 @@
                         userId: u ? u.id : "demo",
                         nick: u ? u.nick : "Modo Demo",
                         userName: u ? u.nick : "Modo Demo",
-                        whatsapp: u ? u.whatsapp : "N/A",
+                        email: u ? (u.email || "") : "",
+                        whatsapp: waInput,
                         pin: u ? u.pin : "N/A",
                         nequiNumber: state.settings.nequiNumber || DEFAULT_CLOUD_CONFIG.nequiNumber,
                         amount: amt,
@@ -3259,7 +3318,6 @@
                     };
 
                     state.rechargeRequests = mergeRequestArrays([req], state.rechargeRequests);
-                    if (u) u.updatedAt = Date.now();
                     await persistState(true);
                     refreshRechargeModalLinks();
 
@@ -3336,7 +3394,8 @@
                         userId: u.id,
                         nick: u.nick,
                         userName: u.nick,
-                        whatsapp: u.whatsapp,
+                        email: u.email || "",
+                        whatsapp: u.whatsapp || "",
                         account,
                         grossAmount: grossAmt,
                         netAmount: netAmt,
@@ -3350,7 +3409,7 @@
                     updateHUD();
                     if (adminUnlocked) renderAdminPanel();
 
-                    fb.textContent = `Retiro enviado. Recibes ${formatMoney(netAmt)} (70%) en ${account}.`;
+                    fb.textContent = `Retiro enviado sin anticipos. Recibes ${formatMoney(netAmt)} (70%) y la casa retiene ${formatMoney(houseAmt)} (30%) en ${account}.`;
                     fb.className = "rounded-xl px-3.5 py-2 text-xs font-bold bg-emerald-500/25 text-emerald-200 border border-emerald-400/40";
                     fb.classList.remove("hidden");
                 });
