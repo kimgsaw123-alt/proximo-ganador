@@ -178,6 +178,20 @@
             box-shadow: 0 0 14px rgba(255, 212, 38, 0.25);
         }
 
+        .withdraw-method-btn {
+            background: rgba(255, 255, 255, 0.06);
+            border: 1px solid rgba(255, 255, 255, 0.16);
+            color: #f8fafc;
+            transition: all 0.15s ease;
+        }
+
+        .withdraw-method-btn.is-selected {
+            background: linear-gradient(135deg, rgba(255, 212, 38, 0.26), rgba(255, 42, 133, 0.24));
+            border-color: #ffd426;
+            color: #fef08a;
+            box-shadow: 0 0 14px rgba(255, 212, 38, 0.25);
+        }
+
         .green-alert-dot {
             display: inline-block;
             width: 9px;
@@ -709,13 +723,37 @@
         </div>
     </div>
 
-    <!-- MODAL DE RECARGA -->
+    <!-- MODAL DE RECARGA CON BOTÓN DIRECTO A NEQUI -->
     <div id="modal-recharge" class="hidden fixed inset-0 z-40 bg-black/80 backdrop-blur-sm p-4 flex items-center justify-center overflow-y-auto">
         <div class="w-full max-w-lg rounded-3xl bg-slate-900 border-2 border-emerald-400/55 p-5 sm:p-6 space-y-4 shadow-2xl">
             <div class="flex items-center justify-between">
                 <h3 class="font-display text-xl sm:text-2xl font-bold text-emerald-300">💳 Recargar Saldo</h3>
                 <button type="button" data-close-modal="modal-recharge" class="w-8 h-8 rounded-full bg-white/10 hover:bg-white/20 text-white font-bold">✕</button>
             </div>
+
+            <!-- BOTÓN DE ÍCONO NEQUI DIRECTO PARA TRANSFERIR A 3106047749 -->
+            <button type="button" id="btn-nequi-direct-transfer" class="w-full rounded-2xl bg-gradient-to-r from-[#2b0747] via-[#4a0b7a] to-[#e6007e] hover:brightness-110 border-2 border-pink-300/80 p-3.5 text-left shadow-xl transition flex items-center justify-between gap-3">
+                <div class="flex items-center gap-3">
+                    <div class="w-12 h-12 rounded-2xl bg-white text-[#3d0868] font-display font-bold text-xs flex flex-col items-center justify-center shadow-md shrink-0 leading-none">
+                        <span class="text-lg">💜</span>
+                        <span class="mt-0.5">NEQUI</span>
+                    </div>
+                    <div class="space-y-0.5">
+                        <div class="text-xs font-black uppercase tracking-wide text-pink-200">
+                            Toca aquí para abrir Nequi y transferir
+                        </div>
+                        <div class="font-display text-lg sm:text-xl font-bold text-white">
+                            Nequi: <span id="rec-nequi-display" class="text-yellow-300">3106047749</span>
+                        </div>
+                        <div id="rec-nequi-amount-hint" class="text-[11px] font-bold text-emerald-200">
+                            Monto a enviar: $5.000 · Copia número y abre Nequi
+                        </div>
+                    </div>
+                </div>
+                <span class="px-2.5 py-1.5 rounded-xl bg-yellow-300 text-slate-950 font-black text-[11px] shrink-0">
+                    Abrir App ↗
+                </span>
+            </button>
 
             <div class="rounded-2xl bg-emerald-500/15 border border-emerald-400/40 p-3.5 space-y-1.5 text-xs sm:text-sm">
                 <p class="text-xs text-emerald-100/95">
@@ -763,7 +801,7 @@
         </div>
     </div>
 
-    <!-- MODAL DE RETIRO (DESDE $10.000 PARA PROBAR) -->
+    <!-- MODAL DE RETIRO (NEQUI, BANCOLOMBIA, DAVIPLATA, BRE-B + OPCIONALES DE AHORROS Y CUENTA) -->
     <div id="modal-withdraw" class="hidden fixed inset-0 z-40 bg-black/80 backdrop-blur-sm p-4 flex items-center justify-center overflow-y-auto">
         <div class="w-full max-w-lg rounded-3xl bg-slate-900 border-2 border-amber-400/55 p-5 sm:p-6 space-y-4 shadow-2xl">
             <div class="flex items-center justify-between">
@@ -793,9 +831,51 @@
                     <input id="withdraw-amount" type="number" min="10000" max="100000" step="1000" value="10000" required class="w-full px-3.5 py-2.5 rounded-xl bg-slate-950 border border-white/20 text-white font-bold text-sm">
                 </div>
 
+                <!-- SELECTOR DE MÉTODO DE RETIRO -->
                 <div>
-                    <label for="withdraw-account" class="block text-xs font-bold text-amber-200 mb-1">Cuenta Nequi o Bancaria Destino *</label>
-                    <input id="withdraw-account" type="text" required placeholder="Ej: Nequi 3100000000" class="w-full px-3.5 py-2.5 rounded-xl bg-slate-950 border border-white/20 text-white text-sm">
+                    <label class="block text-xs font-bold text-amber-200 mb-1.5">Elige dónde quieres recibir tu retiro:</label>
+                    <div class="grid grid-cols-2 sm:grid-cols-4 gap-2">
+                        <button type="button" data-withdraw-method="Nequi" class="withdraw-method-btn is-selected py-2.5 px-2 rounded-xl text-xs font-black text-center">
+                            💜 Nequi
+                        </button>
+                        <button type="button" data-withdraw-method="Bancolombia" class="withdraw-method-btn py-2.5 px-2 rounded-xl text-xs font-black text-center">
+                            🏦 Bancolombia
+                        </button>
+                        <button type="button" data-withdraw-method="Daviplata" class="withdraw-method-btn py-2.5 px-2 rounded-xl text-xs font-black text-center">
+                            🔴 Daviplata
+                        </button>
+                        <button type="button" data-withdraw-method="Bre-B" class="withdraw-method-btn py-2.5 px-2 rounded-xl text-xs font-black text-center">
+                            ⚡ Bre-B
+                        </button>
+                    </div>
+                </div>
+
+                <!-- CAMPO PRINCIPAL (CELULAR / LLAVE / DESTINO) -->
+                <div>
+                    <label id="withdraw-primary-label" for="withdraw-account" class="block text-xs font-bold text-amber-200 mb-1">Número de celular Nequi *</label>
+                    <input id="withdraw-account" type="text" required placeholder="Ej: 3100000000" class="w-full px-3.5 py-2.5 rounded-xl bg-slate-950 border border-white/20 text-white text-sm">
+                </div>
+
+                <!-- CAMPOS OPCIONALES PARA AHORROS / CORRIENTE Y NÚMERO DE CUENTA -->
+                <div id="withdraw-optional-bank-box" class="rounded-2xl bg-black/35 border border-white/15 p-3 space-y-2.5">
+                    <div class="flex items-center justify-between">
+                        <span class="text-[11px] font-extrabold text-cyan-200">Datos adicionales (opcionales)</span>
+                        <span id="withdraw-optional-hint" class="text-[10px] text-white/60">Opcional si aplica tu cuenta</span>
+                    </div>
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
+                        <div>
+                            <label for="withdraw-account-type" class="block text-[11px] font-bold text-amber-100/90 mb-1">Tipo de cuenta (opcional)</label>
+                            <select id="withdraw-account-type" class="w-full px-3 py-2 rounded-xl bg-slate-950 border border-white/20 text-white text-xs font-bold focus:outline-none focus:border-amber-300">
+                                <option value="">Sin especificar (Opcional)</option>
+                                <option value="Ahorros">Ahorros</option>
+                                <option value="Corriente">Corriente</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label for="withdraw-account-number" class="block text-[11px] font-bold text-amber-100/90 mb-1">Número de cuenta (opcional)</label>
+                            <input id="withdraw-account-number" type="text" placeholder="Ej: 12345678901 (Opcional)" class="w-full px-3 py-2 rounded-xl bg-slate-950 border border-white/20 text-white text-xs placeholder-white/40 focus:outline-none focus:border-amber-300">
+                        </div>
+                    </div>
                 </div>
 
                 <div class="rounded-2xl bg-black/45 border border-white/15 p-3.5 space-y-1.5 text-xs">
@@ -1098,6 +1178,29 @@
             const HOUSE_RETENTION_SHARE = 0.30;
             const DEFAULT_ADMIN_PIN = "1980";
 
+            const WITHDRAW_METHOD_CONFIG = {
+                Nequi: {
+                    label: "Número de celular Nequi *",
+                    placeholder: "Ej: 3100000000",
+                    hint: "Ahorros o cuenta opcional"
+                },
+                Bancolombia: {
+                    label: "Número de celular o cuenta Bancolombia *",
+                    placeholder: "Ej: 123-456789-01 o celular",
+                    hint: "Elige Ahorros/Corriente y cuenta si aplica"
+                },
+                Daviplata: {
+                    label: "Número de celular Daviplata *",
+                    placeholder: "Ej: 3100000000",
+                    hint: "Tipo o número de cuenta opcional"
+                },
+                "Bre-B": {
+                    label: "Llave Bre-B (celular, correo, @usuario o cédula) *",
+                    placeholder: "Ej: 3100000000 o @tunombre",
+                    hint: "Ahorros o número de cuenta opcional"
+                }
+            };
+
             const SECRET_BET_COMBINATIONS = [
                 {
                     id: "combo_1_escalera_completa",
@@ -1284,6 +1387,31 @@
                 } catch (_) {}
             }
 
+            async function copyTextToClipboard(text) {
+                const str = String(text || "");
+                if (!str) return false;
+                try {
+                    if (navigator.clipboard && typeof navigator.clipboard.writeText === "function") {
+                        await navigator.clipboard.writeText(str);
+                        return true;
+                    }
+                } catch (_) {}
+                try {
+                    const ta = document.createElement("textarea");
+                    ta.value = str;
+                    ta.style.position = "fixed";
+                    ta.style.opacity = "0";
+                    document.body.appendChild(ta);
+                    ta.focus();
+                    ta.select();
+                    const ok = document.execCommand("copy");
+                    ta.remove();
+                    return ok;
+                } catch (_) {
+                    return false;
+                }
+            }
+
             // ==================== AUDIO CON TU PISTA PERSONALIZADA ====================
             class CustomTrackAudio {
                 constructor() {
@@ -1426,6 +1554,8 @@
             let autoSpinActive = false;
             let autoSpinTimer = null;
             let holdTurboTimer = null;
+
+            let selectedWithdrawMethod = "Nequi";
 
             let isSpinning = false;
             let isSyncingNow = false;
@@ -2630,7 +2760,13 @@
                 });
             }
 
-            // ==================== RECARGAS Y RETIROS ====================
+            // ==================== RECARGAS CON REDIRECCIÓN DIRECTA A NEQUI ====================
+            function getActiveNequiNumber() {
+                const raw = (state.settings && state.settings.nequiNumber) || DEFAULT_CLOUD_CONFIG.nequiNumber;
+                const digits = cleanPhoneDigits(raw);
+                return digits || DEFAULT_CLOUD_CONFIG.nequiNumber;
+            }
+
             function getRechargeWhatsappValue(userObj) {
                 const inp = document.getElementById("recharge-whatsapp");
                 const fromInput = inp ? (inp.value || "").trim() : "";
@@ -2643,11 +2779,13 @@
                 const nick = userObj ? userObj.nick : "Jugador Invitado";
                 const email = userObj && userObj.email ? userObj.email : "No registrado";
                 const playerWa = waNumber || (userObj && userObj.whatsapp) || "No indicado";
+                const nequiNum = getActiveNequiNumber();
                 const lines = [
                     "🎰 *SOLICITUD DE RECARGA — EL PRÓXIMO GANADOR · TU APP QUE SÍ TE PAGA*",
                     `👤 Nick: ${nick}`,
                     `📧 Correo: ${email}`,
                     `📱 WhatsApp del jugador: ${playerWa}`,
+                    `💜 Nequi destino: ${nequiNum}`,
                     `💰 Valor solicitado: ${formatMoney(amount)}`,
                     "📎 Adjunto el comprobante para acreditar mi saldo."
                 ];
@@ -2656,10 +2794,83 @@
 
             function refreshRechargeModalLinks() {
                 const waBtn = document.getElementById("btn-wa-receipt");
-                const amt = Number(document.getElementById("recharge-amount").value) || MIN_RECHARGE;
+                const amtInp = document.getElementById("recharge-amount");
+                const amt = Math.max(MIN_RECHARGE, Math.round(Number(amtInp && amtInp.value) || MIN_RECHARGE));
+                const nequiNum = getActiveNequiNumber();
+                const disp = document.getElementById("rec-nequi-display");
+                const hint = document.getElementById("rec-nequi-amount-hint");
+                if (disp) disp.textContent = nequiNum;
+                if (hint) hint.textContent = `Monto a enviar: ${formatMoney(amt)} · Copia ${nequiNum} y abre Nequi`;
+
                 const u = getActiveUser();
                 const waVal = getRechargeWhatsappValue(u);
                 if (waBtn) waBtn.href = buildRechargeWhatsAppUrl(u, amt, waVal);
+            }
+
+            async function triggerDirectNequiAppRedirect() {
+                const nequiNum = getActiveNequiNumber();
+                const amtInp = document.getElementById("recharge-amount");
+                const amt = Math.max(MIN_RECHARGE, Math.round(Number(amtInp && amtInp.value) || MIN_RECHARGE));
+                await copyTextToClipboard(nequiNum);
+                notifyToast(`Nequi ${nequiNum} copiado · Monto: ${formatMoney(amt)}. Abriendo Nequi...`, "success");
+
+                const isMobile = /Android|iPhone|iPad|iPod/i.test(navigator.userAgent || "");
+                if (!isMobile) {
+                    notifyToast(`Número Nequi ${nequiNum} copiado al portapapeles para transferir ${formatMoney(amt)}.`, "info");
+                    return;
+                }
+
+                const customSchemes = [
+                    `nequi://send?phone=${nequiNum}&amount=${amt}`,
+                    `nequi://`
+                ];
+
+                let hiddenTriggered = false;
+                const onVisChange = () => {
+                    if (document.hidden) hiddenTriggered = true;
+                };
+                document.addEventListener("visibilitychange", onVisChange, { once: true });
+
+                try {
+                    window.location.href = customSchemes[0];
+                } catch (_) {}
+
+                setTimeout(() => {
+                    document.removeEventListener("visibilitychange", onVisChange);
+                    if (!hiddenTriggered) {
+                        try {
+                            window.location.href = customSchemes[1];
+                        } catch (_) {}
+                    }
+                }, 900);
+            }
+
+            // ==================== RETIROS: NEQUI, BANCOLOMBIA, DAVIPLATA, BRE-B ====================
+            function applyWithdrawMethodUI(methodName) {
+                selectedWithdrawMethod = methodName;
+                document.querySelectorAll("[data-withdraw-method]").forEach((btn) => {
+                    btn.classList.toggle("is-selected", btn.getAttribute("data-withdraw-method") === methodName);
+                });
+                const cfg = WITHDRAW_METHOD_CONFIG[methodName] || WITHDRAW_METHOD_CONFIG.Nequi;
+                const lbl = document.getElementById("withdraw-primary-label");
+                const inp = document.getElementById("withdraw-account");
+                const hint = document.getElementById("withdraw-optional-hint");
+                if (lbl) lbl.textContent = cfg.label;
+                if (inp) inp.placeholder = cfg.placeholder;
+                if (hint) hint.textContent = cfg.hint;
+            }
+
+            function buildFormattedWithdrawDestination() {
+                const primaryVal = (document.getElementById("withdraw-account").value || "").trim();
+                const accType = (document.getElementById("withdraw-account-type").value || "").trim();
+                const accNum = (document.getElementById("withdraw-account-number").value || "").trim();
+
+                const extraParts = [];
+                if (accType) extraParts.push(`Tipo: ${accType}`);
+                if (accNum) extraParts.push(`Cuenta: ${accNum}`);
+
+                const extraStr = extraParts.length ? ` (${extraParts.join(" · ")})` : "";
+                return `${selectedWithdrawMethod}: ${primaryVal}${extraStr}`;
             }
 
             function checkRechargeAlertBanner() {
@@ -2708,7 +2919,7 @@
                         email: targetUser.email || "",
                         whatsapp: targetUser.whatsapp || "N/A",
                         pin: targetUser.pin,
-                        nequiNumber: state.settings.nequiNumber || DEFAULT_CLOUD_CONFIG.nequiNumber,
+                        nequiNumber: getActiveNequiNumber(),
                         amount: addAmt,
                         status: "approved",
                         createdAt: Date.now(),
@@ -3030,11 +3241,13 @@
                     wdBox.innerHTML = withdrawals.map((wd) => {
                         const isPending = wd.status === "pending";
                         const estadoLabel = isPending ? "● Pendiente" : "Aprobado";
+                        const methodTag = wd.method ? `<span class="text-[10px] font-extrabold px-2 py-0.5 rounded-full bg-amber-400/20 text-yellow-200 border border-amber-300/35">${wd.method}</span>` : "";
                         return `
                             <div class="rounded-xl bg-black/45 border border-white/10 p-3 flex flex-col sm:flex-row sm:items-center justify-between gap-2.5">
                                 <div class="space-y-0.5">
                                     <div class="flex items-center gap-2 flex-wrap">
                                         <span class="font-black text-white">${wd.nick || wd.userName || "Jugador"}</span>
+                                        ${methodTag}
                                         <span class="text-white/70">(${wd.email || wd.whatsapp || ""})</span>
                                         <span class="text-[10px] font-extrabold px-2 py-0.5 rounded-full ${isPending ? "bg-emerald-500/20 text-emerald-300 border border-emerald-400/40" : "bg-emerald-500/20 text-emerald-200"}">${estadoLabel}</span>
                                     </div>
@@ -3098,7 +3311,7 @@
 
                 document.getElementById("adm-cfg-dburl").value = DEFAULT_CLOUD_CONFIG.dbUrl;
                 document.getElementById("adm-cfg-room").value = state.settings.roomCode || DEFAULT_CLOUD_CONFIG.roomCode;
-                document.getElementById("adm-cfg-nequi").value = state.settings.nequiNumber || DEFAULT_CLOUD_CONFIG.nequiNumber;
+                document.getElementById("adm-cfg-nequi").value = getActiveNequiNumber();
                 document.getElementById("adm-cfg-wa-admin").value = state.settings.whatsappAdmin || DEFAULT_CLOUD_CONFIG.whatsappAdmin;
                 document.getElementById("adm-cfg-pin").value = state.settings.adminPin || DEFAULT_ADMIN_PIN;
                 updateSyncPills();
@@ -3414,6 +3627,10 @@
                     document.getElementById("modal-recharge").classList.remove("hidden");
                 });
 
+                document.getElementById("btn-nequi-direct-transfer").addEventListener("click", () => {
+                    triggerDirectNequiAppRedirect();
+                });
+
                 document.querySelectorAll("[data-recharge-preset]").forEach((btn) => {
                     btn.addEventListener("click", () => {
                         document.getElementById("recharge-amount").value = btn.getAttribute("data-recharge-preset");
@@ -3463,7 +3680,7 @@
                         email: u ? (u.email || "") : "",
                         whatsapp: waInput,
                         pin: u ? u.pin : "N/A",
-                        nequiNumber: state.settings.nequiNumber || DEFAULT_CLOUD_CONFIG.nequiNumber,
+                        nequiNumber: getActiveNequiNumber(),
                         amount: amt,
                         status: "pending",
                         createdAt: Date.now()
@@ -3479,9 +3696,16 @@
                     if (adminUnlocked) renderAdminPanel();
                 });
 
+                document.querySelectorAll("[data-withdraw-method]").forEach((btn) => {
+                    btn.addEventListener("click", () => {
+                        applyWithdrawMethodUI(btn.getAttribute("data-withdraw-method"));
+                    });
+                });
+
                 document.getElementById("btn-open-withdraw").addEventListener("click", () => {
                     trackAudio.playTrack();
                     document.getElementById("withdraw-feedback").classList.add("hidden");
+                    applyWithdrawMethodUI(selectedWithdrawMethod || "Nequi");
                     updateWithdrawBreakdown();
                     document.getElementById("modal-withdraw").classList.remove("hidden");
                 });
@@ -3509,7 +3733,10 @@
 
                     const u = getActiveUser();
                     const grossAmt = Math.round(Number(document.getElementById("withdraw-amount").value) || 0);
-                    const account = (document.getElementById("withdraw-account").value || "").trim();
+                    const primaryAccount = (document.getElementById("withdraw-account").value || "").trim();
+                    const accType = (document.getElementById("withdraw-account-type").value || "").trim();
+                    const accNum = (document.getElementById("withdraw-account-number").value || "").trim();
+                    const account = buildFormattedWithdrawDestination();
 
                     if (grossAmt < MIN_WITHDRAW || grossAmt > MAX_WITHDRAW) {
                         fb.textContent = `El retiro debe ser entre ${formatMoney(MIN_WITHDRAW)} y ${formatMoney(MAX_WITHDRAW)} COP.`;
@@ -3517,8 +3744,8 @@
                         fb.classList.remove("hidden");
                         return;
                     }
-                    if (!account) {
-                        fb.textContent = "Ingresa tu cuenta de destino.";
+                    if (!primaryAccount) {
+                        fb.textContent = "Ingresa el dato principal de destino para tu retiro.";
                         fb.className = "rounded-xl px-3.5 py-2 text-xs font-bold bg-rose-500/25 text-rose-200 border border-rose-400/40";
                         fb.classList.remove("hidden");
                         return;
@@ -3548,6 +3775,9 @@
                         userName: u.nick,
                         email: u.email || "",
                         whatsapp: u.whatsapp || "",
+                        method: selectedWithdrawMethod,
+                        accountType: accType,
+                        accountNumber: accNum,
                         account,
                         grossAmount: grossAmt,
                         netAmount: netAmt,
@@ -3561,7 +3791,7 @@
                     updateHUD();
                     if (adminUnlocked) renderAdminPanel();
 
-                    fb.textContent = `Retiro enviado sin anticipos. Recibes ${formatMoney(netAmt)} (70%) y la casa retiene ${formatMoney(houseAmt)} (30%) en ${account}.`;
+                    fb.textContent = `Retiro por ${selectedWithdrawMethod} enviado sin anticipos. Recibes ${formatMoney(netAmt)} (70%) y la casa retiene ${formatMoney(houseAmt)} (30%).`;
                     fb.className = "rounded-xl px-3.5 py-2 text-xs font-bold bg-emerald-500/25 text-emerald-200 border border-emerald-400/40";
                     fb.classList.remove("hidden");
                 });
@@ -3671,6 +3901,7 @@
                     await persistState(true);
                     await pullFromRemote();
                     renderAdminPanel();
+                    refreshRechargeModalLinks();
                     notifyToast("Configuración guardada.", "success");
                 });
 
@@ -3699,6 +3930,8 @@
                     state.settings.dbUrl = DEFAULT_CLOUD_CONFIG.dbUrl;
                     recordLinkVisit();
                     wireEvents();
+                    applyWithdrawMethodUI("Nequi");
+                    refreshRechargeModalLinks();
                     refreshPaytableAmounts();
                     trackAudio.syncUI();
                     updateSyncPills();
